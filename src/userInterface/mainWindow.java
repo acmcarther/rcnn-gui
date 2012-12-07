@@ -11,8 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JScrollBar;
 import javax.swing.JList;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+//import javax.swing.UIManager;
+//import javax.swing.UnsupportedLookAndFeelException;
 
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JToolBar;
@@ -34,37 +34,24 @@ import java.util.Timer;
 public class mainWindow {
 
 	private JFrame mainFrame;
-	private JTextField txtfldNewParents;
-	private JTextField txtfldNewChildren;
-	private JTextField txtfldOldChildren;
-	private JTextField txtfldOldParents;
-	private JTextField textfldNewActivLevel;
-	private JTextField textfldOldActivLevel;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		
+		// Try to use system default l&f, we'll use default swing otherwise
+		
+		// Temporarily disabled since Ubuntu likes to make all the elements bigger than they
+		//		are supposed to be. I'll build a workaround
 		/*
 		try {
 			String systemLookAndFeel = UIManager.getSystemLookAndFeelClassName();
 			UIManager.setLookAndFeel(systemLookAndFeel);
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		} catch (Exception e1) {} 
 		*/
 		
+		// Build the window
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -76,11 +63,9 @@ public class mainWindow {
 			}
 		});
 		
-		// TODO: Update the node list once per _____
-		
+		// TODO: Update the node list once per _____		
 	      Timer httpRequestTimer = new Timer();
 	      httpRequestTimer.scheduleAtFixedRate(new httpRequestTask(), 0 , 1000);
-
 		
 		// TODO: Update the node graphs once per _______
 	}
@@ -96,58 +81,82 @@ public class mainWindow {
 	 * Initialize the contents of the mainFrame.
 	 */
 	private void initialize() {
+		// Build the main panel
 		mainFrame = new JFrame();
-		mainFrame.setResizable(false);
+		mainFrame.setResizable(true);
 		mainFrame.setTitle("RCNN GUI");
-		mainFrame.setBounds(100, 100, 500, 440);
+		mainFrame.setBounds(100, 100, 550, 520);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BoxLayout(mainFrame.getContentPane(), BoxLayout.X_AXIS));
 		
+		// Build the split pane
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		mainFrame.getContentPane().add(splitPane);
 		
+		// Build the tab pane
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		splitPane.setRightComponent(tabbedPane);
 		
+		/**
+		 * Initialize the contents of the configure tab.
+		 */
 		JPanel pnlConfigure = new JPanel();
 		tabbedPane.addTab("Configure Objects", null, pnlConfigure, null);
-		
-		JLabel lblNewNode = new JLabel("Create New Node");	
 		pnlConfigure.setLayout(new MigLayout("", "[162px][43px][8px][][][][13px][][][][][grow][][][][][][][][grow][1px][46px][4px][91px]", "[14px][6px][][10px][][6px][][][][][][][][][][][][][][]"));
 		
-
-		// Layout stuff for node management tab
-		JScrollPane scrollPane = new JScrollPane();
 		
+		// Build all of the labels
+		JLabel lblNewNode = new JLabel("Create New Node");
+		JLabel lblNewParents = new JLabel("Parents:");
+		JLabel lblNewChildren = new JLabel("Children:");
+		JLabel lblActivationLevel = new JLabel("Activation Level:");
+		JLabel lblManageNode = new JLabel("Manage Existing Nodes");	
+		JLabel lblOldParents = new JLabel("Parents:");
+		JLabel lblOldChildren = new JLabel("Children:");
+		JLabel lblActivationLevel_1 = new JLabel("Activation Level:");
+		pnlConfigure.add(lblActivationLevel_1, "cell 1 15");
+		pnlConfigure.add(lblOldChildren, "cell 1 14,growx,aligny center");
+		pnlConfigure.add(lblActivationLevel, "cell 1 4");
+		pnlConfigure.add(lblOldParents, "cell 1 13,growx,aligny center");
+		pnlConfigure.add(lblManageNode, "cell 1 11,alignx left,aligny top");
+		pnlConfigure.add(lblNewChildren, "cell 1 3,alignx left,aligny center");
+		pnlConfigure.add(lblNewParents, "cell 1 2,alignx left,aligny center");
+		pnlConfigure.add(lblNewNode, "cell 1 0 21 1,alignx left,aligny top");
+
+		// Build the node list scroll pane
+		JScrollPane scrollPane = new JScrollPane();
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
-		
-		JList nodeManageList = new JList();
+			// TODO: figure out what type to make this list
+		JList<String> nodeManageList = new JList<String>();
 		scrollPane.setViewportView(nodeManageList);
 		pnlConfigure.add(scrollPane, "cell 0 0 1 20,grow,aligny center");
-		JLabel lblNewParents = new JLabel("Parents:");	
-		pnlConfigure.add(lblNewParents, "cell 1 2,alignx left,aligny center");
-		
-		txtfldNewParents = new JTextField();
-		txtfldNewParents.setColumns(10);	
-		pnlConfigure.add(txtfldNewParents, "cell 4 2 19 1,growx");
-		JLabel lblNewChildren = new JLabel("Children:");
-		pnlConfigure.add(lblNewChildren, "cell 1 3,alignx left,aligny center");
-		txtfldNewChildren = new JTextField();
+
+		// build all of the text fields
+		JTextField txtfldNewParents = new JTextField();
+		JTextField txtfldNewChildren = new JTextField();
+		JTextField textfldNewActivLevel = new JTextField();
+		JTextField txtfldOldChildren = new JTextField();
+		JTextField txtfldOldParents = new JTextField();
+		JTextField textfldOldActivLevel = new JTextField();
 		txtfldNewChildren.setColumns(10);
+		txtfldNewParents.setColumns(10);
+		textfldNewActivLevel.setColumns(10);
+		txtfldOldParents.setColumns(10);
+		textfldOldActivLevel.setColumns(10);
+		txtfldOldChildren.setColumns(10);	
+		pnlConfigure.add(txtfldOldParents, "cell 4 13 19 1,growx");
+		pnlConfigure.add(txtfldOldChildren, "cell 4 14 19 1,growx");
+		pnlConfigure.add(textfldOldActivLevel, "cell 4 15 5 1,growx");
+		pnlConfigure.add(textfldNewActivLevel, "cell 4 4 5 1,growx");
+		pnlConfigure.add(txtfldNewParents, "cell 4 2 19 1,growx");
 		pnlConfigure.add(txtfldNewChildren, "cell 4 3 19 1,growx");
 		
-		JLabel lblActivationLevel = new JLabel("Activation Level:");
-		pnlConfigure.add(lblActivationLevel, "cell 1 4");
 		
-		textfldNewActivLevel = new JTextField();
-		pnlConfigure.add(textfldNewActivLevel, "cell 4 4 5 1,growx");
-		textfldNewActivLevel.setColumns(10);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		/////// BUTTONS AND BUTTON HANDLERS ////////////////////////////////////////////////
-		
+		/**
+		 * Initialize the buttons and their handlers.
+		 */
 		// Button: save new node
 		JButton btnSaveNew = new JButton("Save Node");
 		objectHandler saveNewHandler = new objectHandler(btnSaveNew);
@@ -177,39 +186,28 @@ public class mainWindow {
 		JButton btnStop = new JButton("");
 		objectHandler stopBtnHandler = new objectHandler(btnStop);
 		stopBtnHandler.setCommand(new cmdStopSim());
-		
+	
+		// Buttons: place in window
 		pnlConfigure.add(btnSaveNew, "cell 1 7,growx,aligny top");
-		JLabel lblManageNode = new JLabel("Manage Existing Nodes");	
-		pnlConfigure.add(lblManageNode, "cell 1 11,alignx left,aligny top");
-		JLabel lblOldParents = new JLabel("Parents:");
-		pnlConfigure.add(lblOldParents, "cell 1 13,growx,aligny center");
-		txtfldOldParents = new JTextField();
-		txtfldOldParents.setColumns(10);
-		pnlConfigure.add(txtfldOldParents, "cell 4 13 19 1,growx");
-		JLabel lblOldChildren = new JLabel("Children:");
-		pnlConfigure.add(lblOldChildren, "cell 1 14,growx,aligny center");
-		txtfldOldChildren = new JTextField();
-		txtfldOldChildren.setColumns(10);	
-		pnlConfigure.add(txtfldOldChildren, "cell 4 14 19 1,growx");
-		
-		JLabel lblActivationLevel_1 = new JLabel("Activation Level:");
-		pnlConfigure.add(lblActivationLevel_1, "cell 1 15");
-		
-		textfldOldActivLevel = new JTextField();
-		pnlConfigure.add(textfldOldActivLevel, "cell 4 15 5 1,growx");
-		textfldOldActivLevel.setColumns(10);
-
 		pnlConfigure.add(btnSaveOld, "cell 1 19,growx,aligny top");
-		pnlConfigure.add(lblNewNode, "cell 1 0 21 1,alignx left,aligny top");
-
 		pnlConfigure.add(btnDeleteNode, "cell 4 19 6 1,growx,aligny top");
 		
+		/**
+		 * Initialize the contents of the Network tab.
+		 */
 		JPanel pnlNetwork = new JPanel();
 		tabbedPane.addTab("Network Overview", null, pnlNetwork, null);
 		
+		
+		/**
+		 * Initialize the contents of the Node tab.
+		 */
 		JPanel pnlNode = new JPanel();
 		tabbedPane.addTab("Node Overview", null, pnlNode, null);
 		
+		/**
+		 * Initialize the contents of the toolbar.
+		 */
 		JToolBar toolBar = new JToolBar();
 		toolBar.setEnabled(false);
 		toolBar.setFloatable(false);
@@ -223,6 +221,9 @@ public class mainWindow {
 		toolBar.add(btnPause);
 		toolBar.add(btnStop);
 		
+		/**
+		 * Initialize the contents of the menubar.
+		 */
 		JMenuBar menuBar = new JMenuBar();
 		mainFrame.setJMenuBar(menuBar);
 		
@@ -230,26 +231,13 @@ public class mainWindow {
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmNewConfig = new JMenuItem("New Config");
-		mnFile.add(mntmNewConfig);
-		
 		JMenuItem mntmSaveConfig = new JMenuItem("Save Config");
-		mnFile.add(mntmSaveConfig);
-		
 		JMenuItem mntmLoadConfig = new JMenuItem("Load Config");
+		mnFile.add(mntmNewConfig);
+		mnFile.add(mntmSaveConfig);
 		mnFile.add(mntmLoadConfig);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
-		
-		// Menu exit handler
-		mntmExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				// Sloppy way to ensure that simulation is stopped
-				new cmdStopSim().execute();
-				
-				// Close the main window & program
-				mainFrame.dispose();
-			}
-		});
 		mnFile.add(mntmExit);
 		
 		JMenu mnEdit = new JMenu("Edit");
@@ -257,5 +245,19 @@ public class mainWindow {
 		
 		JMenuItem mntmSettings = new JMenuItem("Settings");
 		mnEdit.add(mntmSettings);
+		
+		// Menu exit handler
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Sloppy way to ensure that simulation is stopped
+				new cmdStopSim().execute();
+				
+				// Close the main window
+				mainFrame.dispose();
+				
+				// Close the program (I don't know how good of an idea this is)
+				System.exit(0); 
+			}
+		});
 	}
 }

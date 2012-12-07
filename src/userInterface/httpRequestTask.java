@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 public class httpRequestTask extends TimerTask {
 	public void run() {
-	    /*
+	    
 	    URL url;
 	    HttpURLConnection conn;
 	    BufferedReader rd;
@@ -26,11 +26,12 @@ public class httpRequestTask extends TimerTask {
 	    	}
 	    	rd.close();
 	    } catch (Exception e) {
-	    	e.printStackTrace();
+	    	System.out.println("connection failed");
+	    	//e.printStackTrace();
 	    }
-	    */
+	    
 	    
 		System.out.println("debug");
-		//System.out.println(result);
+		System.out.println(result);
 	}
 }
