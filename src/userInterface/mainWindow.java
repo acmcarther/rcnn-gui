@@ -1,6 +1,16 @@
 package userInterface;
 import java.awt.EventQueue;
 
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLEventListener;
+import javax.media.opengl.GLProfile;
+import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.awt.GLCanvas;
+
+import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import javax.swing.JTabbedPane;
@@ -72,6 +82,7 @@ public class mainWindow {
 	    */
 		
 		// TODO: Update the node graphs once per _______
+	
 	}
 
 	/**
@@ -201,11 +212,10 @@ public class mainWindow {
 		/**
 		 * Initialize the contents of the Network tab.
 		 */
-		JPanel pnlNode = new JPanel();
-		tabbedPane.addTab("Node Overview", null, pnlNode, null);
-		JPanel pnlNetwork = new JPanel();
-		tabbedPane.addTab("Network Overview", null, pnlNetwork, null);
-		
+		JPanel pnlNodeOverview = new JPanel();
+		tabbedPane.addTab("Node Overview", null, pnlNodeOverview, null);
+		JPanel pnlNetworkSettings = new JPanel();
+		tabbedPane.addTab("Network Settings", null, pnlNetworkSettings, null);
 		
 		/**
 		 * Initialize the contents of the Node tab.
@@ -252,6 +262,43 @@ public class mainWindow {
 		JMenuItem mntmSettings = new JMenuItem("Settings");
 		mnEdit.add(mntmSettings);
 		
+		// OpenGL window
+        GLProfile glprofile = GLProfile.getDefault();
+        GLCapabilities glcapabilities = new GLCapabilities( glprofile );
+        final GLCanvas glcanvas = new GLCanvas( glcapabilities );
+
+        glcanvas.addGLEventListener( new GLEventListener() {
+            
+            @Override
+            public void reshape( GLAutoDrawable glautodrawable, int x, int y, int width, int height ) {
+                OneTriangle.setup( glautodrawable.getGL().getGL2(), width, height );
+            }
+            
+            @Override
+            public void init( GLAutoDrawable glautodrawable ) {
+            }
+            
+            @Override
+            public void dispose( GLAutoDrawable glautodrawable ) {
+            }
+            
+            @Override
+            public void display( GLAutoDrawable glautodrawable ) {
+                OneTriangle.render( glautodrawable.getGL().getGL2(), glautodrawable.getWidth(), glautodrawable.getHeight() );
+            }
+        });
+
+        final JFrame jframe = new JFrame( "Node Display" ); 
+        jframe.addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent windowevent ) {
+                jframe.dispose();
+            }
+        });
+
+        jframe.getContentPane().add( glcanvas, BorderLayout.CENTER );
+        jframe.setSize( 640, 480 );
+        jframe.setVisible( true );
+		
 		// Menu exit handler
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -259,8 +306,24 @@ public class mainWindow {
 				new cmdStopSim().execute();
 				
 				// Close the main window
+                jframe.dispose();
 				mainFrame.dispose();
+                System.exit( 0 );
 			}
 		});
+		
+        mainFrame.addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent windowevent ) {
+				// Sloppy way to ensure that simulation is stopped
+				new cmdStopSim().execute();
+				
+				// Close the main window
+                jframe.dispose();
+                mainFrame.dispose();
+                System.exit( 0 );
+            }
+        });
+        
+
 	}
 }
