@@ -1,8 +1,9 @@
 package main;
 
+import graphics.NodeDisplayer;
+
 import java.awt.EventQueue;
 
-import userInterface.NodeDisplay;
 import userInterface.UserInterface;
 
 public class MainDriver {
@@ -14,9 +15,10 @@ public class MainDriver {
 				try {
 					// Create the user interface
 					UserInterface userInterface = new UserInterface();
-					NodeDisplay nodeDisplay = new NodeDisplay();
+					//NodeDisplayer nodeDisplay = new NodeDisplayer();
 				} catch (Exception e) {
 					// Print error and quit if cannot display window
+					e.printStackTrace();
 					System.out.println("Could not build window");
 	                System.exit( 0 );
 				}
