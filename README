@@ -6,7 +6,7 @@ will eventually have some sort of graphic representation of the network
 as well as an interface for working with a running network. This is a 
 client for RCNN which runs as a server.
 
-Removed bin folder from remote repository.
+Re added bin folder since my eclipse wouldn't compile anymore
 
 ~~~~~~~~~~~~~~~~~~~~
 
