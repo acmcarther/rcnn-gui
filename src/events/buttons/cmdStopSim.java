@@ -10,6 +10,7 @@ public class cmdStopSim implements buttonCommand {
 		// If running, send a command to the simulator to end logging and stop
 		
 		// Exit completion
+		System.out.println("stop sim debug");
 
 	}
 

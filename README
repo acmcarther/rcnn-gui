@@ -6,6 +6,9 @@ will eventually have some sort of graphic representation of the network
 as well as an interface for working with a running network. This is a 
 client for RCNN which runs as a server.
 
+I'll be deleting the bin folder shortly, but for now since the program is 
+small it isn't a big deal.
+
 ~~~~~~~~~~~~~~~~~~~~
 
 Built in Java using swing libraries.

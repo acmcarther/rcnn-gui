@@ -27,7 +27,7 @@ import events.buttons.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Timer;
+//import java.util.Timer;
 
 // TODO: Updating functions, user actions
 
@@ -63,9 +63,13 @@ public class mainWindow {
 			}
 		});
 		
-		// TODO: Update the node list once per _____		
-	      Timer httpRequestTimer = new Timer();
-	      httpRequestTimer.scheduleAtFixedRate(new httpRequestTask(), 0 , 1000);
+		// Set up timers
+		// TODO: Update the node list once per _____
+		// TODO: Come up with asynchronous solution
+		/*
+	    	final Timer httpRequestTimer = new Timer();
+	    	httpRequestTimer.scheduleAtFixedRate(new httpRequestTask(), 0 , 1000);
+	    */
 		
 		// TODO: Update the node graphs once per _______
 	}
@@ -81,6 +85,7 @@ public class mainWindow {
 	 * Initialize the contents of the mainFrame.
 	 */
 	private void initialize() {
+		
 		// Build the main panel
 		mainFrame = new JFrame();
 		mainFrame.setResizable(true);
@@ -129,6 +134,7 @@ public class mainWindow {
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
 			// TODO: figure out what type to make this list
+			//       -made it string, might revise to node later.
 		JList<String> nodeManageList = new JList<String>();
 		scrollPane.setViewportView(nodeManageList);
 		pnlConfigure.add(scrollPane, "cell 0 0 1 20,grow,aligny center");
@@ -195,6 +201,8 @@ public class mainWindow {
 		/**
 		 * Initialize the contents of the Network tab.
 		 */
+		JPanel pnlNode = new JPanel();
+		tabbedPane.addTab("Node Overview", null, pnlNode, null);
 		JPanel pnlNetwork = new JPanel();
 		tabbedPane.addTab("Network Overview", null, pnlNetwork, null);
 		
@@ -202,8 +210,6 @@ public class mainWindow {
 		/**
 		 * Initialize the contents of the Node tab.
 		 */
-		JPanel pnlNode = new JPanel();
-		tabbedPane.addTab("Node Overview", null, pnlNode, null);
 		
 		/**
 		 * Initialize the contents of the toolbar.
@@ -254,9 +260,6 @@ public class mainWindow {
 				
 				// Close the main window
 				mainFrame.dispose();
-				
-				// Close the program (I don't know how good of an idea this is)
-				System.exit(0); 
 			}
 		});
 	}

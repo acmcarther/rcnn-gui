@@ -12,6 +12,7 @@ public class cmdRunSim implements buttonCommand {
 		// Otherwise, send a command to the simulator to begin new simulation and start running
 		
 		// Exit completion
+		System.out.println("run sim debug");
 
 	}
 

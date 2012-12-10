@@ -8,6 +8,7 @@ public class cmdPauseSim implements buttonCommand {
 		// If running, send a command to the simulator to pause the simulation
 		
 		// Exit completion
+		System.out.println("pause sim debug");
 
 	}
 

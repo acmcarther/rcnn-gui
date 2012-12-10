@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 public class httpRequestTask extends TimerTask {
 	public void run() {
+		// TODO: Take a host parameter -- we wont always be using localhost
 	    
 	    URL url;
 	    HttpURLConnection conn;
@@ -30,8 +31,6 @@ public class httpRequestTask extends TimerTask {
 	    	//e.printStackTrace();
 	    }
 	    
-	    
-		System.out.println("debug");
 		System.out.println(result);
 	}
 }
