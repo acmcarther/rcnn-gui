@@ -24,6 +24,7 @@ import net.miginfocom.swing.MigLayout;
 import controller.cmdChgNode;
 import controller.cmdDeleteNode;
 import controller.cmdNewNode;
+import controller.cmdResetVisual;
 import controller.cmdStopSim;
 import controller.objectHandler;
 import javax.swing.JTable;
@@ -58,7 +59,7 @@ public class UserInterface {
 		mainFrame = new JFrame();
 		mainFrame.setResizable(true);
 		mainFrame.setTitle("RCNN GUI");
-		mainFrame.setBounds(100, 100, 550, 461);
+		mainFrame.setBounds(100, 100, 550, 478);
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BoxLayout(mainFrame.getContentPane(), BoxLayout.X_AXIS));
 		
@@ -108,6 +109,8 @@ public class UserInterface {
 		scrollPane.setViewportView(tblNodeData);
 		
 		JButton btnRebootVisualization = new JButton("Reboot Visualization");
+		objectHandler rstrtHandler = new objectHandler(btnRebootVisualization);
+		rstrtHandler.setCommand(new cmdResetVisual());
 		basePanel.add(btnRebootVisualization, "cell 0 10");
 		
 		/**
