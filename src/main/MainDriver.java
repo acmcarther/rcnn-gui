@@ -15,7 +15,7 @@ public class MainDriver {
 				try {
 					// Create the user interface
 					UserInterface userInterface = new UserInterface();
-					//NodeDisplayer nodeDisplay = new NodeDisplayer();
+					NodeDisplayer nodeDisplay = new NodeDisplayer();
 				} catch (Exception e) {
 					// Print error and quit if cannot display window
 					e.printStackTrace();

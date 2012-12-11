@@ -1,4 +1,4 @@
-package model;
+package nodeModel;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
