@@ -5,10 +5,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class NetworkManager {
 	String serverAddress;
 	String port;
+	NodeData nodeData;
 	
 	public NetworkManager(){
 		
@@ -41,7 +43,7 @@ public class NetworkManager {
 		}
 	}
 	
-	private void deleteNode(String name){
+	public void deleteNode(String name){
     	try {
 			URL url = new URL(serverAddress + ":" + port + "/graph/del\\?node=" + name);
 			sendPostMessage(url);
@@ -59,26 +61,40 @@ public class NetworkManager {
 		}
 	}
 	
-	private void delEdge(String origin, String destination){
-    	try {
-			URL url = new URL(serverAddress + ":" + port + "/graph/del\\?from=" + origin + "&to=" + destination);
-			sendPostMessage(url);
-		} catch (MalformedURLException e) {
-	    	System.out.println("Malformed URL");
+	public void newNode(String name, ArrayList<String> parents, ArrayList<String> children, int activation){
+		// Confirm that node does not already exist
+		if(nodeData.isInList(name)){
+	    	System.out.println("A node with that name already exists.");
+	    	return;
 		}
-	}
-	
-	public void newNode(String name, String parents, String children, int activation){
-		// TODO: Make sure node doesn't exist
+		
+		addNode(name);
+		
+		
+		for(int i = 0; i < parents.size(); i++){
+			addEdge(parents.get(i),name);
+		}
+				
+		for(int i = 0; i < children.size(); i++){
+			addEdge(name,children.get(i));
+		}
 		
 	}
 	
-	public void modifyNode(String name, String parents, String children, int activation){
-		// TODO: Make sure node doesn't exist
+
+
+	public void modifyNode(String name, ArrayList<String> parents, ArrayList<String> children, int activation){
+		if(!nodeData.isInList(name)){
+	    	System.out.println("A node with that name does not exist");
+	    	return;
+		}
 		
+		// delete node (and its edges)
+		deleteNode(name);
+		newNode(name,parents,children,activation);
 	}
 	
-	public nodeData requestNodes(){
+	public NodeData requestNodes(){
 		String result = "";
 		String line;
 		
@@ -96,10 +112,10 @@ public class NetworkManager {
 	    	System.out.println("Connection Failed: Request Nodes");
 	    	return null;
 	    }
-	    return generateNodeList(null);
+	    return generateNodeList(result);
 	}
 
-	private nodeData generateNodeList(String data) {
+	private NodeData generateNodeList(String data) {
 		// TODO: Parse data (OR NULL) into a nodeData if possible
 		return null;
 	}

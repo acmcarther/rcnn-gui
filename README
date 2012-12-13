@@ -6,8 +6,13 @@ will eventually have some sort of graphic representation of the network
 as well as an interface for working with a running network. This is a 
 client for RCNN which runs as a server.
 
-Re added bin folder since my eclipse wouldn't compile anymore
-
 ~~~~~~~~~~~~~~~~~~~~
 
-Built in Java using swing libraries.
+TODO:
+  -Work on the OpenGl section and learn about JOGL
+  -Once netcode for RCNN is done, test the node manipulation features
+  -Finish integrating the UI with the simulation
+  -Build the networking panel
+
+Most GUI work needs to be done on my home machine since the linux machine
+struggles trying to interpret the source code. Don't know why.

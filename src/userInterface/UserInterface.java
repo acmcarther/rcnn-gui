@@ -122,12 +122,6 @@ public class UserInterface {
 		basePanel2.setLayout(new MigLayout("", "[grow][][][][][][][][][][][]", "[grow][][][][][][][][][][]"));
 		tabbedPane.addTab("Network Settings", null, basePanel2, null);
 		
-		JLabel lblDidntGetTo = new JLabel("didnt get to this, but it contains stuff like ip and port to connect to,");
-		basePanel2.add(lblDidntGetTo, "cell 2 4");
-		
-		JLabel lblAsWellAs = new JLabel("as well as refresh rate, ect");
-		basePanel2.add(lblAsWellAs, "cell 2 5");
-		
 		/**
 		 * Initialize the contents of the extended bar.
 		 */
