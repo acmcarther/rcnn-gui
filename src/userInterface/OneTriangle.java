@@ -1,4 +1,4 @@
-package graphics;
+package userInterface;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
