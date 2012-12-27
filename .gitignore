@@ -1,0 +1,2 @@
+# Need to ignore the binaries
+bin/**/*

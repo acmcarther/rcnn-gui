@@ -13,6 +13,9 @@ TODO:
   -Once netcode for RCNN is done, test the node manipulation features
   -Finish integrating the UI with the simulation
   -Build the networking panel
+  
+~~~~~~~~~~~~~~~~~~~~
 
-Most GUI work needs to be done on my home machine since the linux machine
-struggles trying to interpret the source code. Don't know why.
+RECENT COMPLETED:
+  -Fixed the git directory so it properly ignores the bin files
+  -Rebuilt the gui based on discussions in the lab
