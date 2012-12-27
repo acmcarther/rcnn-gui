@@ -12,37 +12,19 @@ import javax.media.opengl.awt.GLJPanel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import javax.swing.JToolBar;
-import javax.swing.JMenuBar;
 
 import javax.swing.JSplitPane;
 
 import net.miginfocom.swing.MigLayout;
 
-import controller.cmdChgNode;
-import controller.cmdDeleteNode;
-import controller.cmdNewNode;
-import controller.cmdResetVisual;
 import controller.cmdStopSim;
-import controller.objectHandler;
-import javax.swing.JTable;
-import javax.swing.JInternalFrame;
-import javax.swing.table.TableColumn;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-
-import java.awt.BorderLayout;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.AbstractListModel;
@@ -66,6 +48,7 @@ public class MainWindow {
 		// TODO: Fix look and feel
 		
 		// TODO: Compose each tab group together as a single object
+
 		
 		// Build the main panel
 		mainFrame = new JFrame();
@@ -75,51 +58,51 @@ public class MainWindow {
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BoxLayout(mainFrame.getContentPane(), BoxLayout.X_AXIS));
 		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setDividerSize(5);
-		splitPane.setEnabled(false);
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		mainFrame.getContentPane().add(splitPane);
+		JSplitPane spTools = new JSplitPane();
+		spTools.setDividerSize(5);
+		spTools.setEnabled(false);
+		spTools.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		mainFrame.getContentPane().add(spTools);
 		
-		JPanel panel = new JPanel();
-		splitPane.setLeftComponent(panel);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		JPanel pnlToolbar = new JPanel();
+		spTools.setLeftComponent(pnlToolbar);
+		pnlToolbar.setLayout(new BoxLayout(pnlToolbar, BoxLayout.X_AXIS));
 		
-		JButton btnNewButton = new JButton("Play");
-		panel.add(btnNewButton);
+		JButton btnStart = new JButton("Start");
+		pnlToolbar.add(btnStart);
 		
-		JButton btnNewButton_1 = new JButton("Pause");
-		panel.add(btnNewButton_1);
+		JButton btnPause = new JButton("Pause");
+		pnlToolbar.add(btnPause);
 		
-		Component horizontalGlue = Box.createHorizontalGlue();
-		panel.add(horizontalGlue);
+		Component toolPanelSpacer = Box.createHorizontalGlue();
+		pnlToolbar.add(toolPanelSpacer);
 		
-		JButton btnNewButton_2 = new JButton("Save");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		panel.add(btnNewButton_2);
+		pnlToolbar.add(btnSave);
 		
-		JButton btnNewButton_3 = new JButton("Load");
-		panel.add(btnNewButton_3);
+		JButton btnLoad = new JButton("Load");
+		pnlToolbar.add(btnLoad);
 		
-		JButton btnNewButton_4 = new JButton("Settings");
-		panel.add(btnNewButton_4);
+		JButton btnSettings = new JButton("Settings");
+		pnlToolbar.add(btnSettings);
 		
-		JPanel panel_1 = new JPanel();
-		splitPane.setRightComponent(panel_1);
-		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
+		JPanel pnlMain = new JPanel();
+		spTools.setRightComponent(pnlMain);
+		pnlMain.setLayout(new BoxLayout(pnlMain, BoxLayout.X_AXIS));
 		
-		JSplitPane splitPane_1 = new JSplitPane();
-		panel_1.add(splitPane_1);
+		JSplitPane spData = new JSplitPane();
+		pnlMain.add(spData);
 		
-		JPanel panel_2 = new JPanel();
-		splitPane_1.setLeftComponent(panel_2);
-		panel_2.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow]"));
+		JPanel pnlLists = new JPanel();
+		spData.setLeftComponent(pnlLists);
+		pnlLists.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow]"));
 		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
+		JList lstNodes = new JList();
+		lstNodes.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Nodes"};
 			public int getSize() {
 				return values.length;
@@ -128,10 +111,10 @@ public class MainWindow {
 				return values[index];
 			}
 		});
-		panel_2.add(list, "flowy,cell 0 0,grow");
+		pnlLists.add(lstNodes, "flowy,cell 0 0,grow");
 		
-		JList list_1 = new JList();
-		list_1.setModel(new AbstractListModel() {
+		JList lstEdges = new JList();
+		lstEdges.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Edges"};
 			public int getSize() {
 				return values.length;
@@ -140,52 +123,57 @@ public class MainWindow {
 				return values[index];
 			}
 		});
-		panel_2.add(list_1, "flowy,cell 1 0,grow");
+		pnlLists.add(lstEdges, "flowy,cell 1 0,grow");
 		
-		JSeparator separator = new JSeparator();
-		panel_2.add(separator, "cell 0 0,growx");
+		JSeparator nodeSeparator = new JSeparator();
+		pnlLists.add(nodeSeparator, "cell 0 0,growx");
 		
-		JSeparator separator_1 = new JSeparator();
-		panel_2.add(separator_1, "cell 1 0,growx");
+		JSeparator edgeSeparator = new JSeparator();
+		pnlLists.add(edgeSeparator, "cell 1 0,growx");
 		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, "cell 0 0,growx");
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));
+		JPanel pnlNodeButtons = new JPanel();
+		pnlLists.add(pnlNodeButtons, "cell 0 0,growx");
+		pnlNodeButtons.setLayout(new BoxLayout(pnlNodeButtons, BoxLayout.X_AXIS));
 		
-		JButton button = new JButton("+");
-		panel_3.add(button);
+		JButton btnNodeAdd = new JButton("+");
+		btnNodeAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				NewNodeDialog nodeInterface = new NewNodeDialog();
+			}
+		});
+		pnlNodeButtons.add(btnNodeAdd);
 		
-		JButton button_1 = new JButton("*");
-		panel_3.add(button_1);
+		JButton btnNodeEdit = new JButton("*");
+		pnlNodeButtons.add(btnNodeEdit);
 		
-		JButton button_2 = new JButton("-");
-		panel_3.add(button_2);
+		JButton btnNodeDelete = new JButton("-");
+		pnlNodeButtons.add(btnNodeDelete);
 		
-		JPanel panel_4 = new JPanel();
-		panel_2.add(panel_4, "cell 1 0,growx");
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
+		JPanel pnlEdgeButtons = new JPanel();
+		pnlLists.add(pnlEdgeButtons, "cell 1 0,growx");
+		pnlEdgeButtons.setLayout(new BoxLayout(pnlEdgeButtons, BoxLayout.X_AXIS));
 		
-		JButton button_3 = new JButton("+");
-		panel_4.add(button_3);
+		JButton btnEdgeAdd = new JButton("+");
+		pnlEdgeButtons.add(btnEdgeAdd);
 		
-		JButton button_4 = new JButton("*");
-		panel_4.add(button_4);
+		JButton btnEdgeEdit = new JButton("*");
+		pnlEdgeButtons.add(btnEdgeEdit);
 		
-		JButton button_5 = new JButton("-");
-		panel_4.add(button_5);
+		JButton btnEdgeDelete = new JButton("-");
+		pnlEdgeButtons.add(btnEdgeDelete);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		splitPane_1.setRightComponent(tabbedPane);
+		JTabbedPane tpDisplays = new JTabbedPane(JTabbedPane.TOP);
+		spData.setRightComponent(tpDisplays);
 		
-		JPanel panel_5 = new JPanel();
-		tabbedPane.addTab("Graphic Display", null, panel_5, null);
+		JPanel pnlGraphics = new JPanel();
+		tpDisplays.addTab("Graphic Display", null, pnlGraphics, null);
 		
 		
-		GLProfile glprofile = GLProfile.getDefault();
-		GLCapabilities glcapabilities = new GLCapabilities( glprofile );
-		final GLJPanel glcanvas = new GLJPanel( glcapabilities );
+		GLProfile glProfile = GLProfile.getDefault();
+		GLCapabilities glCapabilities = new GLCapabilities( glProfile );
+		final GLJPanel glCanvas = new GLJPanel( glCapabilities );
 
-		glcanvas.addGLEventListener( new GLEventListener() {
+		glCanvas.addGLEventListener( new GLEventListener() {
         
 			public void reshape( GLAutoDrawable glautodrawable, int x, int y, int width, int height ) {
 				OneTriangle.setup( glautodrawable.getGL().getGL2(), width, height );
@@ -201,12 +189,12 @@ public class MainWindow {
 				OneTriangle.render( glautodrawable.getGL().getGL2(), glautodrawable.getWidth(), glautodrawable.getHeight() );
 			}
 		});
-		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
+		pnlGraphics.setLayout(new BoxLayout(pnlGraphics, BoxLayout.X_AXIS));
 		
-		panel_5.add( glcanvas );
+		pnlGraphics.add( glCanvas );
 		
-		JPanel panel_6 = new JPanel();
-		tabbedPane.addTab("Data Display", null, panel_6, null);
+		JPanel pnlData = new JPanel();
+		tpDisplays.addTab("Data Display", null, pnlData, null);
 
 		// Display the window
 		mainFrame.setVisible(true);

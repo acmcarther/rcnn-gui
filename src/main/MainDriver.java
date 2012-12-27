@@ -3,6 +3,7 @@ package main;
 import java.awt.EventQueue;
 
 import userInterface.MainWindow;
+import userInterface.NewNodeDialog;
 
 public class MainDriver {
 	public static void main(String[] args) {
