@@ -18,11 +18,11 @@ public class NewNodeDialog {
 	private JTextField textField;
 	private JTextField textField_1;
 
-	public NewNodeDialog() {
-		initialize();
+	public NewNodeDialog(JFrame mainFrame) {
+		initialize(mainFrame);
 	}
 	
-	public void initialize(){
+	public void initialize(JFrame mainFrame){
 		mainFrame2 = new JDialog();
 		mainFrame2.setType(Type.POPUP);
 		mainFrame2.setAlwaysOnTop(true);
@@ -86,5 +86,9 @@ public class NewNodeDialog {
 		
 		Component horizontalStrut_2 = Box.createHorizontalStrut(50);
 		panel_2.add(horizontalStrut_2);
+	}
+	
+	public void display(){
+		mainFrame2.setVisible(true);
 	}
 }

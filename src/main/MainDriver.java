@@ -2,25 +2,37 @@ package main;
 
 import java.awt.EventQueue;
 
-import userInterface.MainWindow;
+import controller.RCNN_Controller;
+
+import nodeModel.RCNN_Model;
+
 import userInterface.NewNodeDialog;
+import userInterface.RCNN_View;
 
 public class MainDriver {
 	public static void main(String[] args) {
 		
-		// Build the views
+		// Initialize
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					// Create the user interface
-					MainWindow userInterface = new MainWindow();
-					//NodeDisplayer nodeDisplay = new NodeDisplayer();
-				} catch (Exception e) {
-					// Print error and quit if cannot display window
-					e.printStackTrace();
-					System.out.println("Could not build window");
-	                System.exit( 0 );
-				}
+					// Instantiate Model
+					RCNN_Model model = new RCNN_Model();
+					
+					// Instantiate View
+					RCNN_View view = new RCNN_View();
+					
+					// Instantiate Controller
+					RCNN_Controller controller = new RCNN_Controller();
+					
+					// Register MVC components so they can interact
+					model.registerView(view);
+					view.registerModel(model);
+					view.registerController(controller);
+					controller.registerModel(model);
+					controller.registerView(view);
+					
+					// Enable the view
+					view.setVisible(true);
 			}
 		});
 		
