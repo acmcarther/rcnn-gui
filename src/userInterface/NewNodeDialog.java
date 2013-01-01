@@ -4,6 +4,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JSplitPane;
@@ -11,36 +12,55 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Component;
 import javax.swing.Box;
+
+import controller.RCNN_Controller;
+
 import java.awt.Window.Type;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class NewNodeDialog {
-	private JDialog mainFrame2;
+	private RCNN_Controller controller;
+	private JDialog mainDialog;
 	private JTextField textField;
 	private JTextField textField_1;
 
-	public NewNodeDialog(JFrame mainFrame) {
+	public NewNodeDialog(RCNN_View mainFrame, RCNN_Controller controller) {
+		this.controller = controller;
 		initialize(mainFrame);
 	}
 	
 	public void initialize(JFrame mainFrame){
-		mainFrame2 = new JDialog();
-		mainFrame2.setType(Type.POPUP);
-		mainFrame2.setAlwaysOnTop(true);
-		mainFrame2.setResizable(false);
-		mainFrame2.setTitle("Create New Node");
-		mainFrame2.setBounds(100, 100, 257, 130);
-		mainFrame2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		mainFrame2.getContentPane().setLayout(new BoxLayout(mainFrame2.getContentPane(), BoxLayout.X_AXIS));
+		mainDialog = new JDialog(mainFrame,"Add New Node", true);
+		mainDialog.setType(Type.POPUP);
+		mainDialog.setAlwaysOnTop(true);
+		mainDialog.setResizable(false);
+		mainDialog.setTitle("Create New Node");
+		mainDialog.setBounds(100, 100, 257, 130);
+		mainDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		mainDialog.getContentPane().setLayout(new BoxLayout(mainDialog.getContentPane(), BoxLayout.X_AXIS));
 		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setDividerSize(0);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		mainFrame2.getContentPane().add(splitPane);
+		mainDialog.getContentPane().add(splitPane);
 		
 		JPanel panel = new JPanel();
 		splitPane.setRightComponent(panel);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				boolean isValid;
+				isValid = controller.addNodeEvent(textField.getText(), textField_1.getText());
+				if(isValid){
+					mainDialog.dispose();
+				}
+				else{
+					JOptionPane.showMessageDialog(mainDialog, "Invalid Data Entered");
+				}
+			}
+		});
 		btnAdd.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(btnAdd);
 		
@@ -48,6 +68,11 @@ public class NewNodeDialog {
 		panel.add(horizontalStrut);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainDialog.dispose();
+			}
+		});
 		btnCancel.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel.add(btnCancel);
 		
@@ -89,6 +114,7 @@ public class NewNodeDialog {
 	}
 	
 	public void display(){
-		mainFrame2.setVisible(true);
+		mainDialog.setVisible(true);
 	}
+	
 }

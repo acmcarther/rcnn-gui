@@ -25,6 +25,8 @@ import javax.swing.ListSelectionModel;
 
 import dataTypes.Edge;
 import dataTypes.Node;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RCNN_View extends JFrame {
 	// MVC Entities
@@ -143,6 +145,7 @@ public class RCNN_View extends JFrame {
 		pnlLists.add(edgeSeparator, "cell 1 0,growx");
 		pnlLists.add(pnlNodeButtons, "cell 0 0,growx");
 		pnlLists.add(pnlEdgeButtons, "cell 1 0,growx");
+
 		pnlNodeButtons.add(btnNodeAdd);
 		pnlNodeButtons.add(btnNodeEdit);
 		pnlNodeButtons.add(btnNodeDelete);
@@ -152,16 +155,79 @@ public class RCNN_View extends JFrame {
 		pnlGraphics.add( glCanvas );
 		
 		// TODO: All the data stuff for the Data Tab
+		
+		// TODO: Action Listeners
+		btnNodeAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				promptNewNode();
+			}
+		});
+		btnNodeEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				promptEditNode();
+			}
+		});
+		btnNodeDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				promptDeleteNode();
+			}
+		});
+		btnEdgeAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				promptNewEdge();
+			}
+		});
+		btnEdgeEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				promptEditEdge();
+			}
+		});
+		btnEdgeDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				promptDeleteEdge();
+			}
+		});
 	}
 	
-	public void showError(String error ){
+	public void showError(String error){
 		JOptionPane.showMessageDialog(this, error);
 	}
 	
-	//public Node getSelectedNode() {
-	//	return 
-	//}
-
+	public void promptNewNode(){
+		NewNodeDialog newNode = new NewNodeDialog(this, controller);
+		newNode.display();
+	}
+	public void promptEditNode(){
+		//EditNodeDialog editNode = new EditNodeDialog(this, controller);
+		//editNode.display();
+	}
+	public void promptDeleteNode(){
+		controller.deleteNode(getSelectedNode());
+	}
+	public void promptNewEdge(){
+		//NewEdgeDialog newEdge = new NewEdgeDialog(this, controller);
+		//newEdge.display();
+	}
+	public void promptEditEdge(){
+		//EditEdgeDialog editEdge = new EditEdgeDialog(this, controller);
+		//editEdge.display();
+	}
+	public void promptDeleteEdge(){
+		controller.deleteEdge(getSelectedEdge());
+	}
+	
+	public Node getSelectedNode() {
+		return lstNodes.getSelectedValue();
+	}
+	
+	public Edge getSelectedEdge(){
+		return lstEdges.getSelectedValue();
+	}
+	
+	public RCNN_Controller getController(){
+		return controller;
+	}
+	
 	public void registerModel(RCNN_Model model) {
 		this.model = model;
 	}
