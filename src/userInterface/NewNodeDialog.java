@@ -93,9 +93,6 @@ public class NewNodeDialog {
 		panel_1.add(textField);
 		textField.setColumns(10);
 		
-		Component horizontalStrut_1 = Box.createHorizontalStrut(72);
-		panel_1.add(horizontalStrut_1);
-		
 		JPanel panel_2 = new JPanel();
 		splitPane_1.setRightComponent(panel_2);
 		
@@ -107,10 +104,7 @@ public class NewNodeDialog {
 		
 		textField_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(textField_1);
-		textField_1.setColumns(10);
-		
-		Component horizontalStrut_2 = Box.createHorizontalStrut(50);
-		panel_2.add(horizontalStrut_2);
+		textField_1.setColumns(3);
 	}
 	
 	public void display(){

@@ -3,6 +3,7 @@ package dataTypes;
 public class Node{
 	private String name;
 	private float activLevel;
+	private float state;
 	
 	public Node(String name, Float activLevel){
 		this.name = name;

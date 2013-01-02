@@ -18,7 +18,7 @@ public class RCNN_Controller {
 		this.view = view;
 	}
 
-	public boolean addNodeEvent(String text, String text2) {
+	public boolean addNodeEvent(String node1, String al) {
 		// TODO: Validate Data
 		// TODO: 
 		return false;
@@ -32,6 +32,23 @@ public class RCNN_Controller {
 	public void deleteEdge(Edge selectedEdge) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public boolean addEdgeEvent(String node1, String node2, String pd) {
+		// TODO: Validate Data (Verify existence of node1, node2, and verify that pd is
+		//		 non-negative float
+		// TODO:
+		return false;
+	}
+
+	public boolean editNodeEvent(Node editNode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean editEdgeEvent(Edge editEdge) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

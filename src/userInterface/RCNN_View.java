@@ -198,19 +198,19 @@ public class RCNN_View extends JFrame {
 		newNode.display();
 	}
 	public void promptEditNode(){
-		//EditNodeDialog editNode = new EditNodeDialog(this, controller);
-		//editNode.display();
+		EditNodeDialog editNode = new EditNodeDialog(this, controller, lstNodes.getSelectedValue());
+		editNode.display();
 	}
 	public void promptDeleteNode(){
 		controller.deleteNode(getSelectedNode());
 	}
 	public void promptNewEdge(){
-		//NewEdgeDialog newEdge = new NewEdgeDialog(this, controller);
-		//newEdge.display();
+		NewEdgeDialog newEdge = new NewEdgeDialog(this, controller);
+		newEdge.display();
 	}
 	public void promptEditEdge(){
-		//EditEdgeDialog editEdge = new EditEdgeDialog(this, controller);
-		//editEdge.display();
+		EditEdgeDialog editEdge = new EditEdgeDialog(this, controller, lstEdges.getSelectedValue());
+		editEdge.display();
 	}
 	public void promptDeleteEdge(){
 		controller.deleteEdge(getSelectedEdge());
