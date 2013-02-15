@@ -51,4 +51,9 @@ public class RCNN_Controller {
 		return false;
 	}
 
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

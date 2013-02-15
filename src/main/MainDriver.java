@@ -35,8 +35,8 @@ public class MainDriver {
 		model.initialize();
 		
 		
-		// TODO: Build the controller
-		
+		// Initialize the controller
+		controller.initialize();
 		
 	}
 }
