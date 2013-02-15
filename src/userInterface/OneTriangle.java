@@ -27,55 +27,8 @@ public class OneTriangle {
 
         // draw a triangle filling the window
         gl2.glLoadIdentity();
-        gl2.glBegin( GL.GL_LINE_LOOP );
-        gl2.glColor3f( 1, 0, 0 );
-        gl2.glVertex2f( 0, 0 );
-        gl2.glColor3f( 0, 1, 0 );
-        gl2.glVertex2f( width, 0 );
-        gl2.glColor3f( 1, 0, 0 );
-        gl2.glVertex2f( width / 2 + width / 4, height - 1 );
-        gl2.glColor3f( 0, 1, 0 );
-        gl2.glVertex2f( width / 2 - width / 4, height - 1);
-        gl2.glEnd();
-        
-        gl2.glBegin( GL.GL_LINE_LOOP );
-        gl2.glColor3f( 1, 0, 0 );
-        gl2.glVertex2f( width/4, 0 );
-        gl2.glColor3f( 0, 1, 0 );
-        gl2.glVertex2f( 3*width/4, 0 );
-        gl2.glColor3f( 1, 0, 0 );
-        gl2.glVertex2f( width / 2  + width / 8, height - 1 );
-        gl2.glColor3f( 0, 1, 0 );
-        gl2.glVertex2f( width / 2 - width / 8, height - 1);
-        gl2.glEnd();
-        
-        gl2.glBegin( GL.GL_LINE_LOOP );
-        gl2.glColor3f( 1, 0, 0 );
-        gl2.glVertex2f( 3*width/8, 0 );
-        gl2.glColor3f( 0, 1, 0 );
-        gl2.glVertex2f( 5*width/8, 0 );
-        gl2.glColor3f( 1, 0, 0 );
-        gl2.glVertex2f( width / 2  + width / 16, height - 1 );
-        gl2.glColor3f( 0, 1, 0 );
-        gl2.glVertex2f( width / 2 - width / 16, height - 1);
-        gl2.glEnd();
-        
-        gl2.glBegin( GL.GL_LINE_LOOP );
-        gl2.glColor3f( 1, 0, 0 );
-        gl2.glVertex2f( 1*width/8, 0 );
-        gl2.glColor3f( 0, 1, 0 );
-        gl2.glVertex2f( 7*width/8, 0 );
-        gl2.glColor3f( 1, 0, 0 );
-        gl2.glVertex2f( width / 2  + 3*width / 16, height - 1 );
-        gl2.glColor3f( 0, 1, 0 );
-        gl2.glVertex2f( width / 2 - 3*width / 16, height - 1);
-        gl2.glEnd();
-        
-        gl2.glBegin( GL.GL_LINE_LOOP );
-        gl2.glColor3f( 0, 0, 1 );
-        gl2.glVertex2f( width/2, 0 );
-        gl2.glColor3f( 0, 0, 1 );
-        gl2.glVertex2f( width/2, height-1 );
+        gl2.glColor3f(1.0f, 0.0f, 0.0f);
+        gl2.glRectf(-25.0f, 25.0f, 25.0f, -25.0f);
         gl2.glEnd();
     }
 }

@@ -7,7 +7,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+
 public class NetworkManager {
+	
+	// This entire class needs to be refactored to netty
+	
 	String serverAddress;
 	String port;
 	NodeData nodeData;
@@ -22,6 +26,10 @@ public class NetworkManager {
 	
 	public void setPort(String port){
 		this.port = port;
+	}
+	
+	public void openDataStream(URL url){
+		
 	}
 	
 	private void sendPostMessage(URL url){

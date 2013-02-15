@@ -51,8 +51,9 @@ public class RCNN_View extends JFrame {
 		// Lists
 	JList<Node> lstNodes = new JList<Node>();
 	JList<Edge> lstEdges = new JList<Edge>();
-		// OpenGL Component
+		// OpenGL Components
 	GLJPanel glCanvas;
+	GraphicInterface graphics;
 	
 	
 	public RCNN_View() {
@@ -153,6 +154,10 @@ public class RCNN_View extends JFrame {
 		pnlEdgeButtons.add(btnEdgeEdit);
 		pnlEdgeButtons.add(btnEdgeDelete);
 		pnlGraphics.add( glCanvas );
+		
+		// prep the glPanel
+		graphics = new GraphicInterface(glCanvas);
+
 		
 		// TODO: All the data stuff for the Data Tab
 		
