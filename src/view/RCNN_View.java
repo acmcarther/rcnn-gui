@@ -1,4 +1,4 @@
-package userInterface;
+package view;
 
 import java.awt.Component;
 
@@ -19,12 +19,19 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import controller.RCNN_Controller;
+import model.RCNN_Model;
 import net.miginfocom.swing.MigLayout;
-import nodeModel.RCNN_Model;
 import javax.swing.ListSelectionModel;
 
-import dataTypes.Edge;
-import dataTypes.Node;
+import resources.datatypes.Edge;
+import resources.datatypes.Node;
+
+import view.gui.EditEdgeDialog;
+import view.gui.EditNodeDialog;
+import view.gui.GraphicInterface;
+import view.gui.NewEdgeDialog;
+import view.gui.NewNodeDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

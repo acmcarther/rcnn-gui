@@ -1,6 +1,6 @@
-package nodeModel;
+package model;
 
-import userInterface.RCNN_View;
+import view.RCNN_View;
 
 public class RCNN_Model {
 	private RCNN_View view;

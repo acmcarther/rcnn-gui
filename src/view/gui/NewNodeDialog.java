@@ -1,4 +1,4 @@
-package userInterface;
+package view.gui;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Component;
 import javax.swing.Box;
+
+import view.RCNN_View;
 
 import controller.RCNN_Controller;
 

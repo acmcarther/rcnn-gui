@@ -1,4 +1,5 @@
-package controller;
+package controller.guiCommands;
+
 
 public class cmdNewNode implements buttonCommand {
 

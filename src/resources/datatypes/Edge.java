@@ -1,4 +1,4 @@
-package dataTypes;
+package resources.datatypes;
 
 public class Edge{
 	private String source;

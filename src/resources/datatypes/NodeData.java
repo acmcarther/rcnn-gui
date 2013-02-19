@@ -1,4 +1,4 @@
-package nodeModel;
+package resources.datatypes;
 
 public class NodeData {
 

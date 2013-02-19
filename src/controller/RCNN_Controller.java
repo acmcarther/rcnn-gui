@@ -1,13 +1,20 @@
 package controller;
 
-import dataTypes.Edge;
-import dataTypes.Node;
-import userInterface.RCNN_View;
-import nodeModel.RCNN_Model;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import resources.datatypes.Edge;
+import resources.datatypes.Node;
+
+import controller.networking.NetworkController;
+
+import view.RCNN_View;
+import model.RCNN_Model;
 
 public class RCNN_Controller {
 	private RCNN_Model model;
 	private RCNN_View view;
+	private NetworkController network;
 
 	public void registerModel(RCNN_Model model) {
 		this.model = model;
@@ -52,8 +59,16 @@ public class RCNN_Controller {
 	}
 
 	public void initialize() {
-		// TODO Auto-generated method stub
-		
+		network = new NetworkController();
+		try {
+			network.setAddress("http://localhost");
+			network.setPort("9000");
+			network.addNode("TestNode");
+			network.updateSnapshot(new URL("http://localhost:9000/stream"));
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

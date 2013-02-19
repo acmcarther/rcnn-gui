@@ -1,21 +1,4 @@
 RCNN - GUI
 ~~~~~~~~~~~~~~~~~~~~
 
-This is a graphical interface to be used with /RichardKelley/rcnn. It
-will eventually have some sort of graphic representation of the network
-as well as an interface for working with a running network. This is a 
-client for RCNN which runs as a server.
 
-~~~~~~~~~~~~~~~~~~~~
-
-TODO:
-  -Work on the OpenGl section and learn about JOGL
-  -Once netcode for RCNN is done, test the node manipulation features
-  -Finish integrating the UI with the simulation
-  -Build the networking panel
-  
-~~~~~~~~~~~~~~~~~~~~
-
-RECENT COMPLETED:
-  -Fixed the git directory so it properly ignores the bin files
-  -Rebuilt the gui based on discussions in the lab

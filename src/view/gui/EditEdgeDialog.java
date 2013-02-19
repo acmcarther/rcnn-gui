@@ -1,4 +1,4 @@
-package userInterface;
+package view.gui;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -13,8 +13,11 @@ import javax.swing.JButton;
 import java.awt.Component;
 import javax.swing.Box;
 
+import resources.datatypes.Edge;
+
+import view.RCNN_View;
+
 import controller.RCNN_Controller;
-import dataTypes.Edge;
 
 import java.awt.Window.Type;
 import java.awt.event.ActionListener;
