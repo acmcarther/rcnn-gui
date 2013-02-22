@@ -38,5 +38,9 @@ public class MainDriver {
 		// Initialize the controller
 		controller.initialize();
 		
+		while(true){
+			//controller.updateData();
+		}
+		
 	}
 }

@@ -23,6 +23,7 @@ public class OneTriangle {
     }
 
     public static void render( GL2 gl2, int width, int height ) {
+    	/*
         gl2.glClear( GL.GL_COLOR_BUFFER_BIT );
 
         // draw a triangle filling the window
@@ -30,5 +31,6 @@ public class OneTriangle {
         gl2.glColor3f(1.0f, 0.0f, 0.0f);
         gl2.glRectf(-25.0f, 25.0f, 25.0f, -25.0f);
         gl2.glEnd();
+        */
     }
 }

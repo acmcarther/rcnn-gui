@@ -29,6 +29,7 @@ import resources.datatypes.Edge;
 import resources.datatypes.Node;
 
 import view.gui.GraphicInterface;
+import view.gui.NewNodeDialog;
 
 
 import java.awt.event.ActionListener;
@@ -198,7 +199,8 @@ public class RCNN_View extends JFrame {
 	}
 	
 	public void promptNewNode(){
-		//EventQueue.invokeLater((Runnable) new NewNodeDialog(this, controller, lstNodes.getSelectedValue()));
+		 NewNodeDialog dialog = new NewNodeDialog( this,controller);
+		 dialog.setVisible(true);
 	}
 	public void promptEditNode(){
 		//EventQueue.invokeLater((Runnable) new EditNodeDialog(this, controller, lstNodes.getSelectedValue()));
@@ -213,7 +215,7 @@ public class RCNN_View extends JFrame {
 		//EventQueue.invokeLater((Runnable) new EditEdgeDialog(this, controller, lstEdges.getSelectedValue()));
 	}
 	public void promptDeleteEdge(){
-		controller.deleteEdge(getSelectedEdge());
+		//controller.deleteEdge(getSelectedEdge());
 	}
 	
 	public Node getSelectedNode() {
@@ -244,6 +246,7 @@ public class RCNN_View extends JFrame {
 			public Node getElementAt(int index) {
 				return nodeList[index];
 			}
+			
 		});
 	}
 }

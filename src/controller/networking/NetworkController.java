@@ -71,6 +71,7 @@ public class NetworkController {
 	    	System.out.println(mapEntry.getKey().substring(17) + "  " + Float.parseFloat(mapEntry.getValue()));
 	    	nodeList[index] = new Node(mapEntry.getKey().substring(17), Float.parseFloat(mapEntry.getValue()));
 	    	index++;
+	    	System.out.println("looped");
 	    }
 	      
 	    view.updateNodeList(nodeList);

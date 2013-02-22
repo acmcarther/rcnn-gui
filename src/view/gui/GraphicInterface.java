@@ -21,7 +21,7 @@ public class GraphicInterface {
         panel.addGLEventListener( new GLEventListener() {
             
             public void reshape( GLAutoDrawable glautodrawable, int x, int y, int width, int height ) {
-                OneTriangle.setup( glautodrawable.getGL().getGL2(), width, height );
+                //OneTriangle.setup( glautodrawable.getGL().getGL2(), width, height );
             }
             
 
@@ -33,7 +33,7 @@ public class GraphicInterface {
             
 
             public void display( GLAutoDrawable glautodrawable ) {
-                OneTriangle.render( glautodrawable.getGL().getGL2(), glautodrawable.getWidth(), glautodrawable.getHeight() );
+                //OneTriangle.render( glautodrawable.getGL().getGL2(), glautodrawable.getWidth(), glautodrawable.getHeight() );
             }
         }); 
 	}
