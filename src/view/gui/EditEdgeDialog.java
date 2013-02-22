@@ -150,9 +150,8 @@ public class EditEdgeDialog {
 		Component horizontalStrut_2 = Box.createHorizontalStrut(50);
 		panel_3.add(horizontalStrut_2);
 	}
-	
-	public void display(){
-		mainDialog.setVisible(true);
+
+	public void setVisible(boolean setting){
+		mainDialog.setVisible(setting);
 	}
-	
 }

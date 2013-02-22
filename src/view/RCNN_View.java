@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Component;
+import java.awt.EventQueue;
 
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
@@ -17,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.WindowConstants;
 
 import controller.RCNN_Controller;
 import model.RCNN_Model;
@@ -26,14 +28,12 @@ import javax.swing.ListSelectionModel;
 import resources.datatypes.Edge;
 import resources.datatypes.Node;
 
-import view.gui.EditEdgeDialog;
-import view.gui.EditNodeDialog;
 import view.gui.GraphicInterface;
-import view.gui.NewEdgeDialog;
-import view.gui.NewNodeDialog;
+
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 
 public class RCNN_View extends JFrame {
 	// MVC Entities
@@ -111,16 +111,6 @@ public class RCNN_View extends JFrame {
 		pnlGraphics.setLayout(new BoxLayout(pnlGraphics, BoxLayout.X_AXIS));
 		
 		// Build dummy data
-		lstNodes.setModel(new AbstractListModel<Node>() {
-			Node[] values = new Node[] {new Node("TestNode1", 1.0f),
-										new Node("TestNode2", 1.0f)};
-			public int getSize() {
-				return values.length;
-			}
-			public Node getElementAt(int index) {
-				return values[index];
-			}
-		});
 
 		lstEdges.setModel(new AbstractListModel<Edge>() {
 			Edge[] values = new Edge[] {new Edge("TestNode1", "TestNode2", 1.0f)};
@@ -169,6 +159,8 @@ public class RCNN_View extends JFrame {
 		// TODO: All the data stuff for the Data Tab
 		
 		// TODO: Action Listeners
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		
 		btnNodeAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				promptNewNode();
@@ -206,23 +198,19 @@ public class RCNN_View extends JFrame {
 	}
 	
 	public void promptNewNode(){
-		NewNodeDialog newNode = new NewNodeDialog(this, controller);
-		newNode.display();
+		//EventQueue.invokeLater((Runnable) new NewNodeDialog(this, controller, lstNodes.getSelectedValue()));
 	}
 	public void promptEditNode(){
-		EditNodeDialog editNode = new EditNodeDialog(this, controller, lstNodes.getSelectedValue());
-		editNode.display();
+		//EventQueue.invokeLater((Runnable) new EditNodeDialog(this, controller, lstNodes.getSelectedValue()));
 	}
 	public void promptDeleteNode(){
 		controller.deleteNode(getSelectedNode());
 	}
 	public void promptNewEdge(){
-		NewEdgeDialog newEdge = new NewEdgeDialog(this, controller);
-		newEdge.display();
+		//EventQueue.invokeLater((Runnable) new NewEdgeDialog(this, controller));
 	}
 	public void promptEditEdge(){
-		EditEdgeDialog editEdge = new EditEdgeDialog(this, controller, lstEdges.getSelectedValue());
-		editEdge.display();
+		//EventQueue.invokeLater((Runnable) new EditEdgeDialog(this, controller, lstEdges.getSelectedValue()));
 	}
 	public void promptDeleteEdge(){
 		controller.deleteEdge(getSelectedEdge());
@@ -248,4 +236,14 @@ public class RCNN_View extends JFrame {
 		this.controller = controller;
 	}
 
+	public void updateNodeList(final Node[] nodeList){
+		lstNodes.setModel(new AbstractListModel<Node>() {
+			public int getSize() {
+				return nodeList.length;
+			}
+			public Node getElementAt(int index) {
+				return nodeList[index];
+			}
+		});
+	}
 }

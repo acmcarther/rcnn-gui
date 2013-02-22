@@ -59,16 +59,14 @@ public class RCNN_Controller {
 	}
 
 	public void initialize() {
-		network = new NetworkController();
-		try {
-			network.setAddress("http://localhost");
-			network.setPort("9000");
-			network.addNode("TestNode");
-			network.updateSnapshot(new URL("http://localhost:9000/stream"));
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		network = new NetworkController(view);
+		network.setAddress("http://localhost");
+		network.setPort("9000");
+		updateData();
+	}
+	
+	public void updateData(){
+		network.updateSnapshot();
 	}
 
 }

@@ -6,20 +6,31 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+import com.google.gson.Gson;
+
+import resources.datatypes.Node;
 import resources.datatypes.NodeData;
+import view.RCNN_View;
 
 
 
 public class NetworkController {
 	
-	public NetworkController(){
-		
-	}
-	
 	String serverAddress;
 	String port;
 	NodeData nodeData;
+	RCNN_View view;
+	
+	public NetworkController(RCNN_View view){
+		this.view = view;
+	}
 
 	
 	public void setAddress(String serverAddress){
@@ -30,24 +41,41 @@ public class NetworkController {
 		this.port = port;
 	}
 	
-	public String updateSnapshot(URL url){
-	      HttpURLConnection conn;
-	      BufferedReader rd;
-	      String line;
-	      String result = "";
-	      try {
-	         conn = (HttpURLConnection) url.openConnection();
-	         conn.setRequestMethod("GET");
-	         rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	         while ((line = rd.readLine()) != null) {
-	            result += line;
-	         }
-	         System.out.println(result);
-	         rd.close();
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	      }
-	      return result;
+	public String updateSnapshot(){
+	    HttpURLConnection conn;
+	    BufferedReader rd;
+	    String line;
+	    String result = "";
+
+	    try {
+		   URL url = new URL(serverAddress + ":" + port + "/graph/snapshot");
+	       conn = (HttpURLConnection) url.openConnection();
+	       conn.setRequestMethod("GET");
+	       rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	       while ((line = rd.readLine()) != null) {
+	          result += line;
+	        }
+	       System.out.println(result);
+	       rd.close();
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	    }
+	      
+	    // convert read JSON to something meaningful
+	    LinkedHashMap<String, String> nodeMap =  new Gson().fromJson(result, LinkedHashMap.class);
+	      
+	    // convert hash map to node array
+	    Node[] nodeList = new Node[nodeMap.size()];
+	    int index = 0;
+	    for (Entry<String, String> mapEntry : nodeMap.entrySet()) {
+	    	System.out.println(mapEntry.getKey().substring(17) + "  " + Float.parseFloat(mapEntry.getValue()));
+	    	nodeList[index] = new Node(mapEntry.getKey().substring(17), Float.parseFloat(mapEntry.getValue()));
+	    	index++;
+	    }
+	      
+	    view.updateNodeList(nodeList);
+	      
+	    return result;
 	}
 	
 	private void sendPostMessage(URL url){
@@ -64,8 +92,8 @@ public class NetworkController {
 	// TODO: Make an interface or something, this is shameful
 	public void addNode(String name){
     	try {
-    		System.out.println(serverAddress + ":" + port + "/graph/add\\?node=" + name);
-			URL url = new URL(serverAddress + ":" + port + "/graph/add\\?node=" + name);
+    		System.out.println(serverAddress + ":" + port + "/graph/addNode\\?node=" + name);
+			URL url = new URL(serverAddress + ":" + port + "/graph/addNode\\?node=" + name);
 			sendPostMessage(url);
 		} catch (MalformedURLException e) {
 	    	System.out.println("Malformed URL");
@@ -75,7 +103,7 @@ public class NetworkController {
 	
 	public void deleteNode(String name){
     	try {
-			URL url = new URL(serverAddress + ":" + port + "/graph/del\\?node=" + name);
+			URL url = new URL(serverAddress + ":" + port + "/graph/delNode\\?node=" + name);
 			sendPostMessage(url);
 		} catch (MalformedURLException e) {
 	    	System.out.println("Malformed URL");
@@ -84,7 +112,7 @@ public class NetworkController {
 	
 	public void addEdge(String origin, String destination){
     	try {
-			URL url = new URL(serverAddress + ":" + port + "/graph/add\\?from=" + origin + "&to=" + destination);
+			URL url = new URL(serverAddress + ":" + port + "/graph/addEdge\\?from=" + origin + "&to=" + destination);
 			sendPostMessage(url);
 		} catch (MalformedURLException e) {
 	    	System.out.println("Malformed URL");

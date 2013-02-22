@@ -107,10 +107,10 @@ public class NewNodeDialog {
 		textField_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(textField_1);
 		textField_1.setColumns(3);
+		
 	}
 	
-	public void display(){
-		mainDialog.setVisible(true);
+	public void setVisible(boolean setting){
+		mainDialog.setVisible(setting);
 	}
-	
 }

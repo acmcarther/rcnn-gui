@@ -142,8 +142,7 @@ public class NewEdgeDialog {
 		panel_3.add(horizontalStrut_2);
 	}
 	
-	public void display(){
-		mainDialog.setVisible(true);
+	public void setVisible(boolean setting){
+		mainDialog.setVisible(setting);
 	}
-	
 }

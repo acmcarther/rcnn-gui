@@ -1,4 +1,8 @@
 RCNN - GUI
 ~~~~~~~~~~~~~~~~~~~~
 
+-TODO:
 
+  -fix the damn dialog boxes
+  -main loop
+  -formalize network infrastructure
