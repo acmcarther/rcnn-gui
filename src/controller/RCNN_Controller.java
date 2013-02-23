@@ -1,11 +1,5 @@
 package controller;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import resources.datatypes.Edge;
-import resources.datatypes.Node;
-
 import controller.networking.NetworkController;
 
 import view.RCNN_View;
@@ -25,47 +19,88 @@ public class RCNN_Controller {
 		this.view = view;
 	}
 
-	public boolean addNodeEvent(String node1, String al) {
-		// TODO: Validate Data
-		// TODO: 
-		return false;
+	public boolean addNode(String name, String al) {
+		// Verify that node does not exist
+		if( model.hasNodeNamed(name) ){
+			return false;
+		}
+		
+		// Tell the network to add the new node
+		network.addNode(name, al);
+		
+		// Return successful outcome
+		return true;
 	}
 
-	public void deleteNode(Node selectedNode) {
-		// TODO Auto-generated method stub
+	public boolean deleteNode(String nodeName) {
+		// Verify that node does exist
+		if(!model.hasNodeNamed(nodeName)){
+			return false;
+		}
+		
+		// Tell the network to add the new node
+		network.deleteNode(nodeName);
+		
+		// Return successful outcome
+		return true;
 		
 	}
 
-	public void deleteEdge(Edge selectedEdge) {
-		// TODO Auto-generated method stub
+	public boolean deleteEdge(String parentName, String childName) {
+		// Verify that edge does exist
+		if(!model.hasEdgeBetween(parentName, childName)){
+			return false;
+		}
+		
+		// Tell the network to add the new node
+		network.deleteEdge(parentName, childName);
+		
+		// Return successful outcome
+		return true;
 		
 	}
 
-	public boolean addEdgeEvent(String node1, String node2, String pd) {
-		// TODO: Validate Data (Verify existence of node1, node2, and verify that pd is
-		//		 non-negative float
-		// TODO:
-		return false;
+	public boolean addEdge(String parentName, String childName) {
+		// Verify that nodes exists
+		if(!model.hasNodeNamed(parentName) || !model.hasNodeNamed(childName)){
+			return false;
+		}
+		
+		// Tell the network to add the new edge
+		network.addEdge(parentName, childName);
+		return true;
+		
 	}
 
-	public boolean editNodeEvent(Node editNode) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean editNode(String name, float al) {
+		// Verify that node exists
+		if(!model.hasNodeNamed(name)){
+			return false;
+		}
+		
+		// TODO: Figure out how to set the node's AL through the network
+		return true;
 	}
 
-	public boolean editEdgeEvent(Edge editEdge) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean editEdge(String parentName, String childName) {
+		// Verify that edge does exist
+		if(!model.hasEdgeBetween(parentName, childName)){
+			return false;
+		}
+		
+		// TODO: Wait for propagation delay to be implemented in the network
+		return true;
 	}
 
 	public void initialize() {
-		network = new NetworkController(view);
+		// Create the network and define default parameters
+		network = new NetworkController(view, model);
 		network.setAddress("http://localhost");
 		network.setPort("9000");
-		updateData();
 	}
 	
 	public void updateData(){
+		// TODO: Switch this to asynchronous updateStream()
 		network.updateSnapshot();
 	}
 

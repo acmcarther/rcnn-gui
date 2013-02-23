@@ -1,7 +1,5 @@
 package main;
 
-import java.awt.EventQueue;
-
 import controller.RCNN_Controller;
 
 import model.RCNN_Model;
@@ -9,7 +7,7 @@ import model.RCNN_Model;
 import view.RCNN_View;
 
 public class MainDriver {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 
 		// Instantiate Model
 		RCNN_Model model = new RCNN_Model();
@@ -38,8 +36,11 @@ public class MainDriver {
 		// Initialize the controller
 		controller.initialize();
 		
+		
+		// Loop to continuously update the data
 		while(true){
-			//controller.updateData();
+			Thread.sleep(500);
+			controller.updateData();
 		}
 		
 	}

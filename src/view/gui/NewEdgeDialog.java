@@ -96,7 +96,8 @@ public class NewEdgeDialog {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean isValid;
-				isValid = controller.addEdgeEvent(textField.getText(), textField_1.getText(), textField_2.getText());
+				// TODO: Figure out which of these text fields is which. I really need to name this stuff right
+				isValid = controller.addEdge(textField.getText(), textField_1.getText());
 				if(isValid){
 					mainDialog.dispose();
 				}

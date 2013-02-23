@@ -25,12 +25,14 @@ import java.awt.event.ActionEvent;
 
 public class EditNodeDialog {
 	private Node editNode;
-	private RCNN_Controller controller;
+	//private RCNN_Controller controller;
 	private JDialog mainDialog;
 	private JTextField textField_1;
 
+	// TODO: actually build this dialog box
+	
 	public EditNodeDialog(RCNN_View mainFrame, RCNN_Controller controller, Node editNode) {
-		this.controller = controller;
+		//this.controller = controller;
 		this.editNode = editNode;
 		initialize(mainFrame);
 	}
@@ -56,8 +58,7 @@ public class EditNodeDialog {
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				boolean isValid;
-				isValid = controller.editNodeEvent(editNode);
+				boolean isValid = false;
 				if(isValid){
 					mainDialog.dispose();
 				}

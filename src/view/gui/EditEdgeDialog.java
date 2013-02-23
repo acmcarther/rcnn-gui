@@ -25,13 +25,13 @@ import java.awt.event.ActionEvent;
 
 public class EditEdgeDialog {
 	private Edge editEdge;
-	private RCNN_Controller controller;
+	//private RCNN_Controller controller;
 	private JDialog mainDialog;
 	private JTextField textField_1;
 	private JTextField textField;
 
 	public EditEdgeDialog(RCNN_View mainFrame, RCNN_Controller controller, Edge editEdge) {
-		this.controller = controller;
+		//this.controller = controller;
 		this.editEdge = editEdge;
 		initialize(mainFrame);
 	}
@@ -101,17 +101,13 @@ public class EditEdgeDialog {
 		JPanel panel_5 = new JPanel();
 		splitPane_3.setRightComponent(panel_5);
 		
+		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				boolean isValid;
-				isValid = controller.editEdgeEvent(editEdge);
-				if(isValid){
-					mainDialog.dispose();
-				}
-				else{
-					JOptionPane.showMessageDialog(mainDialog, "Invalid Data Entered");
-				}
+				// TODO: Wait for Propagation Delay to be implemented
+				JOptionPane.showMessageDialog(mainDialog, "Invalid Data Entered");
+				
 			}
 		});
 		panel_5.add(btnAdd);

@@ -1,12 +1,12 @@
 package view.gui;
 
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCapabilities;
+//import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.GLProfile;
+//import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLJPanel;
 
-import view.graphics.OneTriangle;
+//import view.graphics.OneTriangle;
 
 public class GraphicInterface {
 	GLJPanel panel;
@@ -14,7 +14,7 @@ public class GraphicInterface {
 	public GraphicInterface(GLJPanel basePanel){
 		panel = basePanel;
 		initialize();
-		render();
+		//render();
 	}
 	
 	public void initialize(){

@@ -28,11 +28,13 @@ public class NewNodeDialog {
 	private JTextField textField_1;
 
 	public NewNodeDialog(RCNN_View mainFrame, RCNN_Controller controller) {
+		System.out.println("begining of constructor");
 		this.controller = controller;
 		initialize(mainFrame);
 	}
 	
 	public void initialize(JFrame mainFrame){
+		System.out.println("begining of init");
 		mainDialog = new JDialog(mainFrame,"Add New Node", true);
 		mainDialog.setType(Type.POPUP);
 		mainDialog.setAlwaysOnTop(true);
@@ -54,8 +56,9 @@ public class NewNodeDialog {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean isValid;
-				isValid = controller.addNodeEvent(textField.getText(), textField_1.getText());
+				isValid = controller.addNode(textField.getText(), textField_1.getText());
 				if(isValid){
+					controller.addNode(textField.getText(), textField_1.getText());
 					mainDialog.dispose();
 				}
 				else{
@@ -107,6 +110,8 @@ public class NewNodeDialog {
 		textField_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(textField_1);
 		textField_1.setColumns(3);
+		
+		System.out.println("end of init");
 		
 	}
 	

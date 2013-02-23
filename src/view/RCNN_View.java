@@ -206,7 +206,7 @@ public class RCNN_View extends JFrame {
 		//EventQueue.invokeLater((Runnable) new EditNodeDialog(this, controller, lstNodes.getSelectedValue()));
 	}
 	public void promptDeleteNode(){
-		controller.deleteNode(getSelectedNode());
+		controller.deleteNode(getSelectedNode().getName());
 	}
 	public void promptNewEdge(){
 		//EventQueue.invokeLater((Runnable) new NewEdgeDialog(this, controller));
