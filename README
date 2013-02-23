@@ -3,6 +3,17 @@ RCNN - GUI
 
 -TODO:
 
-  -fix the damn dialog boxes
-  -main loop
-  -formalize network infrastructure
+
+	-- Networking Loop
+		-formalize network infrastructure (did a good bit of that already)
+	
+	-- Simulation Loop
+		-Build backbone for simulation
+	
+	-- Render Loop
+		-Interconnect simulation and render loop
+	
+	-- GUI work
+  		-fix the damn dialog boxes
+  		-on select of node list, display relevant edges
+  		-update edge list regularly

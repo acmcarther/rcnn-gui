@@ -28,14 +28,11 @@ public class MainDriver {
 		// Enable the view
 		view.setVisible(true);
 
-		
 		// Initialize model
 		model.initialize();
 		
-		
 		// Initialize the controller
 		controller.initialize();
-		
 		
 		// Loop to continuously update the data
 		while(true){

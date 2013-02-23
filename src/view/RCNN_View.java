@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
