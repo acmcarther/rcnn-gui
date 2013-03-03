@@ -3,6 +3,17 @@ RCNN - GUI
 
 -TODO:
 
+	-- Latest:
+		-Added a persistent data structure for nodes. They (should) now
+		keep track of their latest 500 values. This will be required to 
+		build the oscilloscope. Could not test because play-rcnn gave me 
+		errors on compilation. 
+		
+	-- IMMEDIATE TODOS:
+		-Build a primordial single oscilloscope that parses the node data 
+		structure, plots the points, and connects the dots. I plan to work
+		on this some today (3/2) and get at least a single oscilloscope
+		working by (3/3)
 
 	-- Networking Loop
 		-formalize network infrastructure (did a good bit of that already)

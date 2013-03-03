@@ -1,14 +1,17 @@
 package model;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
+import java.util.Queue;
 
 import resources.datatypes.Node;
+import resources.datatypes.NodeData;
 import view.RCNN_View;
 
 public class RCNN_Model {
 	private RCNN_View view;
-	private LinkedHashMap<String, Float> nodeMap;
+	private LinkedHashMap<String, NodeData> nodeMap;
 	private LinkedHashMap<String, String[]> forwardEdgeMap;
 	//private LinkedHashMap<String, String[]> backwardEdgeMap;
 
@@ -28,8 +31,8 @@ public class RCNN_Model {
 	    Node[] nodeList = new Node[nodeMap.size()];
 	    
 	    // Loop to output nodemap to a NodeList
-	    for (Entry<String, Float> mapEntry : nodeMap.entrySet()) {
-	    	nodeList[index] = new Node(mapEntry.getKey().substring(17), (mapEntry.getValue()));
+	    for (Entry<String, NodeData> mapEntry : nodeMap.entrySet()) {
+	    	nodeList[index] = new Node(mapEntry.getKey().substring(17), (mapEntry.getValue().pollLast()));
 	    	index++;
 	    }
 	    
@@ -60,10 +63,57 @@ public class RCNN_Model {
 		return false;
 	}
 
-	public void setNodeMap(LinkedHashMap<String, Float> nodeMap) {
+	public void updateNodeMap(LinkedHashMap<String, Float> newNodeData) {
+		
+		// Define variables
+		Entry<String,Float> floatEntry;
+		Entry<String,NodeData> nodeEntry;
+		String tempKey;
+		NodeData tempData;
+		
+		// Build a new data iterator
+		Iterator<Entry<String,Float>> newDataIterator = newNodeData.entrySet().iterator();
 
-		// Update the model's NodeList
-		this.nodeMap = nodeMap;
+		// Iterate through Linked Hash Map
+		while(newDataIterator.hasNext()){
+			
+			// Get next entry
+			floatEntry = newDataIterator.next();
+			
+			// Get next key
+			tempKey = floatEntry.getKey();
+			
+			if (nodeMap.containsKey(tempKey)){
+				// If we already have this key, simply update its values
+				nodeMap.get(tempKey).enqueue(floatEntry.getValue());
+			}
+			else{
+				// otherwise, generate a new entry
+				nodeMap.put(tempKey, new NodeData(floatEntry.getValue()));
+			}
+		}
+		
+		// Build a node map iterator
+		Iterator<Entry<String,NodeData>> mapIterator = nodeMap.entrySet().iterator();
+		
+		// Iterate through our new data set
+		while(mapIterator.hasNext()){
+			
+			// Get next entry
+			nodeEntry = mapIterator.next();
+			
+			// Get next data set
+			tempData = nodeEntry.getValue();
+			if (!tempData.wasUpdated()){
+				// If we didnt update this data, it means its not in the sim,
+				//	Thus we need to remove it
+				nodeMap.remove(nodeEntry.getKey());
+			}
+
+		}
+		
+		
+		
 		
 		// TODO: Migrate this functionality to another thread
 		view.updateNodeList(getNodeList());

@@ -147,7 +147,7 @@ public class NetworkController {
 		    				new TypeToken<LinkedHashMap<String, Float>>(){}.getType());
 		    
 		    // Update the model Hash Map
-		    model.setNodeMap(nodeMap);
+		    model.updateNodeMap(nodeMap);
 		    
 		} catch (MalformedURLException e) {
 			// TODO: Bad URL Exception
