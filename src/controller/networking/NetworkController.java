@@ -37,7 +37,6 @@ public class NetworkController {
 			   while ((line = rd.readLine()) != null) {
 			    result += line;
 			}
-			System.out.println(result);
 			rd.close();
 		} catch (IOException e1) {
 			// TODO: Connection Rejected Error
@@ -48,13 +47,17 @@ public class NetworkController {
 	}	
 	
 	private void sendPostMessage(URL url) {
+		HttpURLConnection conn;
+		
+		// TODO: MAKE THIS WORK!
+		
 		// Attempt to open a connection
 		try {
 			// Connect and send message
-	    	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	    	conn = (HttpURLConnection) url.openConnection();
 	    	conn.setRequestMethod("POST");
 	    	conn.connect();
-	    	conn.disconnect();
+	    	//conn.disconnect();
 	    } catch (IOException e) {
 			// TODO: Connection Error
 	        e.printStackTrace();
@@ -76,11 +79,12 @@ public class NetworkController {
 
 	public void addNode(String name, String al){
 		// TODO: Set Activation Level while creating node
+
 		
 		// Attempt to build a URL
     	try {
     		// Create URL object
-			URL url = new URL(serverAddress + ":" + port + "/graph/addNode\\?node=" + name);
+			URL url = new URL(serverAddress + ":" + port + "/graph/addNode?node=" + name);
 			
 			// Send message to that URL
 			sendPostMessage(url);
@@ -125,7 +129,7 @@ public class NetworkController {
 		// Attempt to build a URL
     	try {
     		// Create URL object
-			URL url = new URL(serverAddress + ":" + port + "/graph/delEdge\\?from=" + origin + "&to=" + destination);
+			URL url = new URL(serverAddress + ":" + port + "/graph/delEdge?from=" + origin + "&to=" + destination);
 			
 			// Send message to that URL
 			sendPostMessage(url);
@@ -144,18 +148,13 @@ public class NetworkController {
 			String result = sendGetMessage(new URL(serverAddress + ":" + port + "/graph/snapshot"));
 			
 		    // Convert JSON String to a Linked Hash Map 
+
 		    LinkedHashMap<String, Float> nodeMap =  
 		    		new Gson().fromJson(result, 
 		    				new TypeToken<LinkedHashMap<String, Float>>(){}.getType());
 		    
-		    // Update the model Hash Map
-		    if(refreshCounter < 1){
-			    model.updateNodeMap(nodeMap);
-		    	refreshCounter = 294;
-		    }
-		    
-		    // Decrement refresh counter
-		    refreshCounter--;
+
+		    model.updateNodeMap(nodeMap);
 		    
 		} catch (MalformedURLException e) {
 			// TODO: Bad URL Exception

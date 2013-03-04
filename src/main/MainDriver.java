@@ -40,13 +40,13 @@ public class MainDriver {
 		view.setVisible(true);
 		
 		// Loop to continuously update the data
-		while(true){
+		while(view.isRunning()){
 			// NEW IN THIS VERSION: Doesn't refresh screen so fast, but gives me the data fast.
 			Thread.sleep(17);
-			//controller.updateData();
+			controller.updateData();
 			
 			// TEMP THINGS IN THIS AREA GUYS
-			model.doTempThings();
+			//model.doTempThings();
 			view.forceGLUpdate();
 		}
 		

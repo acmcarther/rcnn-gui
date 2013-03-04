@@ -33,6 +33,8 @@ import view.gui.NewNodeDialog;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class RCNN_View extends JFrame {
@@ -61,6 +63,7 @@ public class RCNN_View extends JFrame {
 		// OpenGL Components
 	GLJPanel glCanvas;
 	GraphicInterface graphics;
+	boolean running;
 	
 	
 	public RCNN_View() {
@@ -69,6 +72,7 @@ public class RCNN_View extends JFrame {
 	public void initialize(){
 
 		// Set main window properties
+		running = true;
 		setResizable(true);
 		setTitle("RCNN GUI");
 		setBounds(100, 100, 750, 500);
@@ -169,6 +173,13 @@ public class RCNN_View extends JFrame {
 		// TODO: Action Listeners
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
+		addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosed(WindowEvent e) {
+		        running = false;
+		    }
+		});
+		
 		btnNodeAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				promptNewNode();
@@ -259,5 +270,9 @@ public class RCNN_View extends JFrame {
 
 	public void forceGLUpdate() {
 		glCanvas.display();
+	}
+	
+	public boolean isRunning(){
+		return running;
 	}
 }

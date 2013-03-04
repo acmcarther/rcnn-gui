@@ -27,6 +27,9 @@ public class NodeData {
 		for(int i = 0; i < size; i++){
 			Data.offerLast(-70.0f);
 		}
+		
+		// Don't let us get culled on our first tick
+		updated = true;
 	}
 	public NodeData(float starterData){
 		// Out of range data value set here
@@ -39,6 +42,9 @@ public class NodeData {
 		
 		// Enqueue our know value
 		Data.offerLast(starterData);
+		
+		// Don't let us get culled on our first tick
+		updated = true;
 		
 	}
 	
@@ -61,9 +67,9 @@ public class NodeData {
 		return false;
 	}
 	
-	public float pollLast(){
+	public float peekLast(){
 		// Grab the newest data
-		return Data.pollLast();
+		return Data.peekLast();
 	}
 	
 	public int getSize(){

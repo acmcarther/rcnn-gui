@@ -17,7 +17,6 @@ RCNN - GUI
 	-- IMMEDIATE TODOS:
 		-Put real data in the oscilloscope. Generalize it for indeterminate
 		number of nodes. Put the node name in there. Put the node value in there.
-		
 
 	-- Networking Loop
 		-formalize network infrastructure (did a good bit of that already)

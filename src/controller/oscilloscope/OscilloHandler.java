@@ -12,27 +12,25 @@ import javax.media.opengl.awt.GLJPanel;
 
 import model.RCNN_Model;
 
-import controller.RCNN_Controller;
-
 public class OscilloHandler implements GLEventListener,KeyListener, MouseListener, MouseMotionListener {
 	
 
-	private GLJPanel glCanvas;
+	//private GLJPanel glCanvas;
 	private OscilloGLHandler glHandler;
-	private OscilloKeyHandler keyHandler;
-	private OscilloMouseHandler mouseHandler;
+	//private OscilloKeyHandler keyHandler;
+	//private OscilloMouseHandler mouseHandler;
 	
 
 	public OscilloHandler(RCNN_Model model) {
 		glHandler = new OscilloGLHandler(model);
-		keyHandler = new OscilloKeyHandler();
-		mouseHandler = new OscilloMouseHandler();
+		//keyHandler = new OscilloKeyHandler();
+		//mouseHandler = new OscilloMouseHandler();
 	}
 
 	
     public void setCanvas(GLJPanel glCanvas) {
     	// I may not need this. Probably will for the mouse event listeners
-		this.glCanvas = glCanvas;
+		//this.glCanvas = glCanvas;
 	}
 
     // GLEventListener function calls

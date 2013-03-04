@@ -58,7 +58,6 @@ public class NewNodeDialog {
 				boolean isValid;
 				isValid = controller.addNode(textField.getText(), textField_1.getText());
 				if(isValid){
-					controller.addNode(textField.getText(), textField_1.getText());
 					mainDialog.dispose();
 				}
 				else{
@@ -110,8 +109,6 @@ public class NewNodeDialog {
 		textField_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(textField_1);
 		textField_1.setColumns(3);
-		
-		System.out.println("end of init");
 		
 	}
 	

@@ -3,7 +3,6 @@ package model;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
-import java.util.Queue;
 
 import resources.datatypes.Node;
 import resources.datatypes.NodeData;
@@ -13,10 +12,8 @@ public class RCNN_Model {
 	private RCNN_View view;
 	private LinkedHashMap<String, NodeData> nodeMap;
 	private LinkedHashMap<String, String[]> forwardEdgeMap;
+	private int refreshCount;
 	//private LinkedHashMap<String, String[]> backwardEdgeMap;
-	
-	// TEMP: THERE IS SOME TEMP STUFF HERE GUYS DONT FREAK OUT ON ME OR ANYTHING
-	private NodeData temp = new NodeData();
 	
 
 	public void registerView(RCNN_View view) {
@@ -24,7 +21,8 @@ public class RCNN_Model {
 	}
 
 	public void initialize() {
-		
+		nodeMap = new LinkedHashMap<String, NodeData>(20);
+		refreshCount = 0;
 	}
 
 	public Node[] getNodeList() {
@@ -36,7 +34,7 @@ public class RCNN_Model {
 	    
 	    // Loop to output nodemap to a NodeList
 	    for (Entry<String, NodeData> mapEntry : nodeMap.entrySet()) {
-	    	nodeList[index] = new Node(mapEntry.getKey().substring(17), (mapEntry.getValue().pollLast()));
+	    	nodeList[index] = new Node(mapEntry.getKey().substring(17), (mapEntry.getValue().peekLast()));
 	    	index++;
 	    }
 	    
@@ -99,7 +97,7 @@ public class RCNN_Model {
 		
 		// Build a node map iterator
 		Iterator<Entry<String,NodeData>> mapIterator = nodeMap.entrySet().iterator();
-		
+
 		// Iterate through our new data set
 		while(mapIterator.hasNext()){
 			
@@ -118,15 +116,15 @@ public class RCNN_Model {
 		
 		
 		// TODO: Migrate this functionality to another thread
-		view.updateNodeList(getNodeList());
-	}
-
-	public void doTempThings(){
-		temp.enqueue( (float) Math.random()* (150));
+		if(refreshCount < 1){
+			view.updateNodeList(getNodeList());
+			refreshCount = 50;
+		}
+		refreshCount--;
 	}
 	
-	public NodeData getTempNodeData(){
-		return temp;
+	public LinkedHashMap<String, NodeData> getNodeMap(){
+		return nodeMap;
 	}
 
 }
