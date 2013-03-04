@@ -33,6 +33,8 @@ public class MainDriver {
 		// Initialize the controller
 		controller.initialize();
 		
+		//controller.getNetwork().setAddress("http://207.197.58.26");
+		
 		// Inititalize the view
 		view.initialize();
 					

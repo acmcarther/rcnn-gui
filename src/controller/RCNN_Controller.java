@@ -112,5 +112,9 @@ public class RCNN_Controller {
 	public OscilloHandler getOscilloscopeHandler(){
 		return oscilloscope;
 	}
+	
+	public NetworkController getNetwork(){
+		return network;
+	}
 
 }
