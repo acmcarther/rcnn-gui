@@ -3,6 +3,11 @@ RCNN - GUI
 
 -TODO:
 
+	-- Latest of the latest:
+		-It works. Bring me your nodes and your values. I will use 
+		all of them. Please tell me if you need anything else or if
+		you get some wonky results.
+
 	-- Even more latest:
 		-Made a single proof of concept oscilloscope using junk data.
 		Once I sort out my problem with play framework I'll get some
@@ -15,8 +20,7 @@ RCNN - GUI
 		errors on compilation. 
 		
 	-- IMMEDIATE TODOS:
-		-Put real data in the oscilloscope. Generalize it for indeterminate
-		number of nodes. Put the node name in there. Put the node value in there.
+		-start handling some of the todos.
 
 	-- Networking Loop
 		-formalize network infrastructure (did a good bit of that already)
