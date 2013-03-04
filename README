@@ -3,6 +3,11 @@ RCNN - GUI
 
 -TODO:
 
+	-- Even more latest:
+		-Made a single proof of concept oscilloscope using junk data.
+		Once I sort out my problem with play framework I'll get some
+		real data in there. Then I'll make ALL of the oscilloscopes.
+
 	-- Latest:
 		-Added a persistent data structure for nodes. They (should) now
 		keep track of their latest 500 values. This will be required to 
@@ -10,10 +15,9 @@ RCNN - GUI
 		errors on compilation. 
 		
 	-- IMMEDIATE TODOS:
-		-Build a primordial single oscilloscope that parses the node data 
-		structure, plots the points, and connects the dots. I plan to work
-		on this some today (3/2) and get at least a single oscilloscope
-		working by (3/3)
+		-Put real data in the oscilloscope. Generalize it for indeterminate
+		number of nodes. Put the node name in there. Put the node value in there.
+		
 
 	-- Networking Loop
 		-formalize network infrastructure (did a good bit of that already)

@@ -18,6 +18,7 @@ public class NetworkController {
 	String port;
 	RCNN_View view;
 	RCNN_Model model;
+    int refreshCounter = 294;
 	
 	private String sendGetMessage(URL url){
 		// Declare variables
@@ -25,6 +26,7 @@ public class NetworkController {
 	    BufferedReader rd;
 	    String line;
 	    String result = "";
+
 		
 		// Attempt to open network connection
 		try {
@@ -147,7 +149,13 @@ public class NetworkController {
 		    				new TypeToken<LinkedHashMap<String, Float>>(){}.getType());
 		    
 		    // Update the model Hash Map
-		    model.updateNodeMap(nodeMap);
+		    if(refreshCounter < 1){
+			    model.updateNodeMap(nodeMap);
+		    	refreshCounter = 294;
+		    }
+		    
+		    // Decrement refresh counter
+		    refreshCounter--;
 		    
 		} catch (MalformedURLException e) {
 			// TODO: Bad URL Exception

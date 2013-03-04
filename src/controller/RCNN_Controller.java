@@ -1,6 +1,7 @@
 package controller;
 
 import controller.networking.NetworkController;
+import controller.oscilloscope.OscilloHandler;
 
 import view.RCNN_View;
 import model.RCNN_Model;
@@ -9,6 +10,7 @@ public class RCNN_Controller {
 	private RCNN_Model model;
 	private RCNN_View view;
 	private NetworkController network;
+	private OscilloHandler oscilloscope;
 
 	public void registerModel(RCNN_Model model) {
 		this.model = model;
@@ -97,11 +99,18 @@ public class RCNN_Controller {
 		network = new NetworkController(view, model);
 		network.setAddress("http://localhost");
 		network.setPort("9000");
+		
+		// Initialize the oscilloscope 
+		oscilloscope = new OscilloHandler(model);
 	}
 	
 	public void updateData(){
 		// TODO: Switch this to asynchronous updateStream()
 		network.updateSnapshot();
+	}
+	
+	public OscilloHandler getOscilloscopeHandler(){
+		return oscilloscope;
 	}
 
 }

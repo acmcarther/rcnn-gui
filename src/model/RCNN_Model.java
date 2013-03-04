@@ -14,6 +14,10 @@ public class RCNN_Model {
 	private LinkedHashMap<String, NodeData> nodeMap;
 	private LinkedHashMap<String, String[]> forwardEdgeMap;
 	//private LinkedHashMap<String, String[]> backwardEdgeMap;
+	
+	// TEMP: THERE IS SOME TEMP STUFF HERE GUYS DONT FREAK OUT ON ME OR ANYTHING
+	private NodeData temp = new NodeData();
+	
 
 	public void registerView(RCNN_View view) {
 		this.view = view;
@@ -113,12 +117,16 @@ public class RCNN_Model {
 		}
 		
 		
-		
-		
 		// TODO: Migrate this functionality to another thread
 		view.updateNodeList(getNodeList());
 	}
 
-
+	public void doTempThings(){
+		temp.enqueue( (float) Math.random()* (150));
+	}
+	
+	public NodeData getTempNodeData(){
+		return temp;
+	}
 
 }

@@ -15,25 +15,25 @@ import java.util.Iterator;
  */
 
 public class NodeData {
-	private int size = 0;
+	private int size = 500;
 	private boolean updated;
 	private ArrayDeque<Float> Data;
 	
 	public NodeData(){
 		// Out of range data value set here
-		Data = new ArrayDeque<Float>(500);
+		Data = new ArrayDeque<Float>(size);
 		
 		// Loop to fill queue with out of range values
-		for(int i = 0; i < 500; i++){
+		for(int i = 0; i < size; i++){
 			Data.offerLast(-70.0f);
 		}
 	}
 	public NodeData(float starterData){
 		// Out of range data value set here
-		Data = new ArrayDeque<Float>(500);
+		Data = new ArrayDeque<Float>(size);
 		
 		// Loop to fill queue with out of range values
-		for(int i = 0; i < 499; i++){
+		for(int i = 0; i < size-1; i++){
 			Data.offerLast(-70.0f);
 		}
 		

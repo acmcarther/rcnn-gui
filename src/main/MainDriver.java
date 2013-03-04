@@ -24,20 +24,30 @@ public class MainDriver {
 		view.registerController(controller);
 		controller.registerModel(model);
 		controller.registerView(view);
-					
-		// Enable the view
-		view.setVisible(true);
-
+		
+		// The following stuff HAS to go in this order ( or you get some null pointers )
+		
 		// Initialize model
 		model.initialize();
 		
 		// Initialize the controller
 		controller.initialize();
 		
+		// Inititalize the view
+		view.initialize();
+					
+		// Enable the view
+		view.setVisible(true);
+		
 		// Loop to continuously update the data
 		while(true){
-			Thread.sleep(500);
-			controller.updateData();
+			// NEW IN THIS VERSION: Doesn't refresh screen so fast, but gives me the data fast.
+			Thread.sleep(17);
+			//controller.updateData();
+			
+			// TEMP THINGS IN THIS AREA GUYS
+			model.doTempThings();
+			view.forceGLUpdate();
 		}
 		
 	}
