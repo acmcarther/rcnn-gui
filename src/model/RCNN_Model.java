@@ -13,6 +13,7 @@ public class RCNN_Model {
 	private LinkedHashMap<String, NodeData> nodeMap;
 	private LinkedHashMap<String, String[]> forwardEdgeMap;
 	private int refreshCount;
+	private int nodeDataSize = 500;
 	//private LinkedHashMap<String, String[]> backwardEdgeMap;
 	
 
@@ -20,9 +21,10 @@ public class RCNN_Model {
 		this.view = view;
 	}
 
-	public void initialize() {
+	public void initialize(int nodeDataSize) {
 		nodeMap = new LinkedHashMap<String, NodeData>(20);
 		refreshCount = 0;
+		this.nodeDataSize = nodeDataSize;
 	}
 
 	public Node[] getNodeList() {
@@ -91,7 +93,7 @@ public class RCNN_Model {
 			}
 			else{
 				// otherwise, generate a new entry
-				nodeMap.put(tempKey, new NodeData(floatEntry.getValue()));
+				nodeMap.put(tempKey, new NodeData(nodeDataSize, floatEntry.getValue()));
 			}
 		}
 		
@@ -125,6 +127,10 @@ public class RCNN_Model {
 	
 	public LinkedHashMap<String, NodeData> getNodeMap(){
 		return nodeMap;
+	}
+	
+	public int getDataResolution(){
+		return nodeDataSize;
 	}
 
 }

@@ -15,11 +15,14 @@ import java.util.Iterator;
  */
 
 public class NodeData {
-	private int size = 500;
+	private int size;
 	private boolean updated;
 	private ArrayDeque<Float> Data;
 	
-	public NodeData(){
+	public NodeData(int size){
+		// Set size
+		this.size = size;
+		
 		// Out of range data value set here
 		Data = new ArrayDeque<Float>(size);
 		
@@ -31,7 +34,11 @@ public class NodeData {
 		// Don't let us get culled on our first tick
 		updated = true;
 	}
-	public NodeData(float starterData){
+	public NodeData(int size, float starterData){
+		// Set size
+		this.size = size;
+		
+		
 		// Out of range data value set here
 		Data = new ArrayDeque<Float>(size);
 		

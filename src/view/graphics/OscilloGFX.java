@@ -24,13 +24,13 @@ public class OscilloGFX {
     final static float graphRange = maxValue - minValue;
     final static float midpoint = (minValue + maxValue)/2;
     
-    public static void initialize(GL2 gl2){
+    public static void initialize(GL2 gl2, int dataLogSize){
     	
         gl2.glClear( GL.GL_COLOR_BUFFER_BIT );
         gl2.glLoadIdentity();
     	
     	slideLevel++;
-        if(slideLevel > 31){
+        if(slideLevel > dataLogSize/16){
         	slideLevel = 0;
         }
     }
@@ -129,7 +129,7 @@ public class OscilloGFX {
         
     }
 	
-	public static void drawGridLines(GL2 gl2, int width, int height, int addHeight){
+	public static void drawGridLines(GL2 gl2, int width, int height, int addHeight, int dataLogSize){
         final float graphLength = (width-graphBackOffset-graphWidthOffset-5);
         final float lineSeparation = graphLength/16;
         
@@ -143,8 +143,8 @@ public class OscilloGFX {
         gl2.glVertex2f( width - 5 - graphBackOffset, addHeight + height/2 );
         
         for(int i=1;i <= 16;i++){
-	        gl2.glVertex2f( graphWidthOffset - slideLevel*(graphLength)/500 + i*lineSeparation, 5 + addHeight );
-	        gl2.glVertex2f( graphWidthOffset - slideLevel*(graphLength)/500 + i*lineSeparation, addHeight + height - 5 );
+	        gl2.glVertex2f( graphWidthOffset - slideLevel*(graphLength)/(float)dataLogSize + i*lineSeparation, 5 + addHeight );
+	        gl2.glVertex2f( graphWidthOffset - slideLevel*(graphLength)/(float)dataLogSize + i*lineSeparation, addHeight + height - 5 );
         }
         gl2.glEnd(); 
         

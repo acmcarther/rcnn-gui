@@ -14,8 +14,6 @@ import model.RCNN_Model;
 
 public class OscilloHandler implements GLEventListener,KeyListener, MouseListener, MouseMotionListener {
 	
-	private int slidelevel = 0;
-	
 	//private GLJPanel glCanvas;
 	private OscilloGLHandler glHandler;
 	//private OscilloKeyHandler keyHandler;
@@ -36,11 +34,7 @@ public class OscilloHandler implements GLEventListener,KeyListener, MouseListene
 
     // GLEventListener function calls
 	public void display(GLAutoDrawable glAutoDrawable) {
-		glHandler.render(glAutoDrawable.getGL().getGL2(), glAutoDrawable.getWidth(), glAutoDrawable.getHeight(),slidelevel);
-		slidelevel++;
-		if(slidelevel > 528){
-			slidelevel = 0;
-		}
+		glHandler.render(glAutoDrawable.getGL().getGL2(), glAutoDrawable.getWidth(), glAutoDrawable.getHeight());
 		
 	}
 

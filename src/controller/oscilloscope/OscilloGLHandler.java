@@ -15,7 +15,6 @@ public class OscilloGLHandler {
 	
 	RCNN_Model model;
 
-
 	public OscilloGLHandler(RCNN_Model model) {
 		this.model = model;
 	}
@@ -24,21 +23,23 @@ public class OscilloGLHandler {
 		OscilloGFX.scaleViewport(gl2, width, height, width, height);	
 	}
 
-	public void render(GL2 gl2, int width, int height, int slideLevel) {
+	public void render(GL2 gl2, int width, int height) {
 		
         // Declare variables
         Iterator<Entry<String, NodeData>> dataSet = model.getNodeMap().entrySet().iterator();
+        Iterator<Float> nodeDataIterator;
         Entry<String,NodeData> tempEntry;
         int addHeight = 0;
 
 		// Initialize oscilloscope
-        OscilloGFX.initialize(gl2);
+        OscilloGFX.initialize(gl2, model.getDataResolution());
         
         // loop to draw all of the oscilloscopes (not yet, we just do one) (fuck it we'll do it live)
         while(dataSet.hasNext()){
         	
         	// Grab the latest data set that we're doing
         	tempEntry = dataSet.next();
+        	nodeDataIterator = tempEntry.getValue().iterator();
         
             // Print all of the text on the oscilloscope
             OscilloGFX.drawTextInfo(gl2, width, height, addHeight, tempEntry);
@@ -47,13 +48,13 @@ public class OscilloGLHandler {
             OscilloGFX.drawBGBox(gl2, width, height, addHeight);
             
 	        // Draw the midpoint lines
-	        OscilloGFX.drawGridLines(gl2, width, height, addHeight);
+	        OscilloGFX.drawGridLines(gl2, width, height, addHeight, model.getDataResolution());
 	        
 	        // Draw outline
 	        OscilloGFX.drawBoxOutline(gl2, width, height, addHeight);
 	
 	        // Draw the line graph
-	        OscilloGFX.drawLineGraph(gl2, width, height, addHeight, tempEntry.getValue().iterator(), tempEntry.getValue().getSize());
+	        OscilloGFX.drawLineGraph(gl2, width, height, addHeight, nodeDataIterator, model.getDataResolution());
 
 	        // Increment the height
 	        addHeight += height + 10;

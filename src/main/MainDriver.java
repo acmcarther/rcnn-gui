@@ -28,7 +28,8 @@ public class MainDriver {
 		// The following stuff HAS to go in this order ( or you get some null pointers )
 		
 		// Initialize model
-		model.initialize();
+			// This parameter is the resolution of the graph
+		model.initialize(200);
 		
 		// Initialize the controller
 		controller.initialize();

@@ -21,6 +21,7 @@ RCNN - GUI
 		
 	-- IMMEDIATE TODOS:
 		-start handling some of the todos.
+		-actually delete some of the data i created
 
 	-- Networking Loop
 		-formalize network infrastructure (did a good bit of that already)
