@@ -189,8 +189,8 @@ public class OscilloGFX {
 		
 		// determine total nodes
 		int totalNodes = totalHeight/height;
-		float scalefactor = (height*height);
-		scalefactor = scalefactor/60;
+		float targetHeightPerNode = (15*totalHeight)/(float)height;
+		float realHeightPerNode = ((height*height)/(float)totalHeight);
 		
     	// Back up gl2's settings
         gl2.glPushMatrix();
@@ -202,13 +202,18 @@ public class OscilloGFX {
         // initialize glu
         GLU glu = new GLU();
 
-        glu.gluOrtho2D( 0.0f, totalWidth, 0.0f, scalefactor);
+        glu.gluOrtho2D( 0.0f, totalWidth, 0.0f, totalHeight);
 
         gl2.glMatrixMode( GL2.GL_MODELVIEW );
         gl2.glLoadIdentity();
 
         // Set viewport
-        gl2.glViewport( 0, 0, width, height );
+        if(targetHeightPerNode < realHeightPerNode){
+        	gl2.glViewport( 0, 0, width, height );
+        }
+        else{
+        	gl2.glViewport( 0, 0, width, (int)(height*targetHeightPerNode/realHeightPerNode));
+        }
         
         // Load gl2's settings
         gl2.glPopMatrix();
