@@ -20,14 +20,13 @@ public class OscilloGLHandler {
 	}
 
 	public void setup(GL2 gl2, int width, int height) {
-		OscilloGFX.scaleViewport(gl2, width, height, width, height);	
+		OscilloGFX.scaleViewport(gl2, width, height, width, height, 100);	
 	}
 
-	public synchronized void render(GL2 gl2, int width, int height) {
+	public synchronized void render(GL2 gl2, int width, int height, int mouseLevel) {
 		
         // Declare variables
         Iterator<Entry<String, NodeData>> dataSet = model.getNodeMap().entrySet().iterator();
-        Iterator<Float> nodeDataIterator;
         Entry<String,NodeData> tempEntry;
         int addHeight = 0;
 
@@ -39,7 +38,6 @@ public class OscilloGLHandler {
         	
         	// Grab the latest data set that we're doing
         	tempEntry = dataSet.next();
-        	nodeDataIterator = tempEntry.getValue().iterator();
         
             // Print all of the text on the oscilloscope
             OscilloGFX.drawTextInfo(gl2, width, height, addHeight, tempEntry);
@@ -54,7 +52,7 @@ public class OscilloGLHandler {
 	        OscilloGFX.drawBoxOutline(gl2, width, height, addHeight);
 	
 	        // Draw the line graph
-	        OscilloGFX.drawLineGraph(gl2, width, height, addHeight, nodeDataIterator, model.getDataResolution());
+	        OscilloGFX.drawLineGraph(gl2, width, height, addHeight, tempEntry.getValue(), model.getDataResolution());
 
 	        // Increment the height
 	        addHeight += height + 10;
@@ -63,7 +61,7 @@ public class OscilloGLHandler {
         
         // once all oscilloscopes are drawn, scale the entire thing by the current vertical height
         // coordinate system origin at lower left with width and height same as the window
-        OscilloGFX.scaleViewport(gl2, width, height, width, addHeight);
+        OscilloGFX.scaleViewport(gl2, width, height, width, addHeight, mouseLevel);
         
         OscilloGFX.flush(gl2);
 	}

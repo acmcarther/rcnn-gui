@@ -153,11 +153,12 @@ public class OscilloGFX {
 
 	}
 	
-	public static void drawLineGraph(GL2 gl2, int width, int height, int addHeight, Iterator<Float> nodeListIterator, int dataLogSize){
+	public static synchronized void drawLineGraph(GL2 gl2, int width, int height, int addHeight, NodeData nodeData, int dataLogSize){
 		
         float plotCount =0;
         int xPlotPoint,yPlotPoint;
         float activationLevel;
+        Iterator<Float> nodeDataIterator = nodeData.iterator();
 		
     	// Back up gl2's settings
         gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
@@ -168,8 +169,8 @@ public class OscilloGFX {
     	// set the color to something fancy
 		gl2.glColor3f( 1,1, 0 );
     
-	    while(nodeListIterator.hasNext()){
-	    	activationLevel = nodeListIterator.next();
+	    while(nodeDataIterator.hasNext()){
+	    	activationLevel = nodeDataIterator.next();
 	    	xPlotPoint = (int) (graphWidthOffset + (plotCount*(((float) (width-graphWidthOffset-5-graphBackOffset))/((float)dataLogSize))));
 	    	// TODO: fix this so huge points don't go somewhere bad, as well as tiny points
 	    	yPlotPoint = (int) (5 + addHeight + ((activationLevel-minValue)/graphRange)*(height-10));
@@ -185,12 +186,14 @@ public class OscilloGFX {
         gl2.glPopAttrib();
 	}
 	
-	public static void scaleViewport(GL2 gl2, int width, int height, int totalWidth, int totalHeight){
+	public static void scaleViewport(GL2 gl2, int width, int height, int totalWidth, int totalHeight, int mouseLevel){
 		
 		// determine total nodes
 		int totalNodes = totalHeight/height;
-		float targetHeightPerNode = (15*totalHeight)/(float)height;
+		float targetHeightPerNode = (60*totalHeight)/((float)height*totalNodes);
 		float realHeightPerNode = ((height*height)/(float)totalHeight);
+		float mousePercent = (float)mouseLevel/100;
+		int offsetHeight,heightDifference;
 		
     	// Back up gl2's settings
         gl2.glPushMatrix();
@@ -212,7 +215,9 @@ public class OscilloGFX {
         	gl2.glViewport( 0, 0, width, height );
         }
         else{
-        	gl2.glViewport( 0, 0, width, (int)(height*targetHeightPerNode/realHeightPerNode));
+        	offsetHeight = (int) (height*targetHeightPerNode/realHeightPerNode);
+        	heightDifference = (int)((offsetHeight - height)*mousePercent);
+        	gl2.glViewport( 0, 0-heightDifference, width, offsetHeight);
         }
         
         // Load gl2's settings

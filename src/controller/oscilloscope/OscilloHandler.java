@@ -18,12 +18,14 @@ import model.RCNN_Model;
 public class OscilloHandler implements GLEventListener,KeyListener, MouseListener, MouseWheelListener, MouseMotionListener {
 	
 	private OscilloGLHandler glHandler;
+	private int mouseLevel;
 	//private OscilloKeyHandler keyHandler;
 	//private OscilloMouseHandler mouseHandler;
 	
 
 	public OscilloHandler(RCNN_Model model) {
 		glHandler = new OscilloGLHandler(model);
+		mouseLevel = 100;
 		//keyHandler = new OscilloKeyHandler();
 		//mouseHandler = new OscilloMouseHandler();
 	}
@@ -36,7 +38,7 @@ public class OscilloHandler implements GLEventListener,KeyListener, MouseListene
 
     // GLEventListener function calls
 	public void display(GLAutoDrawable glAutoDrawable) {
-		glHandler.render(glAutoDrawable.getGL().getGL2(), glAutoDrawable.getWidth(), glAutoDrawable.getHeight());
+		glHandler.render(glAutoDrawable.getGL().getGL2(), glAutoDrawable.getWidth(), glAutoDrawable.getHeight(),mouseLevel);
 	}
 
 	public void dispose(GLAutoDrawable arg0) {
@@ -114,8 +116,14 @@ public class OscilloHandler implements GLEventListener,KeyListener, MouseListene
 
 
 	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void mouseWheelMoved(MouseWheelEvent event) {
+		System.out.println("mouseevent: " + mouseLevel);
+		mouseLevel-=event.getWheelRotation()*10;
+		if(mouseLevel>100){
+			mouseLevel = 100;
+		}
+		else if(mouseLevel<0){
+			mouseLevel = 0;
+		}
 	}
 }

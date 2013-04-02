@@ -133,6 +133,7 @@ public class RCNN_Controller {
 		oscilloCanvas.addMouseListener(oscilloscope);
 		oscilloCanvas.addMouseMotionListener(oscilloscope);
 		oscilloCanvas.addKeyListener(oscilloscope);
+		oscilloCanvas.addMouseWheelListener(oscilloscope);
 	}
 	
 	// Volatile data access here
