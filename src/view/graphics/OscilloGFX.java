@@ -169,11 +169,6 @@ public class OscilloGFX {
 		gl2.glColor3f( 1,1, 0 );
     
 	    while(nodeListIterator.hasNext()){
-	    	// TODO: Something here needs to be synchronized, pulled a
-	    	/* Exception in thread "AWT-EventQueue-0" java.util.ConcurrentModificationException
-	    	at java.util.ArrayDeque$DeqIterator.next(Unknown Source)
-	    	*/
-	    	// In particular, it happens when you resize the window.
 	    	activationLevel = nodeListIterator.next();
 	    	xPlotPoint = (int) (graphWidthOffset + (plotCount*(((float) (width-graphWidthOffset-5-graphBackOffset))/((float)dataLogSize))));
 	    	// TODO: fix this so huge points don't go somewhere bad, as well as tiny points
@@ -192,16 +187,22 @@ public class OscilloGFX {
 	
 	public static void scaleViewport(GL2 gl2, int width, int height, int totalWidth, int totalHeight){
 		
+		// determine total nodes
+		int totalNodes = totalHeight/height;
+		float scalefactor = (height*height);
+		scalefactor = scalefactor/60;
+		
     	// Back up gl2's settings
         gl2.glPushMatrix();
         
-        // Set matrix mode
+        // Set matrix model
         gl2.glMatrixMode( GL2.GL_PROJECTION );
         gl2.glLoadIdentity();
-
-        // coordinate system origin at lower left with width and height same as the window
+        
+        // initialize glu
         GLU glu = new GLU();
-        glu.gluOrtho2D( 0.0f, totalWidth, 0.0f, totalHeight );
+
+        glu.gluOrtho2D( 0.0f, totalWidth, 0.0f, scalefactor);
 
         gl2.glMatrixMode( GL2.GL_MODELVIEW );
         gl2.glLoadIdentity();
@@ -211,5 +212,10 @@ public class OscilloGFX {
         
         // Load gl2's settings
         gl2.glPopMatrix();
+	}
+	
+	public static void flush(GL2 gl2){
+		//System.out.println("GFX Thread: " +Thread.currentThread().getName());
+		gl2.glFinish();
 	}
 }

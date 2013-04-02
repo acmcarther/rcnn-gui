@@ -23,7 +23,7 @@ public class OscilloGLHandler {
 		OscilloGFX.scaleViewport(gl2, width, height, width, height);	
 	}
 
-	public void render(GL2 gl2, int width, int height) {
+	public synchronized void render(GL2 gl2, int width, int height) {
 		
         // Declare variables
         Iterator<Entry<String, NodeData>> dataSet = model.getNodeMap().entrySet().iterator();
@@ -64,6 +64,8 @@ public class OscilloGLHandler {
         // once all oscilloscopes are drawn, scale the entire thing by the current vertical height
         // coordinate system origin at lower left with width and height same as the window
         OscilloGFX.scaleViewport(gl2, width, height, width, addHeight);
+        
+        OscilloGFX.flush(gl2);
 	}
 
 }

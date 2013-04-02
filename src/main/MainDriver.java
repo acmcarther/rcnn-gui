@@ -25,8 +25,6 @@ public class MainDriver {
 		controller.registerModel(model);
 		controller.registerView(view);
 		
-		// The following stuff HAS to go in this order ( or you get some null pointers )
-		
 		// Initialize model
 			// This parameter is the resolution of the graph
 		model.initialize(200);
@@ -35,6 +33,7 @@ public class MainDriver {
 		controller.initialize();
 		
 		//controller.getNetwork().setAddress("http://207.197.58.26");
+		
 		
 		// Inititalize the view
 		view.initialize();
@@ -50,7 +49,7 @@ public class MainDriver {
 			
 			// TEMP THINGS IN THIS AREA GUYS
 			//model.doTempThings();
-			view.forceGLUpdate();
+			controller.forceGLUpdate();
 		}
 		
 	}

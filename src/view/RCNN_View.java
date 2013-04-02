@@ -113,12 +113,8 @@ public class RCNN_View extends JFrame {
 		glCanvas = new GLJPanel( glCapabilities );
 		pnlGraphics.setLayout(new BoxLayout(pnlGraphics, BoxLayout.X_AXIS));
 		
-		// Initialize event handlers
-		controller.getOscilloscopeHandler().setCanvas(glCanvas);
-		glCanvas.addGLEventListener(controller.getOscilloscopeHandler());
-		glCanvas.addMouseListener(controller.getOscilloscopeHandler());
-		glCanvas.addMouseMotionListener(controller.getOscilloscopeHandler());
-		glCanvas.addKeyListener(controller.getOscilloscopeHandler());
+		// Give controller our canvas
+		controller.setCanvas(glCanvas);
 		
 		// Build dummy data
 
@@ -161,12 +157,6 @@ public class RCNN_View extends JFrame {
 		pnlEdgeButtons.add(btnEdgeEdit);
 		pnlEdgeButtons.add(btnEdgeDelete);
 		pnlGraphics.add( glCanvas );
-		
-		// prep the glPanel
-		//graphics = new GraphicInterface(glCanvas);
-		
-		
-
 		
 		// TODO: All the data stuff for the Data Tab
 		
@@ -266,10 +256,6 @@ public class RCNN_View extends JFrame {
 			}
 			
 		});
-	}
-
-	public void forceGLUpdate() {
-		glCanvas.display();
 	}
 	
 	public boolean isRunning(){

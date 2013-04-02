@@ -1,5 +1,9 @@
 package controller;
 
+import java.util.concurrent.Semaphore;
+
+import javax.media.opengl.awt.GLJPanel;
+
 import controller.networking.NetworkController;
 import controller.oscilloscope.OscilloHandler;
 
@@ -11,6 +15,12 @@ public class RCNN_Controller {
 	private RCNN_View view;
 	private NetworkController network;
 	private OscilloHandler oscilloscope;
+	private final Semaphore dataSemaphore;
+	private GLJPanel oscilloCanvas;
+	
+	public RCNN_Controller(){
+		dataSemaphore = new Semaphore(1);
+	}
 
 	public void registerModel(RCNN_Model model) {
 		this.model = model;
@@ -104,9 +114,8 @@ public class RCNN_Controller {
 		oscilloscope = new OscilloHandler(model);
 	}
 	
-	public void updateData(){
-		// TODO: Switch this to asynchronous updateStream()
-		network.updateSnapshot();
+	public void renderData(){
+		//oscilloscope.display(glAutoDrawable)
 	}
 	
 	public OscilloHandler getOscilloscopeHandler(){
@@ -115,6 +124,42 @@ public class RCNN_Controller {
 	
 	public NetworkController getNetwork(){
 		return network;
+	}
+
+	public void setCanvas(GLJPanel glCanvas) {
+		// TODO Auto-generated method stub
+		oscilloCanvas = glCanvas;
+		oscilloCanvas.addGLEventListener(oscilloscope);
+		oscilloCanvas.addMouseListener(oscilloscope);
+		oscilloCanvas.addMouseMotionListener(oscilloscope);
+		oscilloCanvas.addKeyListener(oscilloscope);
+	}
+	
+	// Volatile data access here
+	public void updateData(){
+		// TODO: Switch this to asynchronous updateStream()
+
+		try {
+			dataSemaphore.acquire();
+			network.updateSnapshot();
+			dataSemaphore.release();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void forceGLUpdate() {
+		// TODO: Figure out why this exception might happen
+		try {
+			dataSemaphore.acquire();
+			oscilloCanvas.display();
+			dataSemaphore.release();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

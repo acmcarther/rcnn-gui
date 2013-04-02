@@ -5,6 +5,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.util.concurrent.Semaphore;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
@@ -12,9 +15,8 @@ import javax.media.opengl.awt.GLJPanel;
 
 import model.RCNN_Model;
 
-public class OscilloHandler implements GLEventListener,KeyListener, MouseListener, MouseMotionListener {
+public class OscilloHandler implements GLEventListener,KeyListener, MouseListener, MouseWheelListener, MouseMotionListener {
 	
-	//private GLJPanel glCanvas;
 	private OscilloGLHandler glHandler;
 	//private OscilloKeyHandler keyHandler;
 	//private OscilloMouseHandler mouseHandler;
@@ -35,7 +37,6 @@ public class OscilloHandler implements GLEventListener,KeyListener, MouseListene
     // GLEventListener function calls
 	public void display(GLAutoDrawable glAutoDrawable) {
 		glHandler.render(glAutoDrawable.getGL().getGL2(), glAutoDrawable.getWidth(), glAutoDrawable.getHeight());
-		
 	}
 
 	public void dispose(GLAutoDrawable arg0) {
@@ -107,6 +108,13 @@ public class OscilloHandler implements GLEventListener,KeyListener, MouseListene
 	}
 
 	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
