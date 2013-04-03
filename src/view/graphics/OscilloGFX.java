@@ -186,14 +186,9 @@ public class OscilloGFX {
         gl2.glPopAttrib();
 	}
 	
-	public static void scaleViewport(GL2 gl2, int width, int height, int totalWidth, int totalHeight, int mouseLevel){
+	public static void scaleViewport(GL2 gl2, int width, int height, int totalWidth, int totalHeight){
 		
 		// determine total nodes
-		int totalNodes = totalHeight/height;
-		float targetHeightPerNode = (60*totalHeight)/((float)height*totalNodes);
-		float realHeightPerNode = ((height*height)/(float)totalHeight);
-		float mousePercent = (float)mouseLevel/100;
-		int offsetHeight,heightDifference;
 		
     	// Back up gl2's settings
         gl2.glPushMatrix();
@@ -211,14 +206,14 @@ public class OscilloGFX {
         gl2.glLoadIdentity();
 
         // Set viewport
-        if(targetHeightPerNode < realHeightPerNode){
+        //if(targetHeightPerNode < realHeightPerNode){
         	gl2.glViewport( 0, 0, width, height );
-        }
-        else{
-        	offsetHeight = (int) (height*targetHeightPerNode/realHeightPerNode);
-        	heightDifference = (int)((offsetHeight - height)*mousePercent);
-        	gl2.glViewport( 0, 0-heightDifference, width, offsetHeight);
-        }
+        //}
+        //else{
+        	//offsetHeight = (int) (height*targetHeightPerNode/realHeightPerNode);
+        	//heightDifference = (int)((offsetHeight - height)*mousePercent);
+        	//gl2.glViewport( 0, 0-heightDifference, width, offsetHeight);
+        //}
         
         // Load gl2's settings
         gl2.glPopMatrix();

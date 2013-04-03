@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Dimension;
 import java.util.concurrent.Semaphore;
 
 import javax.media.opengl.awt.GLJPanel;
@@ -130,10 +131,7 @@ public class RCNN_Controller {
 		// TODO Auto-generated method stub
 		oscilloCanvas = glCanvas;
 		oscilloCanvas.addGLEventListener(oscilloscope);
-		oscilloCanvas.addMouseListener(oscilloscope);
-		oscilloCanvas.addMouseMotionListener(oscilloscope);
-		oscilloCanvas.addKeyListener(oscilloscope);
-		oscilloCanvas.addMouseWheelListener(oscilloscope);
+
 	}
 	
 	// Volatile data access here
@@ -155,6 +153,8 @@ public class RCNN_Controller {
 		// TODO: Figure out why this exception might happen
 		try {
 			dataSemaphore.acquire();
+			oscilloCanvas.setPreferredSize(new Dimension(oscilloCanvas.getWidth(), model.getNodeCount()*100));
+			oscilloCanvas.revalidate();
 			oscilloCanvas.display();
 			dataSemaphore.release();
 		} catch (InterruptedException e) {

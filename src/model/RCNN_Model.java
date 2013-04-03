@@ -133,4 +133,8 @@ public class RCNN_Model {
 		return nodeDataSize;
 	}
 
+	public int getNodeCount() {
+		return nodeMap.size();
+	}
+
 }

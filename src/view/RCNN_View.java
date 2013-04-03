@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 
 import controller.RCNN_Controller;
@@ -92,10 +93,10 @@ public class RCNN_View extends JFrame {
 		JPanel pnlNodeButtons = new JPanel();
 		JPanel pnlEdgeButtons = new JPanel();
 		JTabbedPane tpDisplays = new JTabbedPane(JTabbedPane.TOP);
-		JPanel pnlGraphics = new JPanel();
 		JPanel pnlData = new JPanel();
 		JScrollPane scrlpNodeList = new JScrollPane(lstNodes);
 		JScrollPane scrlpEdgeList = new JScrollPane(lstEdges);
+
 		
 		// Set component properties
 		spTools.setDividerSize(5);
@@ -111,7 +112,8 @@ public class RCNN_View extends JFrame {
 		GLProfile glProfile = GLProfile.getDefault();
 		GLCapabilities glCapabilities = new GLCapabilities( glProfile );
 		glCanvas = new GLJPanel( glCapabilities );
-		pnlGraphics.setLayout(new BoxLayout(pnlGraphics, BoxLayout.X_AXIS));
+		JScrollPane scrlpOscillo  = new JScrollPane(glCanvas);
+		scrlpOscillo.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		// Give controller our canvas
 		controller.setCanvas(glCanvas);
@@ -134,7 +136,7 @@ public class RCNN_View extends JFrame {
 		spTools.setRightComponent(pnlMain);
 		spData.setLeftComponent(pnlLists);
 		spData.setRightComponent(tpDisplays);
-		tpDisplays.addTab("Graphic Display", null, pnlGraphics, null);
+		tpDisplays.addTab("Graphic Display", null, scrlpOscillo, null);
 		tpDisplays.addTab("Data Display", null, pnlData, null);
 		pnlMain.add(spData);
 		pnlToolbar.add(btnStart);
@@ -156,7 +158,7 @@ public class RCNN_View extends JFrame {
 		pnlEdgeButtons.add(btnEdgeAdd);
 		pnlEdgeButtons.add(btnEdgeEdit);
 		pnlEdgeButtons.add(btnEdgeDelete);
-		pnlGraphics.add( glCanvas );
+		//pnlGraphics.add( glCanvas );
 		
 		// TODO: All the data stuff for the Data Tab
 		
