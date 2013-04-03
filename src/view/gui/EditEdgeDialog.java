@@ -33,7 +33,7 @@ public class EditEdgeDialog {
 	public EditEdgeDialog(RCNN_View mainFrame, RCNN_Controller controller, Edge editEdge) {
 		//this.controller = controller;
 		this.editEdge = editEdge;
-		initialize(mainFrame);
+		initialize(mainFrame.getFrame());
 	}
 	
 	public void initialize(JFrame mainFrame){

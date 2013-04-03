@@ -33,7 +33,7 @@ public class OscilloGLHandler {
 		// Initialize oscilloscope
         OscilloGFX.initialize(gl2, model.getDataResolution());
         
-        // loop to draw all of the oscilloscopes (not yet, we just do one) (fuck it we'll do it live)
+        // loop to draw all of the oscilloscopes
         while(dataSet.hasNext()){
         	
         	// Grab the latest data set that we're doing

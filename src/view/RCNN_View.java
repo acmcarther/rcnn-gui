@@ -38,12 +38,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 
-public class RCNN_View extends JFrame {
+public class RCNN_View  {
 	// MVC Entities
 	private RCNN_Model model;
 	private RCNN_Controller controller;
 	
 	// GUI Components
+		// Main Entity
+	JFrame main = new JFrame();
 		// Toolbar
 	JButton btnStart = new JButton("Start");
 	JButton btnPause = new JButton("Pause");
@@ -74,11 +76,11 @@ public class RCNN_View extends JFrame {
 
 		// Set main window properties
 		running = true;
-		setResizable(true);
-		setTitle("RCNN GUI");
-		setBounds(100, 100, 750, 500);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
+		main.setResizable(true);
+		main.setTitle("RCNN GUI");
+		main.setBounds(100, 100, 750, 500);
+		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		main.getContentPane().setLayout(new BoxLayout(main.getContentPane(), BoxLayout.X_AXIS));
 		
 		
 		// Build all components
@@ -131,7 +133,7 @@ public class RCNN_View extends JFrame {
 		});
 		
 		// Assemble
-		getContentPane().add(spTools);
+		main.getContentPane().add(spTools);
 		spTools.setLeftComponent(pnlToolbar);
 		spTools.setRightComponent(pnlMain);
 		spData.setLeftComponent(pnlLists);
@@ -163,9 +165,9 @@ public class RCNN_View extends JFrame {
 		// TODO: All the data stuff for the Data Tab
 		
 		// TODO: Action Listeners
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		main.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
-		addWindowListener(new WindowAdapter() {
+		main.addWindowListener(new WindowAdapter() {
 		    @Override
 		    public void windowClosed(WindowEvent e) {
 		        running = false;
@@ -205,7 +207,7 @@ public class RCNN_View extends JFrame {
 	}
 	
 	public void showError(String error){
-		JOptionPane.showMessageDialog(this, error);
+		JOptionPane.showMessageDialog(main, error);
 	}
 	
 	public void promptNewNode(){
@@ -262,5 +264,14 @@ public class RCNN_View extends JFrame {
 	
 	public boolean isRunning(){
 		return running;
+	}
+
+	public void setVisible(boolean b) {
+		main.setVisible(b);
+		
+	}
+	
+	public JFrame getFrame(){
+		return main;
 	}
 }

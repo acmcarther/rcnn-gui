@@ -35,7 +35,7 @@ public class MainDriver {
 		//controller.getNetwork().setAddress("http://207.197.58.26");
 		
 		
-		// Inititalize the view
+		// Initialize the view
 		view.initialize();
 					
 		// Enable the view

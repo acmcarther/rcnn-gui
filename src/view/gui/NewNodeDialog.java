@@ -30,7 +30,7 @@ public class NewNodeDialog {
 	public NewNodeDialog(RCNN_View mainFrame, RCNN_Controller controller) {
 		System.out.println("begining of constructor");
 		this.controller = controller;
-		initialize(mainFrame);
+		initialize(mainFrame.getFrame());
 	}
 	
 	public void initialize(JFrame mainFrame){

@@ -34,7 +34,7 @@ public class EditNodeDialog {
 	public EditNodeDialog(RCNN_View mainFrame, RCNN_Controller controller, Node editNode) {
 		//this.controller = controller;
 		this.editNode = editNode;
-		initialize(mainFrame);
+		initialize(mainFrame.getFrame());
 	}
 	
 	public void initialize(JFrame mainFrame){

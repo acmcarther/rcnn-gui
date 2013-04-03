@@ -31,7 +31,7 @@ public class NewEdgeDialog {
 
 	public NewEdgeDialog(RCNN_View mainFrame, RCNN_Controller controller) {
 		this.controller = controller;
-		initialize(mainFrame);
+		initialize(mainFrame.getFrame());
 	}
 	
 	public void initialize(JFrame mainFrame){
