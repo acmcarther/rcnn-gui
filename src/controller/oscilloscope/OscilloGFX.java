@@ -15,7 +15,6 @@ import com.jogamp.opengl.util.gl2.GLUT;
 // This class is supposed to be used statically guys. Don't create an instance of this.
 
 public class OscilloGFX {
-	static int slideLevel = 0;
     final static float graphWidthOffset = 100;
     final static float graphBackOffset = 30;
     
@@ -29,11 +28,7 @@ public class OscilloGFX {
     	
         gl2.glClear( GL.GL_COLOR_BUFFER_BIT );
         gl2.glLoadIdentity();
-    	
-    	slideLevel++;
-        if(slideLevel > dataLogSize/16){
-        	slideLevel = 0;
-        }
+
     }
     
     public static void drawTextInfo(GL2 gl2, int width, int height, int addHeight, Entry<String,NodeData> nodeEntry){
@@ -130,7 +125,7 @@ public class OscilloGFX {
         
     }
 	
-	public static void drawGridLines(GL2 gl2, int width, int height, int addHeight, int dataLogSize){
+	public static void drawGridLines(GL2 gl2, int width, int height, int addHeight, int dataLogSize, int slideLevel){
         final float graphLength = (width-graphBackOffset-graphWidthOffset-5);
         final float lineSeparation = graphLength/16;
         

@@ -1,5 +1,4 @@
-package controller.oscilloscope;
-
+package controller.activationmap;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -7,23 +6,18 @@ import java.util.Map.Entry;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.awt.GLJPanel;
-
-import resources.datatypes.NodeData;
 
 import model.RCNN_Model;
+import resources.datatypes.NodeData;
+import controller.oscilloscope.OscilloGFX;
 
-public class OscilloHandler implements GLEventListener{
-	
+public class ActivMapHandler implements GLEventListener {
+
 	private RCNN_Model model;
 	private int slideLevel = 0;
 
-	public OscilloHandler(RCNN_Model model) {
+	public ActivMapHandler(RCNN_Model model) {
 		this.model = model;
-	}
-	
-	public void dataNotify(){
-    	slideLevel++;
 	}
 
     // GLEventListener function calls
@@ -35,7 +29,6 @@ public class OscilloHandler implements GLEventListener{
         Iterator<Entry<String, NodeData>> dataSet = model.getNodeMap().entrySet().iterator();
         Entry<String,NodeData> tempEntry;
         int addHeight = 0;
-        int dataLogSize;
 
 		// Initialize oscilloscope
         OscilloGFX.initialize(gl2, model.getDataResolution());
@@ -43,30 +36,23 @@ public class OscilloHandler implements GLEventListener{
         // loop to draw all of the oscilloscopes
         while(dataSet.hasNext()){
         	
-        	dataLogSize = model.getDataResolution();
-        	
         	// Grab the latest data set that we're doing
         	tempEntry = dataSet.next();
         
             // Print all of the text on the oscilloscope
-            OscilloGFX.drawTextInfo(gl2, width, height, addHeight, tempEntry);
+        	OscilloGFX.drawTextInfo(gl2, width, height, addHeight, tempEntry);
 	
             // Draw background box
-            OscilloGFX.drawBGBox(gl2, width, height, addHeight);
-            
-            // Validate slide level
-            if(slideLevel > dataLogSize/16){
-            	slideLevel = 0;
-            }
+        	OscilloGFX.drawBGBox(gl2, width, height, addHeight);
             
 	        // Draw the midpoint lines
-	        OscilloGFX.drawGridLines(gl2, width, height, addHeight, dataLogSize, slideLevel);
+        	OscilloGFX.drawGridLines(gl2, width, height, addHeight, model.getDataResolution(),slideLevel);
 	        
 	        // Draw outline
-	        OscilloGFX.drawBoxOutline(gl2, width, height, addHeight);
+        	OscilloGFX.drawBoxOutline(gl2, width, height, addHeight);
 	
 	        // Draw the line graph
-	        OscilloGFX.drawLineGraph(gl2, width, height, addHeight, tempEntry.getValue(), dataLogSize);
+        	OscilloGFX.drawLineGraph(gl2, width, height, addHeight, tempEntry.getValue(), model.getDataResolution());
 
 	        // Increment the height
 	        addHeight += height + 10;
@@ -94,5 +80,5 @@ public class OscilloHandler implements GLEventListener{
 		// I dont even know what this does anymore
 		
 	}
-
+	
 }

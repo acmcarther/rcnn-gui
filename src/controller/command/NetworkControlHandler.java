@@ -12,7 +12,6 @@ public class NetworkControlHandler implements ControlListenerInterface {
 	}
 	
 	public boolean execute(ControlData data){
-		System.out.println("asdf");
 		controller.getNetwork().setConnecting(true);
 		return true;
 	}

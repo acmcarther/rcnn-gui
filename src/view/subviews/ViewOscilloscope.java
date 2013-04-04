@@ -28,6 +28,7 @@ public class ViewOscilloscope implements SubViewInterface, Observer {
 	
 	public ViewOscilloscope(RCNN_Model model){
 		this.model = model;
+		// TODO: move this handler into the controller
 		oscilloscope = new OscilloHandler(model);
 	}
 	
@@ -57,6 +58,9 @@ public class ViewOscilloscope implements SubViewInterface, Observer {
 			oscilloCanvas.revalidate();
 			nodeCount = newNodeCount;
 		}
+		
+		// TODO: make this into an event, instead of a call
+		oscilloscope.dataNotify();
 		
 		oscilloCanvas.display();
 	}

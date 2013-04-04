@@ -154,7 +154,6 @@ public class NetworkController {
 			try { 
 				// Send a GET message
 				String result = sendGetMessage(new URL(serverAddress + ":" + port + "/graph/snapshot"));
-				System.out.println(result);
 				if(result != "NoConnection"){
 				
 				    // Convert JSON String to a Linked Hash Map 
