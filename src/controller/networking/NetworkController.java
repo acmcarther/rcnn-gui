@@ -18,6 +18,7 @@ public class NetworkController {
 	String port;
 	RCNN_Model model;
     int refreshCounter = 294;
+    boolean connecting = true;
 	
 	private String sendGetMessage(URL url){
 		// Declare variables
@@ -26,46 +27,49 @@ public class NetworkController {
 	    String line;
 	    String result = "";
 
-		
-		// Attempt to open network connection
-		try {
-			// Connect to URL and send message
-			conn = (HttpURLConnection) url.openConnection();	
-			conn.setRequestMethod("GET");
-			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			   while ((line = rd.readLine()) != null) {
-			    result += line;
+		if(connecting){
+			// Attempt to open network connection
+			try {
+				// Connect to URL and send message
+				conn = (HttpURLConnection) url.openConnection();	
+				conn.setRequestMethod("GET");
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				   while ((line = rd.readLine()) != null) {
+				    result += line;
+				}
+				rd.close();
+			} catch (IOException e1) {
+				connecting = false;
+				return "NoConnection";
 			}
-			rd.close();
-		} catch (IOException e1) {
-			// TODO: Connection Rejected Error
-			e1.printStackTrace();
+	
+			return result;
 		}
-
-		return result;
+		return "NoConnection";
 	}	
 	
 	private void sendPostMessage(URL url) {
 		HttpURLConnection conn;
 		
-
-		// Attempt to open a connection
-		try {
-			// Connect and send message
-			System.out.println(url);
-	    	conn = (HttpURLConnection) url.openConnection();
-	    	conn.setDoOutput(true);
-	    	conn.setRequestMethod("POST");
-	    	OutputStreamWriter out = new OutputStreamWriter(
-	    		      conn.getOutputStream());
-	    	
-	    	System.out.println(conn.getResponseCode());
-	    	System.out.println(conn.getResponseMessage());
-	    	out.close();
-	    } catch (IOException e) {
-			// TODO: Connection Error
-	        e.printStackTrace();
-	    }
+		if(connecting){
+			// Attempt to open a connection
+			try {
+				// Connect and send message
+				System.out.println(url);
+		    	conn = (HttpURLConnection) url.openConnection();
+		    	conn.setDoOutput(true);
+		    	conn.setRequestMethod("POST");
+		    	OutputStreamWriter out = new OutputStreamWriter(
+		    		      conn.getOutputStream());
+		    	
+		    	System.out.println(conn.getResponseCode());
+		    	System.out.println(conn.getResponseMessage());
+		    	out.close();
+		    } catch (IOException e) {
+				// TODO: Connection Error
+				connecting = false;
+		    }
+		}
 	}
 	
 	public NetworkController(RCNN_Model model){
@@ -145,28 +149,35 @@ public class NetworkController {
 
 	public void updateSnapshot(){
 		
-		// Attempt to construct URL
-		try { 
-			// Send a GET message
-			String result = sendGetMessage(new URL(serverAddress + ":" + port + "/graph/snapshot"));
-			
-		    // Convert JSON String to a Linked Hash Map 
-
-		    LinkedHashMap<String, Float> nodeMap =  
-		    		new Gson().fromJson(result, 
-		    				new TypeToken<LinkedHashMap<String, Float>>(){}.getType());
-		    
-
-		    model.updateNodeMap(nodeMap);
-		    
-		} catch (MalformedURLException e) {
-			// TODO: Bad URL Exception
-			e.printStackTrace();
+		if(connecting){
+			// Attempt to construct URL
+			try { 
+				// Send a GET message
+				String result = sendGetMessage(new URL(serverAddress + ":" + port + "/graph/snapshot"));
+				System.out.println(result);
+				if(result != "NoConnection"){
+				
+				    // Convert JSON String to a Linked Hash Map 
+				    LinkedHashMap<String, Float> nodeMap =  
+				    		new Gson().fromJson(result, 
+				    				new TypeToken<LinkedHashMap<String, Float>>(){}.getType());
+				    
+				    model.updateNodeMap(nodeMap);
+				}
+			    
+			} catch (MalformedURLException e) {
+				// TODO: Bad URL Exception
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public void updateStream(){
 		// TODO: Build asynch networking section
 		// This function is designed for streaming data
+	}
+	
+	public void setConnecting(boolean connect){
+		connecting = connect;
 	}
 }

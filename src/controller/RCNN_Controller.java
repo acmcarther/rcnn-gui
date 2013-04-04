@@ -2,6 +2,7 @@ package controller;
 
 import controller.command.CloseController;
 import controller.command.DelNodeHandler;
+import controller.command.NetworkControlHandler;
 import controller.command.NewNodeHandler;
 import controller.networking.NetworkController;
 import view.RCNN_View;
@@ -14,6 +15,7 @@ public class RCNN_Controller {
 	private CloseController windowCloseHandler;
 	private NewNodeHandler newNodeHandler;
 	private DelNodeHandler delNodeHandler;
+	private NetworkControlHandler netControlHandler;
 	private boolean running;
 
 	public RCNN_Controller(RCNN_Model model, RCNN_View view){
@@ -27,6 +29,9 @@ public class RCNN_Controller {
 		network = new NetworkController(model);
 		network.setAddress("http://localhost");
 		network.setPort("9000");
+		
+		netControlHandler = new NetworkControlHandler(this);
+		view.registerNetworkControlHandler(netControlHandler);
 		
 		newNodeHandler = new NewNodeHandler(this);
 		view.registerNewNodeHandler(newNodeHandler);

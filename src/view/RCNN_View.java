@@ -1,8 +1,13 @@
 package view;
 
 import javax.swing.JOptionPane;
+
+import view.subviews.ViewActivationMap;
+import view.subviews.ViewGui;
+import view.subviews.ViewOscilloscope;
 import controller.command.CloseController;
 import controller.command.ControlListenerInterface;
+import controller.command.NetworkControlHandler;
 import controller.command.NewNodeHandler;
 import model.RCNN_Model;
 
@@ -70,6 +75,12 @@ public class RCNN_View  {
 	
 	public void registerDelNodeHandler(ControlListenerInterface nodeInputHandler) {
 		guiView.registerDelNodeHandler(nodeInputHandler);
+		
+	}
+
+	public void registerNetworkControlHandler(
+			NetworkControlHandler netControlHandler) {
+		guiView.registerNetworkControlHandler(netControlHandler);
 		
 	}
 
