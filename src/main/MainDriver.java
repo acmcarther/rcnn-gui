@@ -13,14 +13,13 @@ public class MainDriver {
 		RCNN_Model model = new RCNN_Model();
 					
 		// Instantiate View
-		RCNN_View view = new RCNN_View();
+		RCNN_View view = new RCNN_View(model);
 					
 		// Instantiate Controller
 		RCNN_Controller controller = new RCNN_Controller();
 					
 		// Register MVC components so they can interact
 		model.registerView(view);
-		view.registerModel(model);
 		view.registerController(controller);
 		controller.registerModel(model);
 		controller.registerView(view);
@@ -34,22 +33,14 @@ public class MainDriver {
 		
 		//controller.getNetwork().setAddress("http://207.197.58.26");
 		
-		
 		// Initialize the view
 		view.initialize();
-					
-		// Enable the view
-		//view.setVisible(true);
 		
 		// Loop to continuously update the data
-		while(view.isRunning()){
+		while(true){
 			// NEW IN THIS VERSION: Doesn't refresh screen so fast, but gives me the data fast.
 			Thread.sleep(17);
 			controller.updateData();
-			
-			// TEMP THINGS IN THIS AREA GUYS
-			//model.doTempThings();
-			controller.forceGLUpdate();
 		}
 		
 	}

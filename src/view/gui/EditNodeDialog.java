@@ -31,10 +31,10 @@ public class EditNodeDialog {
 
 	// TODO: actually build this dialog box
 	
-	public EditNodeDialog(RCNN_View mainFrame, RCNN_Controller controller, Node editNode) {
+	public EditNodeDialog(JFrame mainFrame, RCNN_Controller controller, Node editNode) {
 		//this.controller = controller;
 		this.editNode = editNode;
-		initialize(mainFrame.getFrame());
+		initialize(mainFrame);
 	}
 	
 	public void initialize(JFrame mainFrame){

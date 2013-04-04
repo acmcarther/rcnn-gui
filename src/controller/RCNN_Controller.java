@@ -15,12 +15,8 @@ public class RCNN_Controller {
 	private RCNN_Model model;
 	private RCNN_View view;
 	private NetworkController network;
-	private OscilloHandler oscilloscope;
-	private final Semaphore dataSemaphore;
-	private GLJPanel oscilloCanvas;
-	
+
 	public RCNN_Controller(){
-		dataSemaphore = new Semaphore(1);
 	}
 
 	public void registerModel(RCNN_Model model) {
@@ -110,41 +106,16 @@ public class RCNN_Controller {
 		network = new NetworkController(view, model);
 		network.setAddress("http://localhost");
 		network.setPort("9000");
-		
-		// Initialize the oscilloscope 
-		oscilloscope = new OscilloHandler(model);
-	}
-	
-	public void renderData(){
-		//oscilloscope.display(glAutoDrawable)
-	}
-	
-	public OscilloHandler getOscilloscopeHandler(){
-		return oscilloscope;
 	}
 	
 	public NetworkController getNetwork(){
 		return network;
-	}
-
-	public void setCanvas(GLJPanel glCanvas) {
-		// TODO Auto-generated method stub
-		oscilloCanvas = glCanvas;
-		oscilloCanvas.addGLEventListener(oscilloscope);
-
 	}
 	
 	// Volatile data access here
 	public void updateData(){
 		// TODO: Switch this to asynchronous updateStream()
 		network.updateSnapshot();
-		dataSemaphore.release();
-	}
-	
-	public void forceGLUpdate() {
-		oscilloCanvas.setPreferredSize(new Dimension(oscilloCanvas.getWidth(), model.getNodeCount()*100));
-		oscilloCanvas.revalidate();
-		oscilloCanvas.display();
 	}
 
 }

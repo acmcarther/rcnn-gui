@@ -29,7 +29,6 @@ public class RCNN_Model extends Observable{
 
 	public void initialize(int nodeDataSize) {
 		nodeMap = new LinkedHashMap<String, NodeData>(20);
-		refreshCount = 0;
 		this.nodeDataSize = nodeDataSize;
 	}
 
@@ -42,7 +41,7 @@ public class RCNN_Model extends Observable{
 	    
 	    // Loop to output nodemap to a NodeList
 	    for (Entry<String, NodeData> mapEntry : nodeMap.entrySet()) {
-	    	nodeList[index] = new Node(mapEntry.getKey().substring(17), (mapEntry.getValue().peekLast()));
+	    	nodeList[index] = new Node(mapEntry.getKey().substring(17), (mapEntry.getValue().peekLast().getAL()));
 	    	index++;
 	    }
 	    
@@ -95,11 +94,11 @@ public class RCNN_Model extends Observable{
 			
 			if (nodeMap.containsKey(tempKey)){
 				// If we already have this key, simply update its values
-				nodeMap.get(tempKey).enqueue(floatEntry.getValue());
+				nodeMap.get(tempKey).enqueue(new Node(tempKey, floatEntry.getValue()));
 			}
 			else{
 				// otherwise, generate a new entry
-				nodeMap.put(tempKey, new NodeData(nodeDataSize, floatEntry.getValue()));
+				nodeMap.put(tempKey, new NodeData(nodeDataSize, new Node(tempKey, floatEntry.getValue())));
 			}
 		}
 		
@@ -122,8 +121,11 @@ public class RCNN_Model extends Observable{
 
 		}
 		
+		System.out.println(countObservers());
+		
 		// Tell views to update
-		notifyObservers(data);
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	public LinkedHashMap<String, NodeData> getNodeMap(){

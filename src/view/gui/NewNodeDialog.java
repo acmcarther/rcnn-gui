@@ -27,10 +27,10 @@ public class NewNodeDialog {
 	private JTextField textField;
 	private JTextField textField_1;
 
-	public NewNodeDialog(RCNN_View mainFrame, RCNN_Controller controller) {
+	public NewNodeDialog(JFrame mainFrame, RCNN_Controller controller) {
 		System.out.println("begining of constructor");
 		this.controller = controller;
-		initialize(mainFrame.getFrame());
+		initialize(mainFrame);
 	}
 	
 	public void initialize(JFrame mainFrame){

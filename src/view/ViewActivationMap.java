@@ -1,7 +1,10 @@
 package view;
 
+import java.awt.Container;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JPanel;
 
 import model.RCNN_Model;
 
@@ -27,6 +30,11 @@ public class ViewActivationMap implements SubViewInterface, Observer {
 	public void update(Observable o, Object arg) {
 		// TODO Request necessary data from the model.
 		
+	}
+
+	public Container getContainer() {
+		// TODO Auto-generated method stub
+		return new JPanel();
 	}
 
 }

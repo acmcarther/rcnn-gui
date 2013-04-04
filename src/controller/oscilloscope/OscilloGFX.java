@@ -7,6 +7,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 
+import resources.datatypes.Node;
 import resources.datatypes.NodeData;
 
 import com.jogamp.opengl.util.gl2.GLUT;
@@ -57,7 +58,7 @@ public class OscilloGFX {
         // Position node current value
         gl2.glRasterPos2i(5,addHeight + height/2 - height/4);
         // Draw the text
-        glut.glutBitmapString(GLUT.BITMAP_HELVETICA_10, Float.toString(nodeEntry.getValue().peekLast()));
+        glut.glutBitmapString(GLUT.BITMAP_HELVETICA_10, Float.toString(nodeEntry.getValue().peekLast().getAL()));
         
         // Position midpoint value
         gl2.glRasterPos2i(width - 30,addHeight + height/2);
@@ -158,7 +159,7 @@ public class OscilloGFX {
         float plotCount =0;
         int xPlotPoint,yPlotPoint;
         float activationLevel;
-        Iterator<Float> nodeDataIterator = nodeData.iterator();
+        Iterator<Node> nodeDataIterator = nodeData.iterator();
 		
     	// Back up gl2's settings
         gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
@@ -170,7 +171,7 @@ public class OscilloGFX {
 		gl2.glColor3f( 1,1, 0 );
     
 	    while(nodeDataIterator.hasNext()){
-	    	activationLevel = nodeDataIterator.next();
+	    	activationLevel = nodeDataIterator.next().getAL();
 	    	xPlotPoint = (int) (graphWidthOffset + (plotCount*(((float) (width-graphWidthOffset-5-graphBackOffset))/((float)dataLogSize))));
 	    	// TODO: fix this so huge points don't go somewhere bad, as well as tiny points
 	    	yPlotPoint = (int) (5 + addHeight + ((activationLevel-minValue)/graphRange)*(height-10));

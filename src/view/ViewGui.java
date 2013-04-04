@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -8,9 +9,6 @@ import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.GLProfile;
-import javax.media.opengl.awt.GLJPanel;
 import javax.swing.AbstractListModel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,7 +21,6 @@ import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 
 import model.RCNN_Model;
@@ -31,7 +28,6 @@ import net.miginfocom.swing.MigLayout;
 
 import resources.datatypes.Edge;
 import resources.datatypes.Node;
-import view.gui.NewNodeDialog;
 
 public class ViewGui implements SubViewInterface, Observer {
 	
@@ -55,6 +51,8 @@ public class ViewGui implements SubViewInterface, Observer {
 		// Lists
 	JList<Node> lstNodes = new JList<Node>();
 	JList<Edge> lstEdges = new JList<Edge>();
+	
+	JTabbedPane tpDisplays = new JTabbedPane(JTabbedPane.TOP);
 
 	// TODO: If we end up not needing this, remove it.
 	RCNN_Model model;
@@ -83,8 +81,6 @@ public class ViewGui implements SubViewInterface, Observer {
 		JSeparator edgeSeparator = new JSeparator();
 		JPanel pnlNodeButtons = new JPanel();
 		JPanel pnlEdgeButtons = new JPanel();
-		JTabbedPane tpDisplays = new JTabbedPane(JTabbedPane.TOP);
-		JPanel pnlData = new JPanel();
 		JScrollPane scrlpNodeList = new JScrollPane(lstNodes);
 		JScrollPane scrlpEdgeList = new JScrollPane(lstEdges);
 	
@@ -100,27 +96,6 @@ public class ViewGui implements SubViewInterface, Observer {
 		lstEdges.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		pnlNodeButtons.setLayout(new BoxLayout(pnlNodeButtons, BoxLayout.X_AXIS));
 		pnlEdgeButtons.setLayout(new BoxLayout(pnlEdgeButtons, BoxLayout.X_AXIS));
-		GLProfile glProfile = GLProfile.getDefault();
-		GLCapabilities glCapabilities = new GLCapabilities( glProfile );
-		
-		// TODO: generalize these tabs
-		/*
-		glCanvas = new GLJPanel( glCapabilities );
-		JScrollPane scrlpOscillo  = new JScrollPane(glCanvas);
-		scrlpOscillo.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		controller.setCanvas(glCanvas);
-		*/
-		
-		// Build dummy data
-		lstEdges.setModel(new AbstractListModel<Edge>() {
-			Edge[] values = new Edge[] {new Edge("TestNode1", "TestNode2", 1.0f)};
-			public int getSize() {
-				return values.length;
-			}
-			public Edge getElementAt(int index) {
-				return values[index];
-			}
-		});
 		
 		// Assemble
 		main.getContentPane().add(spTools);
@@ -128,10 +103,7 @@ public class ViewGui implements SubViewInterface, Observer {
 		spTools.setRightComponent(pnlMain);
 		spData.setLeftComponent(pnlLists);
 		spData.setRightComponent(tpDisplays);
-		/*
-		tpDisplays.addTab("Graphic Display", null, scrlpOscillo, null);
-		tpDisplays.addTab("Data Display", null, pnlData, null);
-		*/
+
 		pnlMain.add(spData);
 		pnlToolbar.add(btnStart);
 		pnlToolbar.add(btnPause);	
@@ -152,7 +124,6 @@ public class ViewGui implements SubViewInterface, Observer {
 		pnlEdgeButtons.add(btnEdgeAdd);
 		pnlEdgeButtons.add(btnEdgeEdit);
 		pnlEdgeButtons.add(btnEdgeDelete);
-		//pnlGraphics.add( glCanvas );
 		
 		// TODO: All the data stuff for the Data Tab
 		
@@ -199,9 +170,9 @@ public class ViewGui implements SubViewInterface, Observer {
 		});
 	}
 
-	@Override
 	public void addSubView(SubViewInterface subView) {
-		// Unsupported Functionality
+	
+		tpDisplays.addTab("Graphic Display", null, subView.getContainer(), null);
 		
 	}
 	
@@ -242,8 +213,9 @@ public class ViewGui implements SubViewInterface, Observer {
 		return main;
 	}
 
-	public void updateNodeList(final Node[] nodeList){
+	public void update(Observable o, final Object arg) {
 		lstNodes.setModel(new AbstractListModel<Node>() {
+			Node[] nodeList = ((RCNN_Model) arg).getNodeList();
 			public int getSize() {
 				return nodeList.length;
 			}
@@ -254,9 +226,9 @@ public class ViewGui implements SubViewInterface, Observer {
 		});
 	}
 
-	public void update(Observable o, Object arg) {
-		// TODO: Get the nodes and edges from model
-		
+	@Override
+	public Container getContainer() {
+		throw new UnsupportedOperationException();
 	}
 	
 }

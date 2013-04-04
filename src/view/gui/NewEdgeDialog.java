@@ -29,9 +29,9 @@ public class NewEdgeDialog {
 	private JTextField textField_2;
 	private JTextField textField_3;
 
-	public NewEdgeDialog(RCNN_View mainFrame, RCNN_Controller controller) {
+	public NewEdgeDialog(JFrame mainFrame, RCNN_Controller controller) {
 		this.controller = controller;
-		initialize(mainFrame.getFrame());
+		initialize(mainFrame);
 	}
 	
 	public void initialize(JFrame mainFrame){

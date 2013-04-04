@@ -10,25 +10,9 @@ import model.RCNN_Model;
 public class OscilloHandler implements GLEventListener {
 	
 	private OscilloGLHandler glHandler;
-	private int mouseLevel;
-	private RCNN_Model model;
-	private GLJPanel glCanvas;
-	//private OscilloKeyHandler keyHandler;
-	//private OscilloMouseHandler mouseHandler;
-	
 
 	public OscilloHandler(RCNN_Model model) {
-		this.model = model;
 		glHandler = new OscilloGLHandler(model);
-		mouseLevel = 100;
-		//keyHandler = new OscilloKeyHandler();
-		//mouseHandler = new OscilloMouseHandler();
-	}
-
-	
-    public void setCanvas(GLJPanel glCanvas) {
-    	// I may not need this. Probably will for the mouse event listeners
-		this.glCanvas = glCanvas;
 	}
 
     // GLEventListener function calls
@@ -47,8 +31,7 @@ public class OscilloHandler implements GLEventListener {
 
 	public void reshape(GLAutoDrawable glAutoDrawable, int x, int y, int width,
 			int height) {
-		System.out.println("reshape");
-		//glHandler.setup(glAutoDrawable.getGL().getGL2(), width, height);
+		glHandler.setup(glAutoDrawable.getGL().getGL2(), width, height);
 		
 	}
 

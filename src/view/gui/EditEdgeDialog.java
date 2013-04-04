@@ -30,10 +30,10 @@ public class EditEdgeDialog {
 	private JTextField textField_1;
 	private JTextField textField;
 
-	public EditEdgeDialog(RCNN_View mainFrame, RCNN_Controller controller, Edge editEdge) {
+	public EditEdgeDialog(JFrame mainFrame, RCNN_Controller controller, Edge editEdge) {
 		//this.controller = controller;
 		this.editEdge = editEdge;
-		initialize(mainFrame.getFrame());
+		initialize(mainFrame);
 	}
 	
 	public void initialize(JFrame mainFrame){
