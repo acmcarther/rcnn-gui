@@ -40,7 +40,7 @@ public class ViewOscilloscope implements SubViewInterface, Observer {
 		oscilloCanvas.addGLEventListener(oscilloscope);
 	}
 
-	public void addSubView(SubViewInterface subView) {
+	public void addSubView(SubViewInterface subView, String windowTitle) {
 		// Cannot add subview to this view
 		throw new UnsupportedOperationException();
 	}
@@ -50,7 +50,6 @@ public class ViewOscilloscope implements SubViewInterface, Observer {
 		int newNodeCount = ((RCNN_Model) arg).getNodeCount();
 		
 		// TODO: Get the nodes history from model
-		System.out.println ("trying captain");
 		
 		if(newNodeCount != nodeCount){
 			oscilloCanvas.setPreferredSize(new Dimension(200, ((RCNN_Model) arg).getNodeCount()*100));

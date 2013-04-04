@@ -15,8 +15,6 @@ import javax.swing.Box;
 
 import resources.datatypes.Edge;
 
-import view.RCNN_View;
-
 import controller.RCNN_Controller;
 
 import java.awt.Window.Type;

@@ -1,11 +1,9 @@
 package view;
 
-
-import javax.media.opengl.awt.GLJPanel;
-
 import javax.swing.JOptionPane;
-
-import controller.RCNN_Controller;
+import controller.command.CloseController;
+import controller.command.ControlListenerInterface;
+import controller.command.NewNodeHandler;
 import model.RCNN_Model;
 
 
@@ -18,7 +16,7 @@ import model.RCNN_Model;
 public class RCNN_View  {
 	/** Model registered to this view*/
 	private RCNN_Model model;
-	private RCNN_Controller controller;
+	
 	
 	// View Subcomponents
 	private ViewGui guiView;
@@ -37,8 +35,8 @@ public class RCNN_View  {
 		guiView.initialize();
 		oscilloView.initialize();
 		mapView.initialize();
-		guiView.addSubView(oscilloView);
-		guiView.addSubView(mapView);
+		guiView.addSubView(oscilloView, "Oscilloscope");
+		guiView.addSubView(mapView, "Map (WIP)");
 		
 		// Add them as observers of the model
 		model.addObserver(guiView);
@@ -56,16 +54,23 @@ public class RCNN_View  {
 		JOptionPane.showMessageDialog(null, error);
 	}
 	
-	public RCNN_Controller getController(){
-		return controller;
-	}
-	
+
 	public void registerModel(RCNN_Model model) {
 		this.model = model;
 	}
 
-	public void registerController(RCNN_Controller controller) {
-		this.controller = controller;
+	public void registerCloseHandler(CloseController windowCloseHandler) {
+		guiView.registerCloseHandler(windowCloseHandler);
+	}
+
+	public void registerNewNodeHandler(ControlListenerInterface nodeInputHandler) {
+		guiView.registerNewNodeHandler(nodeInputHandler);
+		
+	}
+	
+	public void registerDelNodeHandler(ControlListenerInterface nodeInputHandler) {
+		guiView.registerDelNodeHandler(nodeInputHandler);
+		
 	}
 
 

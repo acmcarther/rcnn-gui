@@ -1,13 +1,9 @@
 package controller;
 
-import java.awt.Dimension;
-import java.util.concurrent.Semaphore;
-
-import javax.media.opengl.awt.GLJPanel;
-
+import controller.command.CloseController;
+import controller.command.DelNodeHandler;
+import controller.command.NewNodeHandler;
 import controller.networking.NetworkController;
-import controller.oscilloscope.OscilloHandler;
-
 import view.RCNN_View;
 import model.RCNN_Model;
 
@@ -15,20 +11,34 @@ public class RCNN_Controller {
 	private RCNN_Model model;
 	private RCNN_View view;
 	private NetworkController network;
+	private CloseController windowCloseHandler;
+	private NewNodeHandler newNodeHandler;
+	private DelNodeHandler delNodeHandler;
+	private boolean running;
 
-	public RCNN_Controller(){
-	}
-
-	public void registerModel(RCNN_Model model) {
+	public RCNN_Controller(RCNN_Model model, RCNN_View view){
+		running = true;
 		this.model = model;
-		
-	}
-
-	public void registerView(RCNN_View view) {
 		this.view = view;
 	}
+	
+	public void initialize() {
+		// Create the network and define default parameters
+		network = new NetworkController(model);
+		network.setAddress("http://localhost");
+		network.setPort("9000");
+		
+		newNodeHandler = new NewNodeHandler(this);
+		view.registerNewNodeHandler(newNodeHandler);
+		
+		delNodeHandler = new DelNodeHandler(this);
+		view.registerDelNodeHandler(delNodeHandler);
+		
+		windowCloseHandler = new CloseController(this);
+		view.registerCloseHandler(windowCloseHandler);
+	}
 
-	public boolean addNode(String name, String al) {
+	public boolean addNode(String name, Float al) {
 		// Verify that node does not exist
 		if( model.hasNodeNamed(name) ){
 			return false;
@@ -100,13 +110,6 @@ public class RCNN_Controller {
 		// TODO: Wait for propagation delay to be implemented in the network
 		return true;
 	}
-
-	public void initialize() {
-		// Create the network and define default parameters
-		network = new NetworkController(view, model);
-		network.setAddress("http://localhost");
-		network.setPort("9000");
-	}
 	
 	public NetworkController getNetwork(){
 		return network;
@@ -117,5 +120,14 @@ public class RCNN_Controller {
 		// TODO: Switch this to asynchronous updateStream()
 		network.updateSnapshot();
 	}
+
+	public boolean isRunning(){
+		return running;
+	}
+
+	public void setRunning(boolean b) {
+		running = b;
+	}
+	
 
 }

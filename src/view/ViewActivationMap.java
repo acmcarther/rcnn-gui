@@ -22,7 +22,7 @@ public class ViewActivationMap implements SubViewInterface, Observer {
 		
 	}
 
-	public void addSubView(SubViewInterface subView) {
+	public void addSubView(SubViewInterface subView, String windowTitle) {
 		// Cannot add subview to this view
 		throw new UnsupportedOperationException();
 	}

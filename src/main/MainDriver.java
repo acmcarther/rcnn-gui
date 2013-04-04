@@ -16,13 +16,7 @@ public class MainDriver {
 		RCNN_View view = new RCNN_View(model);
 					
 		// Instantiate Controller
-		RCNN_Controller controller = new RCNN_Controller();
-					
-		// Register MVC components so they can interact
-		model.registerView(view);
-		view.registerController(controller);
-		controller.registerModel(model);
-		controller.registerView(view);
+		RCNN_Controller controller = new RCNN_Controller(model, view);
 		
 		// Initialize model
 			// This parameter is the resolution of the graph
@@ -37,11 +31,10 @@ public class MainDriver {
 		view.initialize();
 		
 		// Loop to continuously update the data
-		while(true){
+		while(controller.isRunning()){
 			// NEW IN THIS VERSION: Doesn't refresh screen so fast, but gives me the data fast.
 			Thread.sleep(17);
 			controller.updateData();
 		}
-		
 	}
 }

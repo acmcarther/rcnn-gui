@@ -3,6 +3,7 @@ package controller.networking;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,13 +11,11 @@ import java.util.LinkedHashMap;
 import model.RCNN_Model;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import view.RCNN_View;
 
 public class NetworkController {
 	
 	String serverAddress;
 	String port;
-	RCNN_View view;
 	RCNN_Model model;
     int refreshCounter = 294;
 	
@@ -49,23 +48,27 @@ public class NetworkController {
 	private void sendPostMessage(URL url) {
 		HttpURLConnection conn;
 		
-		// TODO: MAKE THIS WORK!
-		
+
 		// Attempt to open a connection
 		try {
 			// Connect and send message
+			System.out.println(url);
 	    	conn = (HttpURLConnection) url.openConnection();
+	    	conn.setDoOutput(true);
 	    	conn.setRequestMethod("POST");
-	    	conn.connect();
-	    	//conn.disconnect();
+	    	OutputStreamWriter out = new OutputStreamWriter(
+	    		      conn.getOutputStream());
+	    	
+	    	System.out.println(conn.getResponseCode());
+	    	System.out.println(conn.getResponseMessage());
+	    	out.close();
 	    } catch (IOException e) {
 			// TODO: Connection Error
 	        e.printStackTrace();
 	    }
 	}
 	
-	public NetworkController(RCNN_View view, RCNN_Model model){
-		this.view = view;
+	public NetworkController(RCNN_Model model){
 		this.model = model;
 	}
 	
@@ -77,10 +80,10 @@ public class NetworkController {
 		this.port = port;
 	}
 
-	public void addNode(String name, String al){
+	public void addNode(String name, float al){
 		// TODO: Set Activation Level while creating node
 
-		
+
 		// Attempt to build a URL
     	try {
     		// Create URL object

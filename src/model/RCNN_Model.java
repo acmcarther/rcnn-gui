@@ -9,23 +9,14 @@ import resources.datatypes.Node;
 import resources.datatypes.NodeData;
 import view.RCNN_View;
 
-public class RCNN_Model extends Observable{
-	private RCNN_View view;
+public class RCNN_Model extends Observable {
 	private LinkedHashMap<String, NodeData> nodeMap;
 
 	private int nodeDataSize = 500;
 	
-	// TODO: Formalize data structure
-	Object data;
-	
 	// TODO: Finalize edge maps
 	private LinkedHashMap<String, String[]> forwardEdgeMap;
 	//private LinkedHashMap<String, String[]> backwardEdgeMap;
-	
-
-	public void registerView(RCNN_View view) {
-		this.view = view;
-	}
 
 	public void initialize(int nodeDataSize) {
 		nodeMap = new LinkedHashMap<String, NodeData>(20);
@@ -118,12 +109,9 @@ public class RCNN_Model extends Observable{
 				//	Thus we need to remove it
 				nodeMap.remove(nodeEntry.getKey());
 			}
-
 		}
 		
-		System.out.println(countObservers());
-		
-		// Tell views to update
+		// Tell observers to update
 		setChanged();
 		notifyObservers(this);
 	}

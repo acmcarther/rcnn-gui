@@ -11,11 +11,16 @@ import javax.swing.JSplitPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.Frame;
+
 import javax.swing.Box;
 
 import view.RCNN_View;
+import view.ViewGui;
 
 import controller.RCNN_Controller;
+import resources.datatypes.ControlData;
 
 import java.awt.Window.Type;
 import java.awt.event.ActionListener;
@@ -26,16 +31,16 @@ public class NewNodeDialog {
 	private JDialog mainDialog;
 	private JTextField textField;
 	private JTextField textField_1;
+	private ViewGui parent;
 
-	public NewNodeDialog(JFrame mainFrame, RCNN_Controller controller) {
-		System.out.println("begining of constructor");
-		this.controller = controller;
-		initialize(mainFrame);
+	public NewNodeDialog(ViewGui parent) {
+		this.parent = parent;
+		initialize(parent.getContainer());
 	}
 	
-	public void initialize(JFrame mainFrame){
+	public void initialize(Container container){
 		System.out.println("begining of init");
-		mainDialog = new JDialog(mainFrame,"Add New Node", true);
+		mainDialog = new JDialog((Frame) container,"Add New Node", true);
 		mainDialog.setType(Type.POPUP);
 		mainDialog.setAlwaysOnTop(true);
 		mainDialog.setResizable(false);
@@ -56,7 +61,7 @@ public class NewNodeDialog {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean isValid;
-				isValid = controller.addNode(textField.getText(), textField_1.getText());
+				isValid = parent.addNode(new ControlData(textField.getText(), 0.0f));
 				if(isValid){
 					mainDialog.dispose();
 				}

@@ -23,15 +23,28 @@ import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
+import controller.command.CloseController;
+import controller.command.ControlListenerInterface;
+import controller.command.NewNodeHandler;
+
 import model.RCNN_Model;
 import net.miginfocom.swing.MigLayout;
 
+import resources.datatypes.ControlData;
 import resources.datatypes.Edge;
 import resources.datatypes.Node;
+import view.gui.NewNodeDialog;
 
 public class ViewGui implements SubViewInterface, Observer {
 	
+	// Static settings
+	static int updateInterval = 200;
+	
 	// Persistent GUI Components
+	
+	ControlListenerInterface newNodeHandler;
+	ControlListenerInterface delNodeHandler;	
+	
 		// Main Frame
 	JFrame main = new JFrame();
 		// Toolbar
@@ -57,17 +70,25 @@ public class ViewGui implements SubViewInterface, Observer {
 	// TODO: If we end up not needing this, remove it.
 	RCNN_Model model;
 	
+	int updateTick;
+	
 	public ViewGui(RCNN_Model model){
 		this.model = model;
 	}
 
 	// Set main window properties
 	public void initialize(){
+		
+		// Prep to refresh on first update
+		updateTick = updateInterval;
+		
+		// Build main frame
 		main.setResizable(true);
 		main.setTitle("RCNN GUI");
 		main.setBounds(100, 100, 750, 500);
 		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		main.getContentPane().setLayout(new BoxLayout(main.getContentPane(), BoxLayout.X_AXIS));
+		main.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		
 		// Build all components
@@ -125,19 +146,8 @@ public class ViewGui implements SubViewInterface, Observer {
 		pnlEdgeButtons.add(btnEdgeEdit);
 		pnlEdgeButtons.add(btnEdgeDelete);
 		
-		// TODO: All the data stuff for the Data Tab
 		
 		// TODO: Action Listeners
-		main.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		
-		main.addWindowListener(new WindowAdapter() {
-		    @Override
-		    public void windowClosed(WindowEvent e) {
-		    	// TODO: Make this into a controller function call
-		        //running = false;
-		    }
-		});
-		
 		btnNodeAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				promptNewNode();
@@ -170,21 +180,21 @@ public class ViewGui implements SubViewInterface, Observer {
 		});
 	}
 
-	public void addSubView(SubViewInterface subView) {
-	
-		tpDisplays.addTab("Graphic Display", null, subView.getContainer(), null);
-		
+	public void addSubView(SubViewInterface subView, String windowTitle) {
+		// Add the subview into the tab group
+		tpDisplays.addTab(windowTitle, null, subView.getContainer(), null);
 	}
 	
 	public void promptNewNode(){
-		 //NewNodeDialog dialog = new NewNodeDialog( this,controller);
-		 //dialog.setVisible(true);
+		 NewNodeDialog dialog = new NewNodeDialog(this);
+		 dialog.setVisible(true);
 	}
 	public void promptEditNode(){
 		//EventQueue.invokeLater((Runnable) new EditNodeDialog(this, controller, lstNodes.getSelectedValue()));
 	}
 	public void promptDeleteNode(){
-		//controller.deleteNode(getSelectedNode().getName());
+		// TODO: Make this work when richard makes it work
+		delNodeHandler.execute(new ControlData(getSelectedNode().getName()));
 	}
 	public void promptNewEdge(){
 		//EventQueue.invokeLater((Runnable) new NewEdgeDialog(this, controller));
@@ -208,27 +218,56 @@ public class ViewGui implements SubViewInterface, Observer {
 		main.setVisible(b);
 		
 	}
+
+	public void update(Observable o, final Object arg) {
 		
-	public JFrame getFrame(){
+		// We got an update, increment counter
+		updateTick++;
+		
+		// If we've updated updateInterval times, update the lists
+		if(updateTick > updateInterval){
+			// Refresh the node list
+			lstNodes.setModel(new AbstractListModel<Node>() {
+				Node[] nodeList = ((RCNN_Model) arg).getNodeList();
+				public int getSize() {
+					return nodeList.length;
+				}
+				public Node getElementAt(int index) {
+					return nodeList[index];
+				}
+				
+			});
+		
+			// Set the counter back to zero
+			updateTick = 0;
+		}
+	}
+
+	public Container getContainer() {
 		return main;
 	}
 
-	public void update(Observable o, final Object arg) {
-		lstNodes.setModel(new AbstractListModel<Node>() {
-			Node[] nodeList = ((RCNN_Model) arg).getNodeList();
-			public int getSize() {
-				return nodeList.length;
-			}
-			public Node getElementAt(int index) {
-				return nodeList[index];
-			}
-			
-		});
+	public void registerCloseHandler(CloseController windowCloseHandler) {
+		main.addWindowListener(windowCloseHandler);
 	}
 
-	@Override
-	public Container getContainer() {
-		throw new UnsupportedOperationException();
+	public void registerNewNodeHandler(ControlListenerInterface nodeInputHandler) {
+		newNodeHandler = nodeInputHandler;
+		
 	}
+	
+	public void registerDelNodeHandler(ControlListenerInterface nodeInputHandler) {
+		delNodeHandler = nodeInputHandler;
+		
+	}
+
+	public boolean addNode(ControlData controlData) {
+		
+		if(newNodeHandler != null){
+			return newNodeHandler.execute(controlData);
+		}
+		return true;
+	}
+
 	
 }
