@@ -39,7 +39,7 @@ public class MainDriver {
 		view.initialize();
 					
 		// Enable the view
-		view.setVisible(true);
+		//view.setVisible(true);
 		
 		// Loop to continuously update the data
 		while(view.isRunning()){

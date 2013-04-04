@@ -137,30 +137,14 @@ public class RCNN_Controller {
 	// Volatile data access here
 	public void updateData(){
 		// TODO: Switch this to asynchronous updateStream()
-
-		try {
-			dataSemaphore.acquire();
-			network.updateSnapshot();
-			dataSemaphore.release();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		network.updateSnapshot();
+		dataSemaphore.release();
 	}
 	
 	public void forceGLUpdate() {
-		// TODO: Figure out why this exception might happen
-		try {
-			dataSemaphore.acquire();
-			oscilloCanvas.setPreferredSize(new Dimension(oscilloCanvas.getWidth(), model.getNodeCount()*100));
-			oscilloCanvas.revalidate();
-			oscilloCanvas.display();
-			dataSemaphore.release();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		oscilloCanvas.setPreferredSize(new Dimension(oscilloCanvas.getWidth(), model.getNodeCount()*100));
+		oscilloCanvas.revalidate();
+		oscilloCanvas.display();
 	}
 
 }

@@ -3,17 +3,23 @@ package model;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
+import java.util.Observable;
 
 import resources.datatypes.Node;
 import resources.datatypes.NodeData;
 import view.RCNN_View;
 
-public class RCNN_Model {
+public class RCNN_Model extends Observable{
 	private RCNN_View view;
 	private LinkedHashMap<String, NodeData> nodeMap;
-	private LinkedHashMap<String, String[]> forwardEdgeMap;
-	private int refreshCount;
+
 	private int nodeDataSize = 500;
+	
+	// TODO: Formalize data structure
+	Object data;
+	
+	// TODO: Finalize edge maps
+	private LinkedHashMap<String, String[]> forwardEdgeMap;
 	//private LinkedHashMap<String, String[]> backwardEdgeMap;
 	
 
@@ -116,13 +122,8 @@ public class RCNN_Model {
 
 		}
 		
-		
-		// TODO: Migrate this functionality to another thread
-		if(refreshCount < 1){
-			view.updateNodeList(getNodeList());
-			refreshCount = 50;
-		}
-		refreshCount--;
+		// Tell views to update
+		notifyObservers(data);
 	}
 	
 	public LinkedHashMap<String, NodeData> getNodeMap(){

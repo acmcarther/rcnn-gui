@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import javax.media.opengl.GL2;
 
 import resources.datatypes.NodeData;
-import view.graphics.OscilloGFX;
 
 import model.RCNN_Model;
 
