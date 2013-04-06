@@ -114,21 +114,22 @@ public class ActivMapGFX {
 		
     	// Back up gl2's settings
         gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
-		
+        
     	// start drawing to line strip
-		gl2.glBegin(GL.GL_POINTS);
+		gl2.glBegin(GL.GL_LINES);
     
     	// set the color to something fancy
-		gl2.glColor3f( 1,1, 0 );
+		gl2.glColor3f( 1,0, 0 );
     
 	    while(nodeDataIterator.hasNext()){
+
 	    	currentNode = nodeDataIterator.next();
 	    	if( currentNode.getMaxima() ){
 	    		xPlotPoint = (int) (graphWidthOffset + (plotCount*(((float) (width-graphWidthOffset-5-graphBackOffset))/((float)dataResolution))));
 	    		// TODO: fix this so huge points don't go somewhere bad, as well as tiny points
 		    	yPlotPoint = (int) (5 + addHeight + (height/2));
-	    		gl2.glVertex2f(xPlotPoint,yPlotPoint);
-	    	
+	    		gl2.glVertex2f(xPlotPoint,yPlotPoint + (height/2));
+	    		gl2.glVertex2f(xPlotPoint,yPlotPoint - (height/2));
 	    	}
 	    	plotCount++;
 	    }
