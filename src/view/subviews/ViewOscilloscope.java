@@ -24,12 +24,14 @@ public class ViewOscilloscope implements SubViewInterface, Observer {
 	GLJPanel oscilloCanvas;
 	JScrollPane scrlpOscillo;
 	OscilloHandler oscilloscope;
+	SubViewInterface parentView;
 	int nodeCount = -1;
 	
-	public ViewOscilloscope(RCNN_Model model){
+	public ViewOscilloscope(RCNN_Model model, SubViewInterface parentView){
 		this.model = model;
 		// TODO: move this handler into the controller
 		oscilloscope = new OscilloHandler(model);
+		this.parentView = parentView;
 	}
 	
 	public void initialize() {
@@ -49,24 +51,33 @@ public class ViewOscilloscope implements SubViewInterface, Observer {
 
 	public void update(Observable o, Object arg) {
 		
-		int newNodeCount = ((RCNN_Model) arg).getNodeCount();
-		
-		// TODO: Get the nodes history from model
-		
-		if(newNodeCount != nodeCount){
-			oscilloCanvas.setPreferredSize(new Dimension(200, ((RCNN_Model) arg).getNodeCount()*100));
-			oscilloCanvas.revalidate();
-			nodeCount = newNodeCount;
+		if(parentView.hasActiveSubView(this)){
+			int newNodeCount = ((RCNN_Model) arg).getNodeCount();
+			
+			// TODO: Get the nodes history from model
+			
+			if(newNodeCount != nodeCount){
+				oscilloCanvas.setPreferredSize(new Dimension(200, ((RCNN_Model) arg).getNodeCount()*100));
+				oscilloCanvas.revalidate();
+				nodeCount = newNodeCount;
+			}
+			
+			// TODO: make this into an event, instead of a call
+			oscilloscope.dataNotify();
+			
+			oscilloCanvas.display();
 		}
-		
-		// TODO: make this into an event, instead of a call
-		oscilloscope.dataNotify();
-		
-		oscilloCanvas.display();
 	}
+	
 
 	public Container getContainer() {
 		return scrlpOscillo;
+	}
+
+	@Override
+	public boolean hasActiveSubView(SubViewInterface childView) {
+		// Cannot add subview to this view
+		throw new UnsupportedOperationException();
 	}
 	
 }

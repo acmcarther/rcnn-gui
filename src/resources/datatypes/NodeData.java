@@ -67,13 +67,16 @@ public class NodeData {
 		updated = true;
 		
 		// Set maxima status if applicable
-		if(size > 3){
-			int tempLoc = size - 2;
+		if(size > 5){
+			int tempLoc = size - 4;
 			float activLevel;
 			Node nodeArray[] = new Node[size];
 			Data.toArray(nodeArray);
 			activLevel = nodeArray[tempLoc].getAL();
-			if(activLevel > nodeArray[tempLoc+1].getAL() && activLevel > nodeArray[tempLoc-1].getAL()){
+			if(activLevel >= nodeArray[tempLoc+1].getAL() && activLevel >= nodeArray[tempLoc-1].getAL() &&
+					activLevel >= nodeArray[tempLoc+2].getAL() && activLevel >= nodeArray[tempLoc-2].getAL() &&
+							nodeArray[tempLoc+1].getAL() > nodeArray[tempLoc+2].getAL() &&
+							nodeArray[tempLoc-1].getAL() > nodeArray[tempLoc-2].getAL()){
 				nodeArray[tempLoc].setMaxima();
 			}
 		}

@@ -8,6 +8,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 import model.RCNN_Model;
+import resources.datatypes.Node;
 import resources.datatypes.NodeData;
 import controller.oscilloscope.OscilloGFX;
 
@@ -18,6 +19,10 @@ public class ActivMapHandler implements GLEventListener {
 
 	public ActivMapHandler(RCNN_Model model) {
 		this.model = model;
+	}
+	
+	public void dataNotify(){
+    	slideLevel++;
 	}
 
     // GLEventListener function calls
@@ -30,40 +35,45 @@ public class ActivMapHandler implements GLEventListener {
         Entry<String,NodeData> tempEntry;
         int addHeight = 0;
 
-		// Initialize oscilloscope
-        OscilloGFX.initialize(gl2, model.getDataResolution());
+		// Initialize activation map
+        ActivMapGFX.initialize(gl2);
         
-        // loop to draw all of the oscilloscopes
+        // Draw bottom of the graph
+        ActivMapGFX.drawGraphBottom(gl2, width, height);
+        
+        // Validate slide level
+        if(slideLevel > model.getDataResolution()/16){
+        	slideLevel = 0;
+        }
+        
+        // Loop to draw all of the data points
         while(dataSet.hasNext()){
         	
         	// Grab the latest data set that we're doing
         	tempEntry = dataSet.next();
         
-            // Print all of the text on the oscilloscope
-        	OscilloGFX.drawTextInfo(gl2, width, height, addHeight, tempEntry);
+            // Print the name of the node
+        	ActivMapGFX.drawTextInfo(gl2, width, height, addHeight, tempEntry);
 	
-            // Draw background box
-        	OscilloGFX.drawBGBox(gl2, width, height, addHeight);
-            
-	        // Draw the midpoint lines
-        	OscilloGFX.drawGridLines(gl2, width, height, addHeight, model.getDataResolution(),slideLevel);
-	        
-	        // Draw outline
-        	OscilloGFX.drawBoxOutline(gl2, width, height, addHeight);
-	
-	        // Draw the line graph
-        	OscilloGFX.drawLineGraph(gl2, width, height, addHeight, tempEntry.getValue(), model.getDataResolution());
+	        // Plot all of the maxima points
+        	ActivMapGFX.drawMaximas(gl2, width, height, addHeight, tempEntry.getValue(), model.getDataResolution());
 
 	        // Increment the height
 	        addHeight += height + 10;
 	       
         }
         
+        // Draw some grid lines
+        ActivMapGFX.drawGridLines(gl2, width, height, addHeight, model.getDataResolution(), slideLevel);
+        
+        // Now draw the rest of the box around it
+        ActivMapGFX.drawRemainingBox(gl2, width, height, width, addHeight);
+        
         // once all oscilloscopes are drawn, scale the entire thing by the current vertical height
         // coordinate system origin at lower left with width and height same as the window
-        OscilloGFX.scaleViewport(gl2, width, height, width, addHeight);
+        ActivMapGFX.scaleViewport(gl2, width, height, width, addHeight);
         
-        OscilloGFX.flush(gl2);
+        ActivMapGFX.flush(gl2);
 	}
 
 	public void dispose(GLAutoDrawable arg0) {

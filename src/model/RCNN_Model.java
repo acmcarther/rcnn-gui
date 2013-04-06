@@ -4,46 +4,75 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Observable;
-
 import resources.datatypes.Node;
 import resources.datatypes.NodeData;
-import view.RCNN_View;
 
+/**
+ * RCNN_Model is the model component of the MVC part of the RCNN 
+ * visualization. It contains:
+ * <ul>
+ * <li>Persistent Node History
+ * <li>Forward Edge Information
+ * <li>Backward Edge Information
+ * </ul>
+ * @author      Alexander McArther
+ */
 public class RCNN_Model extends Observable {
+	// Class Variables
+	private int nodeDataSize;
 	private LinkedHashMap<String, NodeData> nodeMap;
-
-	private int nodeDataSize = 500;
-	
-	// TODO: Finalize edge maps
-	private LinkedHashMap<String, String[]> forwardEdgeMap;
+	private LinkedHashMap<String, String[]> forwardEdgeMap; // TODO: Finalize edge maps
 	//private LinkedHashMap<String, String[]> backwardEdgeMap;
 
-	public void initialize(int nodeDataSize) {
+	
+	/**
+	 * Creates the model of the RCNN Visualization. In the 
+	 * process it generates a LinkedHashMap for the node list.
+	 *
+	 * @param  nodeDataSize - Integer specifying how many data entries
+	 * per node to maintain at a time.
+	 */
+	public RCNN_Model(int nodeDataSize) {
 		nodeMap = new LinkedHashMap<String, NodeData>(20);
 		this.nodeDataSize = nodeDataSize;
 	}
 
+	/**
+	 * Breaks the internal LinkedHashMap into an array with 
+	 * representative elements for each node.
+	 *
+	 * @return  Node array consisting of all of the nodes in the
+	 * structure.
+	 * @see Node
+	 */
 	public Node[] getNodeList() {
 		// Declare variables
 		int index = 0;
 		
-	    // convert hash map to node array
+	    // Declare a node array of size equal to the node map
 	    Node[] nodeList = new Node[nodeMap.size()];
 	    
-	    // Loop to output nodemap to a NodeList
+	    // Iterate through all of the entries in the node map
 	    for (Entry<String, NodeData> mapEntry : nodeMap.entrySet()) {
+	    	// Get the name of the node and it's activation levels
 	    	nodeList[index] = new Node(mapEntry.getKey().substring(17), (mapEntry.getValue().peekLast().getAL()));
+	    	
+	    	// Move to the next element in the node array
 	    	index++;
 	    }
 	    
-	    // return output
+	    // return the node array
 		return nodeList;
 	}
 	
-	public boolean hasNodeNamed(String name) {
-		return nodeMap.containsKey(name);
-	}
-	
+	/**
+	 * Attempts to locate an edge in the forward edge map between
+	 * the two input nodes.
+	 * @param parentName - Name of the origin node.
+	 * @param childName - Name of the terminating node.
+	 * @return  <code>true</code> if the edge was found
+	 * in the internal forward edge map, <code>false</code> otherwise.
+	 */
 	public boolean hasEdgeBetween(String parentName, String childName) {
 		// Check if the parent exists in the edge map
 		if(!forwardEdgeMap.containsKey(parentName)){
@@ -63,9 +92,18 @@ public class RCNN_Model extends Observable {
 		return false;
 	}
 
+	/**
+	 * Uses new input data in the form of a LinkedHashMap to update
+	 * the model's version of the data. It adds nodes if they aren't
+	 * already in the structure, and removes them if they weren't in
+	 * this latest batch of data
+	 * 
+	 * @param newNodeData - A LinkedHashMap containing string keys and
+	 * float data elements corresponding to new data from some source
+	 */
 	public void updateNodeMap(LinkedHashMap<String, Float> newNodeData) {
 		
-		// Define variables
+		// Define function variables
 		Entry<String,Float> floatEntry;
 		Entry<String,NodeData> nodeEntry;
 		String tempKey;
@@ -74,7 +112,7 @@ public class RCNN_Model extends Observable {
 		// Build a new data iterator
 		Iterator<Entry<String,Float>> newDataIterator = newNodeData.entrySet().iterator();
 
-		// Iterate through Linked Hash Map
+		// Iterate through updated Linked Hash Map
 		while(newDataIterator.hasNext()){
 			
 			// Get next entry
@@ -83,10 +121,12 @@ public class RCNN_Model extends Observable {
 			// Get next key
 			tempKey = floatEntry.getKey();
 			
+			// If we have the key, just update it
 			if (nodeMap.containsKey(tempKey)){
 				// If we already have this key, simply update its values
 				nodeMap.get(tempKey).enqueue(new Node(tempKey, floatEntry.getValue()));
 			}
+			// Otherwise, we need to add it
 			else{
 				// otherwise, generate a new entry
 				nodeMap.put(tempKey, new NodeData(nodeDataSize, new Node(tempKey, floatEntry.getValue())));
@@ -104,28 +144,60 @@ public class RCNN_Model extends Observable {
 			
 			// Get next data set
 			tempData = nodeEntry.getValue();
+			
+			// Check if this element was updated
 			if (!tempData.wasUpdated()){
-				// If we didnt update this data, it means its not in the sim,
-				//	Thus we need to remove it
+				// Remove unmodified entry
 				nodeMap.remove(nodeEntry.getKey());
 			}
 		}
 		
-		// Tell observers to update
+		// Let everyone know we've updated our data
 		setChanged();
+		
+		// Tell the observers about our new data
 		notifyObservers(this);
 	}
 	
+	/**
+	 * Retrieves the internal LinkedHashMap containing the node data.
+	 * 
+	 * @return LinkedHashMap - Keyed by node name containing NodeData entries
+	 * @see NodeData
+	 */
 	public LinkedHashMap<String, NodeData> getNodeMap(){
 		return nodeMap;
 	}
 	
+	/**
+	 * Retrieves the number of entries in each NodeData structure.
+	 * 
+	 * @return The size of the NodeData internal deque.
+	 * @see NodeData
+	 */
 	public int getDataResolution(){
 		return nodeDataSize;
 	}
 
+	/**
+	 * Retrieves the number of nodes in the internal LinkedHashMap.
+	 * 
+	 * @return The number of keys in the LinkedHashMap
+	 */
 	public int getNodeCount() {
 		return nodeMap.size();
+	}
+	
+	/**
+	 * Requests from the internal LinkedHashMap to see if a key
+	 * like the input parameter exists as a node.
+	 * 
+	 * @param name - The name of the node to search for.
+	 * @return <code>true</code> if the node exists, <code>
+	 * false</code> otherwise.
+	 */
+	public boolean hasNodeNamed(String name) {
+		return nodeMap.containsKey(name);
 	}
 
 }

@@ -21,6 +21,8 @@ import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import controller.command.CloseController;
@@ -91,6 +93,22 @@ public class ViewGui implements SubViewInterface, Observer {
 		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		main.getContentPane().setLayout(new BoxLayout(main.getContentPane(), BoxLayout.X_AXIS));
 		main.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        try {
+        	UIManager.setLookAndFeel ("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		
 		// Build all components
@@ -285,6 +303,14 @@ public class ViewGui implements SubViewInterface, Observer {
 			return newNodeHandler.execute(controlData);
 		}
 		return true;
+	}
+
+	@Override
+	public boolean hasActiveSubView(SubViewInterface childView) {	
+		if(childView.getContainer() == tpDisplays.getSelectedComponent()){
+			return true;
+		}
+		return false;
 	}
 
 

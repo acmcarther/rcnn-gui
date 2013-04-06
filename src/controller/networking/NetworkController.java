@@ -42,7 +42,8 @@ public class NetworkController {
 				connecting = false;
 				return "NoConnection";
 			}
-	
+			//System.out.println("----------------");
+			//System.out.println(result);
 			return result;
 		}
 		return "NoConnection";

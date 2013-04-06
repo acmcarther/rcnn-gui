@@ -24,7 +24,7 @@ public class OscilloGFX {
     final static float graphRange = maxValue - minValue;
     final static float midpoint = (minValue + maxValue)/2;
     
-    public static void initialize(GL2 gl2, int dataLogSize){
+    public static void initialize(GL2 gl2){
     	
         gl2.glClear( GL.GL_COLOR_BUFFER_BIT );
         gl2.glLoadIdentity();
@@ -128,6 +128,7 @@ public class OscilloGFX {
 	public static void drawGridLines(GL2 gl2, int width, int height, int addHeight, int dataLogSize, int slideLevel){
         final float graphLength = (width-graphBackOffset-graphWidthOffset-5);
         final float lineSeparation = graphLength/16;
+        int widthLoc;
         
     	// Back up gl2's settings
         gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
@@ -138,9 +139,11 @@ public class OscilloGFX {
         gl2.glVertex2f( graphWidthOffset, addHeight + height/2 );
         gl2.glVertex2f( width - 5 - graphBackOffset, addHeight + height/2 );
         
-        for(int i=1;i <= 16;i++){
-	        gl2.glVertex2f( graphWidthOffset - slideLevel*(graphLength)/(float)dataLogSize + i*lineSeparation, 5 + addHeight );
-	        gl2.glVertex2f( graphWidthOffset - slideLevel*(graphLength)/(float)dataLogSize + i*lineSeparation, addHeight + height - 5 );
+        for(int line=1;line <= 16;line++){
+        	// TODO: Figure out why the lines are all jumpy
+        	widthLoc = (int)(slideLevel*(graphLength)/dataLogSize);
+	        gl2.glVertex2f( graphWidthOffset - widthLoc + line*lineSeparation, 5 + addHeight );
+	        gl2.glVertex2f( graphWidthOffset - widthLoc + line*lineSeparation, addHeight + height - 5 );
         }
         gl2.glEnd(); 
         
@@ -202,14 +205,7 @@ public class OscilloGFX {
         gl2.glLoadIdentity();
 
         // Set viewport
-        //if(targetHeightPerNode < realHeightPerNode){
-        	gl2.glViewport( 0, 0, width, height );
-        //}
-        //else{
-        	//offsetHeight = (int) (height*targetHeightPerNode/realHeightPerNode);
-        	//heightDifference = (int)((offsetHeight - height)*mousePercent);
-        	//gl2.glViewport( 0, 0-heightDifference, width, offsetHeight);
-        //}
+        gl2.glViewport( 0, 0, width, height );
         
         // Load gl2's settings
         gl2.glPopMatrix();

@@ -1,16 +1,11 @@
 package controller.oscilloscope;
 
-
 import java.util.Iterator;
 import java.util.Map.Entry;
-
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.awt.GLJPanel;
-
 import resources.datatypes.NodeData;
-
 import model.RCNN_Model;
 
 public class OscilloHandler implements GLEventListener{
@@ -35,15 +30,19 @@ public class OscilloHandler implements GLEventListener{
         Iterator<Entry<String, NodeData>> dataSet = model.getNodeMap().entrySet().iterator();
         Entry<String,NodeData> tempEntry;
         int addHeight = 0;
-        int dataLogSize;
+        int dataLogSize = model.getDataResolution();;
 
 		// Initialize oscilloscope
-        OscilloGFX.initialize(gl2, model.getDataResolution());
+        OscilloGFX.initialize(gl2);
+        
+        // Validate slide level
+        if(slideLevel > dataLogSize/16){
+        	slideLevel = 0;
+        }
         
         // loop to draw all of the oscilloscopes
         while(dataSet.hasNext()){
-        	
-        	dataLogSize = model.getDataResolution();
+
         	
         	// Grab the latest data set that we're doing
         	tempEntry = dataSet.next();
@@ -53,11 +52,6 @@ public class OscilloHandler implements GLEventListener{
 	
             // Draw background box
             OscilloGFX.drawBGBox(gl2, width, height, addHeight);
-            
-            // Validate slide level
-            if(slideLevel > dataLogSize/16){
-            	slideLevel = 0;
-            }
             
 	        // Draw the midpoint lines
 	        OscilloGFX.drawGridLines(gl2, width, height, addHeight, dataLogSize, slideLevel);

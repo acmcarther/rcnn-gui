@@ -30,12 +30,10 @@ public class RCNN_View  {
 	
 	public RCNN_View(RCNN_Model model) {
 		guiView = new ViewGui(model);
-		mapView = new ViewActivationMap(model);
-		oscilloView = new ViewOscilloscope(model);
+		mapView = new ViewActivationMap(model, guiView);
+		oscilloView = new ViewOscilloscope(model, guiView);
 		this.model = model;
-	}
-	
-	public void initialize(){
+		
 		// Initialize all of the views
 		guiView.initialize();
 		oscilloView.initialize();
