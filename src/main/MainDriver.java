@@ -20,7 +20,7 @@ public class MainDriver {
 		
 		// Loop to continuously update the data
 		while(controller.isRunning()){
-			Thread.sleep(17);
+			Thread.sleep(50);
 			controller.updateData();
 		}
 	}

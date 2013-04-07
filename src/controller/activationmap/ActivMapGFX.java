@@ -23,7 +23,35 @@ public class ActivMapGFX {
 
     }
     
-   public static void drawTextInfo(GL2 gl2, int width, int height, int addHeight, Entry<String,NodeData> nodeEntry){
+    public static void drawOutsideBox(GL2 gl2, int width, int height, int totalNodes){
+    	// Back up gl2's settings
+        gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
+        
+    	// Set our color to white 
+        gl2.glColor3f( 1, 1, 1 );
+        
+    	// First set our drawing to line strips
+        gl2.glBegin( GL.GL_LINE_STRIP );
+		
+    	// draw point1 near the bottom left (offset for the name and stuff) 
+        gl2.glVertex2f( graphWidthOffset, 10 );
+        // draw point2 near the bottom right
+        gl2.glVertex2f( width - 5 - graphBackOffset, 10 );
+    	// draw point3 near top right
+        gl2.glVertex2f( width - 5 - graphBackOffset, height*totalNodes - 10);
+    	// draw point4 near top left
+        gl2.glVertex2f( graphWidthOffset , height*totalNodes - 10);
+    	// back to the point1
+        gl2.glVertex2f( graphWidthOffset, 5 );
+        
+        // all done with this fancy box
+        gl2.glEnd();
+        
+        // Load gl2's settings
+        gl2.glPopAttrib();
+    }
+    
+   public static void drawTextInfo(GL2 gl2, int windowWidth, int windowHeight, int addHeight, Entry<String,NodeData> nodeEntry){
     	
     	// TODO: Rework Substring calculation
     	
@@ -38,7 +66,7 @@ public class ActivMapGFX {
         gl2.glColor3f( 0,1, 0 );
 
         // Position node name
-        gl2.glRasterPos2i(5,addHeight + height/2);
+        gl2.glRasterPos2i(5,addHeight + windowHeight/2);
     	// Draw the text
         glut.glutBitmapString(GLUT.BITMAP_HELVETICA_10, nodeEntry.getKey().substring(17));
         
@@ -48,8 +76,8 @@ public class ActivMapGFX {
         
     }
    
-	public static void drawGridLines(GL2 gl2, int width, int height, int addHeight, int dataLogSize, int slideLevel){
-        final float graphLength = (width-graphBackOffset-graphWidthOffset-5);
+	public static void drawGridLines(GL2 gl2, int windowWidth, int windowHeight, int addHeight, int dataLogSize, int slideLevel){
+        final float graphLength = (windowWidth-graphBackOffset-graphWidthOffset-5);
         final float lineSeparation = graphLength/16;
         int widthLoc;
         
@@ -59,14 +87,14 @@ public class ActivMapGFX {
         gl2.glBegin( GL.GL_LINES );
         gl2.glColor3f( 0, 0.2f, 0 );
         
-        gl2.glVertex2f( graphWidthOffset, addHeight + height/2 );
-        gl2.glVertex2f( width - 5 - graphBackOffset, addHeight + height/2 );
+        gl2.glVertex2f( graphWidthOffset, addHeight + windowHeight/2 );
+        gl2.glVertex2f( windowWidth - 5 - graphBackOffset, addHeight + windowHeight/2 );
         
         for(int line=1;line <= 16;line++){
         	// TODO: Figure out why the lines are all jumpy
         	widthLoc = (int)(slideLevel*(graphLength)/dataLogSize);
-	        gl2.glVertex2f( graphWidthOffset - widthLoc + line*lineSeparation, 5 );
-	        gl2.glVertex2f( graphWidthOffset - widthLoc + line*lineSeparation, addHeight + height - 5 );
+	        gl2.glVertex2f( graphWidthOffset - widthLoc + line*lineSeparation, 10 );
+	        gl2.glVertex2f( graphWidthOffset - widthLoc + line*lineSeparation, addHeight + windowHeight - 10 );
         }
         gl2.glEnd(); 
         
@@ -104,13 +132,12 @@ public class ActivMapGFX {
 		gl2.glFinish();
 	}
 
-	public static void drawMaximas(GL2 gl2, int width, int height,
+	public static void drawMaximas(GL2 gl2, int baseWidth, int baseHeight,
 		int addHeight, NodeData nodeData, int dataResolution) {
         float plotCount =0;
         int xPlotPoint,yPlotPoint;
-        float activationLevel;
         Iterator<Node> nodeDataIterator = nodeData.iterator();
-        Node currentNode;
+        Node workingNode;
 		
     	// Back up gl2's settings
         gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
@@ -123,13 +150,13 @@ public class ActivMapGFX {
     
 	    while(nodeDataIterator.hasNext()){
 
-	    	currentNode = nodeDataIterator.next();
-	    	if( currentNode.getMaxima() ){
-	    		xPlotPoint = (int) (graphWidthOffset + (plotCount*(((float) (width-graphWidthOffset-5-graphBackOffset))/((float)dataResolution))));
+	    	workingNode = nodeDataIterator.next();
+	    	if( workingNode.getMaxima() ){
+	    		xPlotPoint = (int) (graphWidthOffset + (plotCount*(((float) (baseWidth-graphWidthOffset-5-graphBackOffset))/((float)dataResolution))));
 	    		// TODO: fix this so huge points don't go somewhere bad, as well as tiny points
-		    	yPlotPoint = (int) (5 + addHeight + (height/2));
-	    		gl2.glVertex2f(xPlotPoint,yPlotPoint + (height/2));
-	    		gl2.glVertex2f(xPlotPoint,yPlotPoint - (height/2));
+		    	yPlotPoint = (int) (addHeight + (baseHeight/2));
+	    		gl2.glVertex2f(xPlotPoint,yPlotPoint + (baseHeight/2));
+	    		gl2.glVertex2f(xPlotPoint,yPlotPoint - (baseHeight/2));
 	    	}
 	    	plotCount++;
 	    }
@@ -141,56 +168,5 @@ public class ActivMapGFX {
         gl2.glPopAttrib();
 		
 	}
-	
-	public static void drawGraphBottom(GL2 gl2, int width, int height) {
-		
-    	// Back up gl2's settings
-        gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
-        
-    	// Set our color to white 
-        gl2.glColor3f( 1, 1, 1 );
-        
-    	// First set our drawing to line strips
-        gl2.glBegin( GL.GL_LINE_STRIP );
-		
-    	// draw point1 near the bottom left (offset for the name and stuff) 
-        gl2.glVertex2f( graphWidthOffset, 5 );
-        // draw point2 near the bottom right
-        gl2.glVertex2f( width - 5 - graphBackOffset, 5 );
-        
-        // all done with this fancy box
-        gl2.glEnd();
-        
-        // Load gl2's settings
-        gl2.glPopAttrib();
-		
-	}
 
-	public static void drawRemainingBox(GL2 gl2, int width, int height,
-			int width2, int addHeight) {
-		
-    	// Back up gl2's settings
-        gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
-        
-    	// Set our color to white 
-        gl2.glColor3f( 1, 1, 1 );
-        
-    	// First set our drawing to line strips
-        gl2.glBegin( GL.GL_LINE_STRIP );
-        
-    	// draw point2 near the bottom right
-        gl2.glVertex2f( width - 5 - graphBackOffset, 5 );
-    	// draw point3 near top right
-        gl2.glVertex2f( width - 5 - graphBackOffset, addHeight - 5  );
-    	// draw point4 near top left
-        gl2.glVertex2f( graphWidthOffset , addHeight - 5 );
-    	// back to the point1
-        gl2.glVertex2f( graphWidthOffset, 5 );
-		
-        // all done with this fancy box
-        gl2.glEnd();
-        
-        // Load gl2's settings
-        gl2.glPopAttrib();
-	}
 }

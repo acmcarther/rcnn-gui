@@ -33,13 +33,11 @@ public class ActivMapHandler implements GLEventListener {
 		int height = glAutoDrawable.getHeight();
         Iterator<Entry<String, NodeData>> dataSet = model.getNodeMap().entrySet().iterator();
         Entry<String,NodeData> tempEntry;
-        int addHeight = 0;
+        int currentHeight = 0;
 
 		// Initialize activation map
         ActivMapGFX.initialize(gl2);
         
-        // Draw bottom of the graph
-        ActivMapGFX.drawGraphBottom(gl2, width, height);
         
         // Validate slide level
         if(slideLevel > model.getDataResolution()/16){
@@ -53,25 +51,26 @@ public class ActivMapHandler implements GLEventListener {
         	tempEntry = dataSet.next();
         
             // Print the name of the node
-        	ActivMapGFX.drawTextInfo(gl2, width, height, addHeight, tempEntry);
+        	ActivMapGFX.drawTextInfo(gl2, width, height, currentHeight, tempEntry);
 	
 	        // Plot all of the maxima points
-        	ActivMapGFX.drawMaximas(gl2, width, height, addHeight, tempEntry.getValue(), model.getDataResolution());
+        	ActivMapGFX.drawMaximas(gl2, width, height, currentHeight, tempEntry.getValue(), model.getDataResolution());
 
 	        // Increment the height
-	        addHeight += height + 10;
+	        currentHeight+= height;
 	       
         }
         
         // Draw some grid lines
-        ActivMapGFX.drawGridLines(gl2, width, height, addHeight, model.getDataResolution(), slideLevel);
+        ActivMapGFX.drawGridLines(gl2, width, height, currentHeight, model.getDataResolution(), slideLevel);
         
         // Now draw the rest of the box around it
-        ActivMapGFX.drawRemainingBox(gl2, width, height, width, addHeight);
+        //ActivMapGFX.drawRemainingBox(gl2, width, height, width, addHeight);
+        ActivMapGFX.drawOutsideBox(gl2, width, height, model.getNodeCount());
         
         // once all oscilloscopes are drawn, scale the entire thing by the current vertical height
         // coordinate system origin at lower left with width and height same as the window
-        ActivMapGFX.scaleViewport(gl2, width, height, width, addHeight);
+        ActivMapGFX.scaleViewport(gl2, width, height, width, currentHeight);
         
         ActivMapGFX.flush(gl2);
 	}

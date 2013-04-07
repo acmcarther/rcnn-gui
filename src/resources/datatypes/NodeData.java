@@ -68,16 +68,25 @@ public class NodeData {
 		
 		// Set maxima status if applicable
 		if(size > 5){
-			int tempLoc = size - 4;
+			int tempLoc = size - 3;
+			float mean, percentDifference;
 			float activLevel;
 			Node nodeArray[] = new Node[size];
 			Data.toArray(nodeArray);
 			activLevel = nodeArray[tempLoc].getAL();
+			
+			mean = (nodeArray[tempLoc-2].getAL() + nodeArray[tempLoc-1].getAL() + nodeArray[tempLoc].getAL() + 
+					   nodeArray[tempLoc+1].getAL() + nodeArray[tempLoc+2].getAL())/5;
+				percentDifference = nodeArray[tempLoc].getAL()/mean;
+			
 			if(activLevel >= nodeArray[tempLoc+1].getAL() && activLevel >= nodeArray[tempLoc-1].getAL() &&
 					activLevel >= nodeArray[tempLoc+2].getAL() && activLevel >= nodeArray[tempLoc-2].getAL() &&
-							nodeArray[tempLoc+1].getAL() > nodeArray[tempLoc+2].getAL() &&
-							nodeArray[tempLoc-1].getAL() > nodeArray[tempLoc-2].getAL()){
-				nodeArray[tempLoc].setMaxima();
+							nodeArray[tempLoc+1].getAL() >= nodeArray[tempLoc+2].getAL() &&
+							nodeArray[tempLoc-1].getAL() >= nodeArray[tempLoc-2].getAL()){
+				if(percentDifference > 1.1 || percentDifference < 0.97 ){
+					nodeArray[tempLoc].setMaxima();	
+				}
+
 			}
 		}
 	}
