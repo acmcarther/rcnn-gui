@@ -164,6 +164,18 @@ public class NetworkController {
 				    
 				    model.updateNodeMap(nodeMap);
 				}
+				
+				// Also need to grab edges
+				result = sendGetMessage(new URL(serverAddress + ":" + port + "/graph/topology"));
+				if(result != "NoConnection"){
+				
+				    LinkedHashMap<String, String> edgeMap =  
+				    		new Gson().fromJson(result, 
+				    				new TypeToken<LinkedHashMap<String, String>>(){}.getType());
+				    
+				    model.updateEdgeMap(edgeMap);
+				}
+				
 			    
 			} catch (MalformedURLException e) {
 				// TODO: Bad URL Exception

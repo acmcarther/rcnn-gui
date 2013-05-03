@@ -4,12 +4,9 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.AbstractListModel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -21,27 +18,23 @@ import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import controller.command.CloseController;
 import controller.command.ControlListenerInterface;
-import controller.command.NetworkControlHandler;
-import controller.command.NewNodeHandler;
-
 import model.RCNN_Model;
 import net.miginfocom.swing.MigLayout;
 
 import resources.datatypes.ControlData;
-import resources.datatypes.Edge;
 import resources.datatypes.Node;
 import view.dialogs.NewNodeDialog;
 
 public class ViewGui implements SubViewInterface, Observer {
 	
 	// Static settings
-	static int updateInterval = 200;
+	static int updateInterval = 50;
 	
 	// Persistent GUI Components
 	
@@ -67,7 +60,11 @@ public class ViewGui implements SubViewInterface, Observer {
 	JButton btnEdgeDelete = new JButton("-");
 		// Lists
 	JList<Node> lstNodes = new JList<Node>();
-	JList<Edge> lstEdges = new JList<Edge>();
+	JList<Node> lstEdges = new JList<Node>();
+
+	
+		// Internal Node List
+	Node[] nodeList;
 	
 	JTabbedPane tpDisplays = new JTabbedPane(JTabbedPane.TOP);
 
@@ -93,23 +90,6 @@ public class ViewGui implements SubViewInterface, Observer {
 		main.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		main.getContentPane().setLayout(new BoxLayout(main.getContentPane(), BoxLayout.X_AXIS));
 		main.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        try {
-        	UIManager.setLookAndFeel ("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
 		
 		// Build all components
 		Component toolPanelSpacer = Box.createHorizontalGlue();
@@ -133,8 +113,8 @@ public class ViewGui implements SubViewInterface, Observer {
 		pnlToolbar.setLayout(new BoxLayout(pnlToolbar, BoxLayout.X_AXIS));
 		pnlMain.setLayout(new BoxLayout(pnlMain, BoxLayout.X_AXIS));
 		pnlLists.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow]"));
-		lstNodes.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		lstEdges.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		lstNodes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		lstEdges.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		pnlNodeButtons.setLayout(new BoxLayout(pnlNodeButtons, BoxLayout.X_AXIS));
 		pnlEdgeButtons.setLayout(new BoxLayout(pnlEdgeButtons, BoxLayout.X_AXIS));
 		
@@ -166,6 +146,23 @@ public class ViewGui implements SubViewInterface, Observer {
 		pnlEdgeButtons.add(btnEdgeEdit);
 		pnlEdgeButtons.add(btnEdgeDelete);
 		
+		lstNodes.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(final ListSelectionEvent e){
+				System.out.println("value changed");
+				
+				if(lstNodes.getSelectedValue() != null){
+					Node inputNode = lstNodes.getSelectedValue();
+					if(model.hasEdgesFor(inputNode)){
+						lstEdges.setListData(model.getEdgeList(inputNode));
+					}
+					else {
+						System.out.println("tried to remove all");
+						lstEdges.setListData(new Node[0]);
+					}
+				}
+			}
+			
+		});
 		
 		// TODO: Action Listeners
 		btnStart.addActionListener(new ActionListener() {
@@ -239,7 +236,7 @@ public class ViewGui implements SubViewInterface, Observer {
 		return lstNodes.getSelectedValue();
 	}
 	
-	public Edge getSelectedEdge(){
+	public Node getSelectedEdge(){
 		return lstEdges.getSelectedValue();
 	}
 	
@@ -255,18 +252,16 @@ public class ViewGui implements SubViewInterface, Observer {
 		
 		// If we've updated updateInterval times, update the lists
 		if(updateTick > updateInterval){
-			// Refresh the node list
-			lstNodes.setModel(new AbstractListModel<Node>() {
-				Node[] nodeList = ((RCNN_Model) arg).getNodeList();
-				public int getSize() {
-					return nodeList.length;
-				}
-				public Node getElementAt(int index) {
-					return nodeList[index];
-				}
-				
-			});
-		
+			
+			// Update our list if it is not the same
+			// TODO: Make comparison function, since this comparison is not doing what I want
+			// TODO: Example: hasSameNodes
+			if(this.nodeList != (((RCNN_Model) arg).getNodeList())){
+				// Refresh the node list
+				lstNodes.setListData(((RCNN_Model) arg).getNodeList());
+				//nodeList = ((RCNN_Model) arg).getNodeList();
+			}
+			
 			// Set the counter back to zero
 			updateTick = 0;
 		}

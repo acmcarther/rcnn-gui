@@ -8,9 +8,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 import model.RCNN_Model;
-import resources.datatypes.Node;
 import resources.datatypes.NodeData;
-import controller.oscilloscope.OscilloGFX;
 
 public class ActivMapHandler implements GLEventListener {
 

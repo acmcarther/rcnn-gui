@@ -35,7 +35,6 @@ public class ViewOscilloscope implements SubViewInterface, Observer {
 	}
 	
 	public void initialize() {
-
 		GLProfile glProfile = GLProfile.getDefault();
 		GLCapabilities glCapabilities = new GLCapabilities( glProfile );
 		oscilloCanvas = new GLJPanel( glCapabilities );
@@ -51,6 +50,7 @@ public class ViewOscilloscope implements SubViewInterface, Observer {
 
 	public void update(Observable o, Object arg) {
 		
+		// If this view is the active view, update it's display
 		if(parentView.hasActiveSubView(this)){
 			int newNodeCount = ((RCNN_Model) arg).getNodeCount();
 			

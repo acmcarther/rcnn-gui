@@ -3,12 +3,12 @@ package view;
 import javax.swing.JOptionPane;
 
 import view.subviews.ViewActivationMap;
+import view.subviews.ViewForceGraph;
 import view.subviews.ViewGui;
 import view.subviews.ViewOscilloscope;
 import controller.command.CloseController;
 import controller.command.ControlListenerInterface;
 import controller.command.NetworkControlHandler;
-import controller.command.NewNodeHandler;
 import model.RCNN_Model;
 
 
@@ -20,19 +20,21 @@ import model.RCNN_Model;
  */
 public class RCNN_View  {
 	/** Model registered to this view*/
-	private RCNN_Model model;
+	//private RCNN_Model model;
 	
 	
 	// View Subcomponents
 	private ViewGui guiView;
 	private ViewActivationMap mapView;
 	private ViewOscilloscope oscilloView;
+	private ViewForceGraph forceView;
 	
 	public RCNN_View(RCNN_Model model) {
 		guiView = new ViewGui(model);
 		mapView = new ViewActivationMap(model, guiView);
 		oscilloView = new ViewOscilloscope(model, guiView);
-		this.model = model;
+		forceView = new ViewForceGraph(model, guiView);
+		//this.model = model;
 		
 		// Initialize all of the views
 		guiView.initialize();
@@ -40,6 +42,7 @@ public class RCNN_View  {
 		mapView.initialize();
 		guiView.addSubView(oscilloView, "Oscilloscope");
 		guiView.addSubView(mapView, "Map (WIP)");
+		guiView.addSubView(forceView, "Force Graph");
 		
 		// Add them as observers of the model
 		model.addObserver(guiView);
@@ -59,7 +62,7 @@ public class RCNN_View  {
 	
 
 	public void registerModel(RCNN_Model model) {
-		this.model = model;
+		//this.model = model;
 	}
 
 	public void registerCloseHandler(CloseController windowCloseHandler) {

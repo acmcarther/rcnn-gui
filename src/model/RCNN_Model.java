@@ -34,6 +34,7 @@ public class RCNN_Model extends Observable {
 	 */
 	public RCNN_Model(int nodeDataSize) {
 		nodeMap = new LinkedHashMap<String, NodeData>(20);
+		forwardEdgeMap = new LinkedHashMap<String, String[]>(20);
 		this.nodeDataSize = nodeDataSize;
 	}
 
@@ -159,6 +160,36 @@ public class RCNN_Model extends Observable {
 		notifyObservers(this);
 	}
 	
+	public void updateEdgeMap(LinkedHashMap<String, String> newEdgeData) {
+		
+		// Define function variables
+		Entry<String,String> edgeEntry;
+		String key;
+		String[] separatedEdges;
+		
+		// Build a new data iterator
+		Iterator<Entry<String,String>> newDataIterator = newEdgeData.entrySet().iterator();
+
+		// Iterate through updated Linked Hash Map
+		while(newDataIterator.hasNext()){
+			
+			// Get next entry
+			edgeEntry = newDataIterator.next();
+			key = edgeEntry.getKey();
+
+			// Split the input string
+			separatedEdges = edgeEntry.getValue().split(" ");
+			
+			// Update entry in the map
+			if( separatedEdges == null){
+				System.out.println("what the fuck dude");
+			}
+			forwardEdgeMap.put(key, separatedEdges);
+			
+		}
+		// TODO: purge values from edge list that did not get updated
+	}
+	
 	/**
 	 * Retrieves the internal LinkedHashMap containing the node data.
 	 * 
@@ -200,4 +231,29 @@ public class RCNN_Model extends Observable {
 		return nodeMap.containsKey(name);
 	}
 
+	public Node[] getEdgeList(Node elementAt) {
+		
+		// Grab the node data symbolizing that element
+		String[] edgeSet = forwardEdgeMap.get(elementAt.getName());
+		
+	    // Declare a node array of size equal to the node map
+	    Node[] nodeList = new Node[edgeSet.length];
+	    
+	    // Iterate through all of the entries in the nodedata
+	    for(int stringIndex = 0; stringIndex < edgeSet.length; stringIndex++) {
+	    	
+	    	// Get the name of the node and it's activation levels
+	    	nodeList[stringIndex] = new Node(edgeSet[stringIndex], 0);
+	    	
+	    }
+	    
+	    // return the node array
+		return nodeList;
+	}
+
+	public boolean hasEdgesFor(Node selectedValue) {
+		// TODO Auto-generated method stub
+		return forwardEdgeMap.containsKey(selectedValue.getName());
+	}
+	
 }

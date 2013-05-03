@@ -1,16 +1,12 @@
 package view.subviews;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLJPanel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 import controller.activationmap.ActivMapHandler;
 

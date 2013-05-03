@@ -13,8 +13,6 @@ import javax.swing.JButton;
 import java.awt.Component;
 import javax.swing.Box;
 
-import view.RCNN_View;
-
 import controller.RCNN_Controller;
 
 import java.awt.Window.Type;

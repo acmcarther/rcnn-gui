@@ -75,6 +75,8 @@ public class NodeData {
 			Data.toArray(nodeArray);
 			activLevel = nodeArray[tempLoc].getAL();
 			
+			// TODO: This needs a facelift, but at least it works
+			
 			mean = (nodeArray[tempLoc-2].getAL() + nodeArray[tempLoc-1].getAL() + nodeArray[tempLoc].getAL() + 
 					   nodeArray[tempLoc+1].getAL() + nodeArray[tempLoc+2].getAL())/5;
 				percentDifference = nodeArray[tempLoc].getAL()/mean;

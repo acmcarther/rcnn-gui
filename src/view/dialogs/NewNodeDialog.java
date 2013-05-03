@@ -15,11 +15,8 @@ import java.awt.Container;
 import java.awt.Frame;
 
 import javax.swing.Box;
-
-import view.RCNN_View;
 import view.subviews.ViewGui;
 
-import controller.RCNN_Controller;
 import resources.datatypes.ControlData;
 
 import java.awt.Window.Type;
@@ -27,7 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class NewNodeDialog {
-	private RCNN_Controller controller;
+	//private RCNN_Controller controller;
 	private JDialog mainDialog;
 	private JTextField textField;
 	private JTextField textField_1;

@@ -22,7 +22,7 @@ import model.RCNN_Model;
 public class RCNN_Controller {
 	
 	private RCNN_Model model;
-	private RCNN_View view;
+	//private RCNN_View view;
 	private NetworkController network;
 	private CloseController windowCloseHandler;
 	private NewNodeHandler newNodeHandler;
@@ -43,7 +43,7 @@ public class RCNN_Controller {
 	public RCNN_Controller(RCNN_Model model, RCNN_View view){
 		running = true;
 		this.model = model;
-		this.view = view;
+		//this.view = view;
 		
 		network = new NetworkController(model);
 		network.setAddress("http://localhost");
