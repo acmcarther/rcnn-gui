@@ -3,36 +3,12 @@ RCNN - GUI
 
 -TODO:
 
-	-- Latest of the latest:
-		-It works. Bring me your nodes and your values. I will use 
-		all of them. Please tell me if you need anything else or if
-		you get some wonky results.
-
-	-- Even more latest:
-		-Made a single proof of concept oscilloscope using junk data.
-		Once I sort out my problem with play framework I'll get some
-		real data in there. Then I'll make ALL of the oscilloscopes.
-
-	-- Latest:
-		-Added a persistent data structure for nodes. They (should) now
-		keep track of their latest 500 values. This will be required to 
-		build the oscilloscope. Could not test because play-rcnn gave me 
-		errors on compilation. 
-		
-	-- IMMEDIATE TODOS:
-		-start handling some of the todos.
-		-actually delete some of the data i created
-
-	-- Networking Loop
-		-formalize network infrastructure (did a good bit of that already)
+	- Extract more interfaces. This half-commitment to interface use is terrible.
 	
-	-- Simulation Loop
-		-Build backbone for simulation
+	- Work on the force graph
 	
-	-- Render Loop
-		-Interconnect simulation and render loop
+	- Formalize the subview interface. Enforce consistency.
 	
-	-- GUI work
-  		-fix the damn dialog boxes
-  		-on select of node list, display relevant edges
-  		-update edge list regularly
+	- Remove the activation level from the edge list in guiView.
+	
+	- Load and Save functionality. This is going to be the big one.

@@ -85,7 +85,7 @@ public class RCNN_Model extends Observable {
 		
 		// Parse children list for the matching child
 		for(String child : childrenNames){
-			if (child == childName){
+			if (child.equals(childName)){
 				return true;
 			}
 		}

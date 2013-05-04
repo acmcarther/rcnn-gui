@@ -1,9 +1,9 @@
 package resources.datatypes;
 
 public class Node{
-	private String name;
-	private float activLevel;
-	private boolean isMaxima;
+	protected String name;
+	protected float activLevel;
+	protected boolean isMaxima;
 
 	
 	public Node(String name, float activLevel){

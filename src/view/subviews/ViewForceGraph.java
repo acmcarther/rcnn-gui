@@ -25,11 +25,13 @@ public class ViewForceGraph implements SubViewInterface, Observer {
 	public ViewForceGraph(RCNN_Model model, ViewGui guiView) {
 		this.model = model;
 		this.parentView = guiView;
+		forcegraph = new ForceGraphHandler(model);
 	}
 	
 	public void initialize(){
 		GLProfile glProfile = GLProfile.getDefault();
 		GLCapabilities glCapabilities = new GLCapabilities( glProfile );
+
 		forceCanvas = new GLJPanel( glCapabilities );
 		forceCanvas.addGLEventListener(forcegraph);
 	}

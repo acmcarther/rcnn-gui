@@ -9,6 +9,8 @@ import view.RCNN_View;
 public class MainDriver {
 	public static void main(String[] args) throws InterruptedException {
 
+		System.out.println("system start");
+		
 		// Instantiate Model
 		RCNN_Model model = new RCNN_Model(2000);
 					

@@ -40,6 +40,7 @@ public class RCNN_View  {
 		guiView.initialize();
 		oscilloView.initialize();
 		mapView.initialize();
+		forceView.initialize();
 		guiView.addSubView(oscilloView, "Oscilloscope");
 		guiView.addSubView(mapView, "Map (WIP)");
 		guiView.addSubView(forceView, "Force Graph");
@@ -48,6 +49,7 @@ public class RCNN_View  {
 		model.addObserver(guiView);
 		model.addObserver(mapView);
 		model.addObserver(oscilloView);
+		model.addObserver(forceView);
 		
 		// Set the GUI to be visible
 		guiView.setVisible(true);
