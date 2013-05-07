@@ -1,6 +1,5 @@
 package controller.forcegraph;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -9,7 +8,6 @@ import java.util.Map.Entry;
 import model.RCNN_Model;
 
 import resources.datatypes.Node;
-import resources.datatypes.NodeData;
 import resources.datatypes.PhysicsNode;
 
 /*
@@ -32,7 +30,6 @@ public class ForceGraphPHYS {
 	}
 	
 	public void runPhysicsTick(){
-		//LinkedHashMap<String,PhysicsNode> newMap = new LinkedHashMap<String,PhysicsNode>(physNodeMap);
 		Iterator<Entry<String,PhysicsNode>> originIterator = physNodeMap.entrySet().iterator();
 		Iterator<Entry<String,PhysicsNode>> affectedIterator;getClass();
 		PhysicsNode originNode;
@@ -71,6 +68,7 @@ public class ForceGraphPHYS {
 			//System.out.println("before: "+originEntry.getKey() + ": " + originEntry.getValue().getX() + ", " + originEntry.getValue().getY());
 			originEntry.getValue().applyForces();
 			//System.out.println("after: "+originEntry.getKey() + ": " + originEntry.getValue().getX() + ", " + originEntry.getValue().getY());
+			originEntry.getValue().applyVelocity();
 		}
 		
 		

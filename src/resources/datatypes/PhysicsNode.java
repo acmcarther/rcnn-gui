@@ -9,7 +9,8 @@ public class PhysicsNode {
 	float activLevel;
 	boolean wasModified;
 	
-	ForceVector forces;
+	Vector forces;
+	Vector velocity;
 
 	public PhysicsNode(String name, float activLevel) {
 		this.name = name;
@@ -20,7 +21,9 @@ public class PhysicsNode {
 		yPos = (Math.random() * 20);
 		
 		// Set force Vector
-		forces = new ForceVector(0,0);
+		forces = new Vector(0,0);
+		
+		velocity = new Vector(0,0);
 	}
 	
 	public PhysicsNode(Node basisNode) {
@@ -34,7 +37,7 @@ public class PhysicsNode {
 
 		
 		// Set force Vector
-		forces = new ForceVector(0,0);
+		forces = new Vector(0,0);
 	}
 	
 	public PhysicsNode(PhysicsNode basisNode) {
@@ -61,30 +64,41 @@ public class PhysicsNode {
 	
 	public void addRepulsiveForce(PhysicsNode otherNode){
 		double distance =  Math.max(getDistanceFrom(otherNode.getX(),otherNode.getY()), 1);
-		//System.out.println(distance);
-		double force = 10000.0f / (Math.pow(distance, 2));
+		double force = -(10000.0f / (Math.pow(distance, 2)));
 		double angle = getAngleTo(otherNode.getX(), otherNode.getY());
 		
-		forces.addVectorMagAng(force, angle);
+		// add forces
+		forces.addVectors(new Vector(force,angle));
 	}
 	
 	public void addAttractiveForce(PhysicsNode otherNode){
 		double distance =  Math.max(getDistanceFrom(otherNode.getX(),otherNode.getY()), 1);
-		double force = -0.1f  * Math.max(distance - 5, 0);
+		double force = 0.1f  * Math.max(distance - 5, 0);
 		double angle = getAngleTo(otherNode.getX(), otherNode.getY());
 		
-		forces.addVectorMagAng(force, angle);
+		// add forces
+		forces.addVectors(new Vector(force,angle));
 	}
 	
 	public void applyForces(){
-		//System.out.println("preforce: " + forces.magnitude + ", " + forces.angle);
 		forces.addVectorXY(xPos, yPos);
-		//System.out.println("postforce: " + forces.magnitude + ", " + forces.angle);
 		if( getDistanceFrom(forces.getXComponent(),forces.getYComponent()) > 5){
 			xPos = forces.getXComponent();
 			yPos = forces.getYComponent();
 		}
+		
+		velocity.addVectors(forces);
+		// Dampening
+		velocity.prodScalarVector(0.5);
 		forces.setForces(0,0);
+	}
+	
+	public void applyVelocity(){
+		Vector currentPos = new Vector();
+		currentPos.setFromXY(xPos, yPos);
+		currentPos.addVectors(velocity);
+		xPos = currentPos.getXComponent();
+		yPos = currentPos.getYComponent();
 	}
 	
 	public double getDistanceFrom(double inXPos, double inYPos){
@@ -111,7 +125,7 @@ public class PhysicsNode {
 		return name;
 	}
 	
-	public ForceVector getForces(){
+	public Vector getForces(){
 		return forces;
 	}
 	
