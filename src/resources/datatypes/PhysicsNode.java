@@ -17,8 +17,7 @@ public class PhysicsNode {
         this.activLevel = activLevel;
 
         // Initialize physics traits
-        position = new Vector(Math.random(),Math.random());
-        System.out.println(position.getX() + position.getY());
+        position = new Vector(Math.random()*50,Math.random()*50);
         forces = new Vector(0,0);
         velocity = new Vector(0,0);
     }
@@ -28,7 +27,7 @@ public class PhysicsNode {
         this.activLevel = basisNode.getAL();
 
         // Set force Vector
-        position = new Vector(Math.random(),Math.random());
+        position = new Vector(Math.random()*50,Math.random()*50);
         forces = new Vector(0,0);
         velocity = new Vector(0,0);
     }

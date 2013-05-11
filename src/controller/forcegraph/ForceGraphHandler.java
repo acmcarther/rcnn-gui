@@ -1,5 +1,6 @@
 package controller.forcegraph;
 
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
@@ -12,6 +13,7 @@ public class ForceGraphHandler implements GLEventListener {
 	// Class Variables
 	RCNN_Model model;
 	ForceGraphPHYS graphPhysics;
+	ForceGraphGFX graphGFX;
 	
 	public ForceGraphHandler(RCNN_Model model){
 		this.model = model;
@@ -19,19 +21,29 @@ public class ForceGraphHandler implements GLEventListener {
 	}
 
 	@Override
-	public void display(GLAutoDrawable arg0) {
+	public void display(GLAutoDrawable glAutoDrawable) {
 		// Function Variables 
+		GL2 gl2 = glAutoDrawable.getGL().getGL2();
+		int width = glAutoDrawable.getWidth();
+		int height = glAutoDrawable.getHeight();
 		PhysicsNode[] nodeList = graphPhysics.getPhysicsNodes();
 		
-		System.out.print("{");
-		for(int i=0; i < nodeList.length;i++){
-			System.out.print("{" + Math.floor(nodeList[i].getPos().getX()) + ", " + Math.floor(nodeList[i].getPos().getY()) + "},");
-		}
-		System.out.println("}");
-		
 		// Initialize OpenGL
+		graphGFX.initialize();
+		
+		// Draw Map Grid
+		
+		
+		// Draw all of the edges
+		
 		
 		// Draw all of the nodes
+		for(int index = 0; index < nodeList.length; index++){
+			
+			
+			
+		}
+		
 		
 		// Scale the viewport
 		
