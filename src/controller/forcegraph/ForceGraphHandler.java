@@ -25,7 +25,7 @@ public class ForceGraphHandler implements GLEventListener {
 		
 		System.out.print("{");
 		for(int i=0; i < nodeList.length;i++){
-			System.out.print("{" + Math.floor(nodeList[i].getX()*10) + ", " + Math.floor(nodeList[i].getY()*10) + "},");
+			System.out.print("{" + Math.floor(nodeList[i].getPos().getX()) + ", " + Math.floor(nodeList[i].getPos().getY()) + "},");
 		}
 		System.out.println("}");
 		

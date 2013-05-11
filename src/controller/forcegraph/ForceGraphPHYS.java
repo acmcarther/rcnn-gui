@@ -68,7 +68,6 @@ public class ForceGraphPHYS {
 			//System.out.println("before: "+originEntry.getKey() + ": " + originEntry.getValue().getX() + ", " + originEntry.getValue().getY());
 			originEntry.getValue().applyForces();
 			//System.out.println("after: "+originEntry.getKey() + ": " + originEntry.getValue().getX() + ", " + originEntry.getValue().getY());
-			originEntry.getValue().applyVelocity();
 		}
 		
 		

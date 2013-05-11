@@ -1,149 +1,173 @@
 package resources.datatypes;
 
 public class PhysicsNode {
-	
-	// TODO: make this a common interface of Node
-	// Class Variables
-	double xPos, yPos;
-	String name;
-	float activLevel;
-	boolean wasModified;
-	
-	Vector forces;
-	Vector velocity;
+    
+    // TODO: make this a common interface of Node
+    // Class Variables
+    String name;
+    float activLevel;
+    boolean wasModified;
+    
+    Vector position;
+    Vector forces;
+    Vector velocity;
 
-	public PhysicsNode(String name, float activLevel) {
-		this.name = name;
-		this.activLevel = activLevel;
-		
-		// Generate random initial positions from 0 to 5
-		xPos = (Math.random() * 20);
-		yPos = (Math.random() * 20);
-		
-		// Set force Vector
-		forces = new Vector(0,0);
-		
-		velocity = new Vector(0,0);
-	}
-	
-	public PhysicsNode(Node basisNode) {
-		this.name = basisNode.getName();
-		this.activLevel = basisNode.getAL();
-		
-		// Generate random initial positions from 0 to 5
+    public PhysicsNode(String name, float activLevel) {
+        this.name = name;
+        this.activLevel = activLevel;
 
-		xPos = (Math.random() * 20);
-		yPos = (Math.random() * 20);
+        // Initialize physics traits
+        position = new Vector(Math.random(),Math.random());
+        System.out.println(position.getX() + position.getY());
+        forces = new Vector(0,0);
+        velocity = new Vector(0,0);
+    }
+    
+    public PhysicsNode(Node basisNode) {
+        this.name = basisNode.getName();
+        this.activLevel = basisNode.getAL();
 
-		
-		// Set force Vector
-		forces = new Vector(0,0);
-	}
-	
-	public PhysicsNode(PhysicsNode basisNode) {
-		this.name = basisNode.getName();
-		this.activLevel = basisNode.getAL();
-		
-		// Generate random initial positions from 0 to 5
-		xPos = basisNode.getX();
-		yPos = basisNode.getY();
-		
-		// Set force Vector
-		forces = basisNode.getForces();
-		
-		// Set modified
-		wasModified = basisNode.wasModified();
-	}
-	
-	public void setEqualTo(PhysicsNode otherNode){
-		xPos = otherNode.getX();
-		yPos = otherNode.getY();
-		name = otherNode.getName();
-		activLevel = otherNode.getAL();
-	}
-	
-	public void addRepulsiveForce(PhysicsNode otherNode){
-		double distance =  Math.max(getDistanceFrom(otherNode.getX(),otherNode.getY()), 1);
-		double force = -(10000.0f / (Math.pow(distance, 2)));
-		double angle = getAngleTo(otherNode.getX(), otherNode.getY());
-		
-		// add forces
-		forces.addVectors(new Vector(force,angle));
-	}
-	
-	public void addAttractiveForce(PhysicsNode otherNode){
-		double distance =  Math.max(getDistanceFrom(otherNode.getX(),otherNode.getY()), 1);
-		double force = 0.1f  * Math.max(distance - 5, 0);
-		double angle = getAngleTo(otherNode.getX(), otherNode.getY());
-		
-		// add forces
-		forces.addVectors(new Vector(force,angle));
-	}
-	
-	public void applyForces(){
-		forces.addVectorXY(xPos, yPos);
-		if( getDistanceFrom(forces.getXComponent(),forces.getYComponent()) > 5){
-			xPos = forces.getXComponent();
-			yPos = forces.getYComponent();
-		}
-		
-		velocity.addVectors(forces);
-		// Dampening
-		velocity.prodScalarVector(0.5);
-		forces.setForces(0,0);
-	}
-	
-	public void applyVelocity(){
-		Vector currentPos = new Vector();
-		currentPos.setFromXY(xPos, yPos);
-		currentPos.addVectors(velocity);
-		xPos = currentPos.getXComponent();
-		yPos = currentPos.getYComponent();
-	}
-	
-	public double getDistanceFrom(double inXPos, double inYPos){
-		return Math.hypot((xPos - inXPos), (yPos - inYPos));
-	}
-	
-	public double getAngleTo(double inXPos, double inYPos){
-		return Math.atan((inYPos-yPos)/(inXPos-xPos));
-	}
+        // Set force Vector
+        position = new Vector(Math.random(),Math.random());
+        forces = new Vector(0,0);
+        velocity = new Vector(0,0);
+    }
+    
+    public PhysicsNode(PhysicsNode basisNode) {
+        this.name = basisNode.getName();
+        this.activLevel = basisNode.getAL();
+        
+        // Generate random initial positions from 0 to 5
+        position = basisNode.getPos();
+        
+        // Set force Vector
+        forces = basisNode.getForces();
+        
+        // Set modified
+        wasModified = basisNode.wasModified();
+    }
+    
+    public void setEqualTo(PhysicsNode otherNode){       
+        name = otherNode.getName();
+        activLevel = otherNode.getAL();
+        
+        position = otherNode.getPos();
+        forces = otherNode.getForces();
+        velocity = otherNode.getVelocity();
+        wasModified = otherNode.wasModified();
+    }
+    
+    public void addRepulsiveForce(PhysicsNode otherNode){
+        double absDist = getDistanceFrom(otherNode.getPos().getX(),otherNode.getPos().getY());
+        double workingDist =  Math.max(absDist, 0.001);
+        double force = -(20000.0f / (Math.pow(workingDist, 2)));
+        Vector forceVec = new Vector();
+        
+        // Set the preliminary force vector to the displacement
+        forceVec.setX(otherNode.getPos().getX() - this.getPos().getX());
+        forceVec.setY(otherNode.getPos().getY() - this.getPos().getY());
+        
+        // Weight the vector by the repulsive force
+        forceVec.normalize();
+        forceVec.multScalar(force);
+        
+        // Add force
+        forces.addVector(forceVec);
+    }
+    
+    public void addAttractiveForce(PhysicsNode otherNode){
+        double absDist = getDistanceFrom(otherNode.getPos().getX(),otherNode.getPos().getY());
+        double workingDist =  Math.max(absDist, 0.01);
+        double force = 0.05f  * Math.max(workingDist - 5, 0);
+        Vector forceVec = new Vector();
+        
+        // Set the preliminary force vector to the displacement
+        forceVec.setX(otherNode.getPos().getX() - this.getPos().getX());
+        forceVec.setY(otherNode.getPos().getY() - this.getPos().getY());
+        
+        // Weight the vector by the attractive force
+        //System.out.println("AF:         " + forceVec);
+        forceVec.normalize();
+        forceVec.multScalar(force);
+        //System.out.println("weightedAF: " + forceVec);
+        
+        // Add force
+        forces.addVector(forceVec);
+    }
+    
+    public void applyForces(){
+        
+    	addGravity();
+        // Add the force into the velocity
+        velocity.addVector(forces);
+        velocity.multScalar(0.75);
+    	position.addVector(velocity);
+       
+        // Clear force vector
+        clearForces();
+    }
+    
+    public void addGravity(){
+    	double absDist = getDistanceFrom(0,0);
+        double workingDist =  Math.max(absDist, 0.01);
+        double force = 0.005f  * Math.max(workingDist - 20, 0);
+        Vector forceVec = new Vector();
+        
+        // Set the preliminary force vector to the displacement
+        forceVec.setX(- this.getPos().getX());
+        forceVec.setY(- this.getPos().getY());
 
-	public double getX(){
-		return xPos;
-	}
-	
-	public double getY(){
-		return yPos;
-	}
-	
-	public float getAL(){
-		return activLevel;
-	}
-	
-	public String getName(){
-		return name;
-	}
-	
-	public Vector getForces(){
-		return forces;
-	}
-	
-	public void setModifiedFlag(){
-		wasModified = true;
-	}
-	
-	public void clearModifiedFlag(){
-		wasModified = false;
-	}
-	
-	public boolean wasModified(){
-		return wasModified;
-	}
+        // Weight the vector by the attractive force
+        forceVec.normalize();
+        forceVec.multScalar(force);
+        
+        // Add force
+        forces.addVector(forceVec);
+    }
+    
+    public double getDistanceFrom(double inXPos, double inYPos){
+        return Math.hypot((position.x - inXPos), (position.y - inYPos));
+    }
+    
+    public Vector getPos(){
+        return position;
+    }
+    
+    public float getAL(){
+        return activLevel;
+    }
+    
+    public Vector getVelocity(){
+    	return velocity;
+    }
+    
+    public String getName(){
+        return name;
+    }
+    
+    public Vector getForces(){
+        return forces;
+    }
+    
+    public void clearForces(){
+    	forces.setXY(0,0);
+    }
+    
+    public void setModifiedFlag(){
+        wasModified = true;
+    }
+    
+    public void clearModifiedFlag(){
+        wasModified = false;
+    }
+    
+    public boolean wasModified(){
+        return wasModified;
+    }
 
-	public void setAL(float al) {
-		activLevel = al;
-		
-	}
-	
+    public void setAL(float al) {
+        activLevel = al;
+        
+    }
+    
 }

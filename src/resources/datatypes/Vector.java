@@ -2,74 +2,61 @@ package resources.datatypes;
 
 public class Vector {
 	// Class Variables
-	public static double DAMPENING_CONST = 0.5;
-	public double magnitude, angle;
+	public double x,y;
 	
 	public Vector(){
-		this.magnitude = 0;
-		this.angle = 0;
+		this.x = this.y = 0;
 	}
 	
-	public Vector(double magnitude, double angle){
-		this.magnitude = magnitude;
-		this.angle = angle;
-		
-		if( this.magnitude < 0 ){
-			this.magnitude = -this.magnitude;
-			this.angle = (Math.PI + this.angle) % (2*Math.PI); 
-		}
-		
+	public Vector(double x, double y){
+		this.x = x;
+		this.y = y;
 	}
 	
-	public void addVectors(Vector secondVec){
-		double resultX = this.getXComponent()+secondVec.getXComponent();
-		double resultY = this.getYComponent()+secondVec.getYComponent();
-		
-		this.magnitude = (Math.hypot(resultY, resultX));
-		
-		if(resultX != 0.0){
-			this.angle = Math.atan(resultY/resultX);
-		}
-		else{
-			this.angle = 0;
-		}
+	public Vector(Vector otherVec){
+		this.x = otherVec.getX();
+		this.y = otherVec.getY();
 	}
 	
-	public void prodScalarVector(double scalar){
-		this.magnitude = scalar * this.magnitude;
+	public void addVector(Vector secondVec){
+		this.x = this.x + secondVec.x;
+		this.y = this.y + secondVec.y;
 	}
 	
-	public void addVectorXY(double xCoord, double yCoord){
-		double resultX = this.magnitude*Math.cos(this.angle) + 
-				xCoord;
-		double resultY = this.magnitude*Math.sin(this.angle) + 
-				yCoord;
-		this.magnitude = Math.hypot(resultY, resultX);
+	public void multScalar(double scalar){
+		this.x *= scalar;
+		this.y *= scalar;
+	}
+	
+	public void normalize(){
+		double magnitude = Math.hypot(x, y);
+		this.x /= magnitude;
+		this.y /= magnitude;
+	}
+	
+	public String toString(){
+		return new String("(" + getX() + ", " + getY() + ")");
+	}
+	
+	public void setXY(double x, double y){
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void setX(double x){
+		this.x = x;
+	}
+	
+	public void setY(double y){
+		this.y = y;
+	}
+	
+	public double getX(){
+		return this.x;
+	}
+	
+	public double getY(){
+		return this.y;
+	}
 
-	}
-	
-	public void setForces(double magnitude, double angle){
-		this.magnitude = magnitude;
-		this.angle = angle;
-	}
-	
-	public double getXComponent(){
-		return this.magnitude*Math.cos(this.angle);
-	}
-	
-	public double getYComponent(){
-		return this.magnitude*Math.sin(this.angle);
-	}
-
-	public void setFromXY(double xPos, double yPos) {
-		this.magnitude = Math.hypot((xPos), (yPos));
-		
-		if(xPos != 0.0){
-			this.angle = Math.atan(yPos/xPos);
-		}
-		else{
-			this.angle = 0;
-		}
-
-	}
 }
