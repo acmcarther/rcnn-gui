@@ -45,17 +45,29 @@ public class ForceGraphPHYS {
 			originEntry = originIterator.next();
 			originNode = originEntry.getValue();
 			originName = originEntry.getKey();
+			
+			// Clear origin node child list
+			originNode.clearChildNodes();
+			
 			while(affectedIterator.hasNext()){
 				affectedEntry = affectedIterator.next();
 				affectedNode = affectedEntry.getValue();
 				affectedName = affectedEntry.getKey();
 				if( originName != affectedName ){
-					if(model.hasEdgeBetween(originName,affectedName) || model.hasEdgeBetween(affectedName, originName) ){
+					if(model.hasEdgeBetween(originName,affectedName)){
+						// Is Parent, add to child list
+						originNode.addChildNode(affectedNode);
+						
+						// Apply attractive force for linked nodes
+						originNode.addAttractiveForce(affectedNode);
+					}
+					else if( model.hasEdgeBetween(affectedName, originName) ){
+						// Apply attractive force for linked nodes
 						originNode.addAttractiveForce(affectedNode);
 					}
 					else{
+						// Apply repulsive force for unrelated nodes
 						originNode.addRepulsiveForce(affectedNode);
-
 					}
 				}	
 			}	

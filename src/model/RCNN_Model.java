@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Observable;
+
+import resources.datatypes.Edge;
 import resources.datatypes.Node;
 import resources.datatypes.NodeData;
 
@@ -201,6 +203,15 @@ public class RCNN_Model extends Observable {
 	}
 	
 	/**
+	 * Retrieves the internal LinkedHashMap containing the edge data.
+	 * 
+	 * @return LinkedHashMap - Keyed by node name containing Node Edges
+	 */
+	public LinkedHashMap<String, String[]> getForwardEdgeMap(){
+		return forwardEdgeMap;
+	}
+	
+	/**
 	 * Retrieves the number of entries in each NodeData structure.
 	 * 
 	 * @return The size of the NodeData internal deque.
@@ -232,7 +243,6 @@ public class RCNN_Model extends Observable {
 	}
 
 	public Node[] getEdgeList(Node elementAt) {
-		
 		// Grab the node data symbolizing that element
 		String[] edgeSet = forwardEdgeMap.get(elementAt.getName());
 		

@@ -5,7 +5,7 @@ public class Edge{
 	private String destination;
 	private float propDelay;
 	
-	public Edge(String source, String destination, float propDelay){
+	public Edge(String source, String destination){
 		this.source = source;
 		this.destination = destination;
 	}

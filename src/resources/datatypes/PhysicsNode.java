@@ -1,5 +1,8 @@
 package resources.datatypes;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class PhysicsNode {
     
     // TODO: make this a common interface of Node
@@ -7,6 +10,7 @@ public class PhysicsNode {
     String name;
     float activLevel;
     boolean wasModified;
+    ArrayList<PhysicsNode> childNodes = new ArrayList<PhysicsNode>() ;
     
     Vector position;
     Vector forces;
@@ -17,7 +21,7 @@ public class PhysicsNode {
         this.activLevel = activLevel;
 
         // Initialize physics traits
-        position = new Vector(Math.random()*50,Math.random()*50);
+        position = new Vector(Math.random()*150,Math.random()*150);
         forces = new Vector(0,0);
         velocity = new Vector(0,0);
     }
@@ -27,9 +31,10 @@ public class PhysicsNode {
         this.activLevel = basisNode.getAL();
 
         // Set force Vector
-        position = new Vector(Math.random()*50,Math.random()*50);
+        position = new Vector(Math.random()*300 - 150,Math.random()*300 - 150);
         forces = new Vector(0,0);
         velocity = new Vector(0,0);
+
     }
     
     public PhysicsNode(PhysicsNode basisNode) {
@@ -44,6 +49,8 @@ public class PhysicsNode {
         
         // Set modified
         wasModified = basisNode.wasModified();
+        
+        childNodes = basisNode.getChildNodes();
     }
     
     public void setEqualTo(PhysicsNode otherNode){       
@@ -54,6 +61,7 @@ public class PhysicsNode {
         forces = otherNode.getForces();
         velocity = otherNode.getVelocity();
         wasModified = otherNode.wasModified();
+        
     }
     
     public void addRepulsiveForce(PhysicsNode otherNode){
@@ -72,12 +80,29 @@ public class PhysicsNode {
         
         // Add force
         forces.addVector(forceVec);
+        
+    }
+    
+    public void clearChildNodes(){
+    	childNodes = new ArrayList<PhysicsNode>();
+    }
+    
+    public void addChildNode(PhysicsNode child){
+    	childNodes.add(child);
+    }
+    
+    public ArrayList<PhysicsNode> getChildNodes(){
+    	return childNodes;
+    }
+    
+    public Iterator<PhysicsNode> getChildNodeIterator(){
+    	return childNodes.iterator();
     }
     
     public void addAttractiveForce(PhysicsNode otherNode){
         double absDist = getDistanceFrom(otherNode.getPos().getX(),otherNode.getPos().getY());
-        double workingDist =  Math.max(absDist, 0.01);
-        double force = 0.05f  * Math.max(workingDist - 5, 0);
+        double workingDist =  absDist;
+        double force = 0.05f  * workingDist - 5;
         Vector forceVec = new Vector();
         
         // Set the preliminary force vector to the displacement

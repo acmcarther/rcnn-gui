@@ -1,10 +1,13 @@
 package controller.forcegraph;
 
+import java.util.Iterator;
+
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 import resources.datatypes.PhysicsNode;
+import resources.datatypes.Vector;
 
 import model.RCNN_Model;
 
@@ -18,6 +21,7 @@ public class ForceGraphHandler implements GLEventListener {
 	public ForceGraphHandler(RCNN_Model model){
 		this.model = model;
 		this.graphPhysics = new ForceGraphPHYS(model);
+		this.graphGFX = new ForceGraphGFX();
 	}
 
 	@Override
@@ -27,27 +31,50 @@ public class ForceGraphHandler implements GLEventListener {
 		int width = glAutoDrawable.getWidth();
 		int height = glAutoDrawable.getHeight();
 		PhysicsNode[] nodeList = graphPhysics.getPhysicsNodes();
+		Iterator<PhysicsNode> childIterator;
+		PhysicsNode childNode;
+		Vector parentPos, childPos;
 		
 		// Initialize OpenGL
-		graphGFX.initialize();
+		graphGFX.initialize(gl2);
 		
 		// Draw Map Grid
-		
-		
-		// Draw all of the edges
-		
-		
-		// Draw all of the nodes
+		graphGFX.drawGraphGrid(gl2, width, height);		
+	
+		// Draw all of the node data
 		for(int index = 0; index < nodeList.length; index++){
 			
+			// Get child list
+			childIterator = nodeList[index].getChildNodeIterator();
 			
+			// Set the parent pos (offset toward the middle of the canvas)
+			parentPos = new Vector(nodeList[index].getPos());
+			parentPos.addVector(new Vector(250,250));
+			
+			// Draw all of the edges for the node data
+			while(childIterator.hasNext()){
+				
+				// Get the next child
+				childNode = childIterator.next();
+
+				// Set the child pos (offset toward the middle of the canvas)
+				childPos = new Vector(childNode.getPos());
+				childPos.addVector(new Vector(250,250));
+				
+				// Draw an arrow between the nodes
+				graphGFX.drawArrow(gl2, width, height, parentPos, childPos);
+			}
+			
+			// Draw the node
+			graphGFX.drawNode(gl2, width, height, parentPos, nodeList[index].getName());
 			
 		}
 		
-		
 		// Scale the viewport
+		graphGFX.scaleViewport(gl2, width, height);
 		
 		// Flush the buffer
+		graphGFX.flush(gl2);
 		
 	}
 

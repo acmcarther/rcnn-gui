@@ -12,7 +12,7 @@ public class MainDriver {
 		System.out.println("system start");
 		
 		// Instantiate Model
-		RCNN_Model model = new RCNN_Model(2000);
+		RCNN_Model model = new RCNN_Model(1000);
 					
 		// Instantiate View
 		RCNN_View view = new RCNN_View(model);
