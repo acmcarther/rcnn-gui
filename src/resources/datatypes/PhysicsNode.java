@@ -67,7 +67,7 @@ public class PhysicsNode {
     public void addRepulsiveForce(PhysicsNode otherNode){
         double absDist = getDistanceFrom(otherNode.getPos().getX(),otherNode.getPos().getY());
         double workingDist =  Math.max(absDist, 0.001);
-        double force = -(20000.0f / (Math.pow(workingDist, 2)));
+        double force = -(10000.0f / (Math.pow(workingDist, 2)));
         Vector forceVec = new Vector();
         
         // Set the preliminary force vector to the displacement

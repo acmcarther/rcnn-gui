@@ -20,19 +20,29 @@ public class ForceGraphGFX {
 		
 	}
 
-	public void drawArrow(GL2 gl2, int width, int height, Vector parentPos,
-			Vector childPos) {
+	public void drawArrow(GL2 gl2, int width, int height,Vector childPos,Vector parentPos) {
 		
+		// Define function variables
+		double adjParentX,adjParentY;
+		Vector arrowNorm = new Vector(parentPos.getX() - childPos.getX(),
+				parentPos.getY() - childPos.getY());
+		
+		// Set parent position to be on the edge of the node 
+		arrowNorm.normalize();
+		arrowNorm.multScalar(5);
+		adjParentX = parentPos.getX() - arrowNorm.getX();
+		adjParentY = parentPos.getY() - arrowNorm.getY();
+
 		// Back up gl2's settings
 	    gl2.glPushMatrix();
 	    gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
 	    
 		// Set our color to red ( or whatever this is )
-	    gl2.glColor3f( 1, 0, 0 );
+	    gl2.glColor3d( 0.7, 0.7, 0.7 );
 	    
-	    // Draw the Line
+	    // Draw the Lines
 	    gl2.glBegin(GL2.GL_LINES);
-	    gl2.glVertex3d(parentPos.getX(),parentPos.getY(),0);
+	    gl2.glVertex3d(adjParentX,adjParentY,0);
 	    gl2.glVertex3d(childPos.getX(),childPos.getY(),0);
 	    
 	    // Finished line
@@ -45,12 +55,13 @@ public class ForceGraphGFX {
 	}
 
 	public void drawNode(GL2 gl2, int width, int height, Vector parentPos,
-			String name) {
+			String name, float activationLevel) {
 		
 		// Declare function variables
 			// TODO: calibrate these values
 		double circleFragment = ((double)2*Math.PI)/((double)30.0);
 		int radius = 5; 
+		double yellowLevel = Math.min((Math.max(activationLevel+80,0)/30),1);
 		double xPos = parentPos.getX(),yPos = parentPos.getY();
 		GLUT glut = new GLUT();
 		
@@ -59,8 +70,9 @@ public class ForceGraphGFX {
         gl2.glPushAttrib(GL.GL_COLOR_BUFFER_BIT);
         
     	// Set our color to blue ( or whatever this is )
-        gl2.glColor3f( 1, 1, 0 );
-        
+        gl2.glColor3d( 0, (0.8*yellowLevel)+0.2, (0.8*yellowLevel)+0.2 );	
+
+
         // Draw the circle
         gl2.glBegin(GL2.GL_POLYGON);
         
@@ -71,6 +83,9 @@ public class ForceGraphGFX {
         
         // Finished circle
         gl2.glEnd();
+        
+        // Set our color to yellow
+        gl2.glColor3f( 1, 1, 0 );
         
         // Draw node name
         gl2.glRasterPos2i(((int) xPos)+radius+1,(int)yPos);

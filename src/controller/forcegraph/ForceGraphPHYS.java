@@ -10,10 +10,6 @@ import model.RCNN_Model;
 import resources.datatypes.Node;
 import resources.datatypes.PhysicsNode;
 
-/*
-	A credit to Brad Smith's Coding Blog. Concepts for this implementation 
-	are taken from there. URL: http://www.brad-smith.info/blog/archives/129
-*/
 
 public class ForceGraphPHYS {
 	// Class Variables

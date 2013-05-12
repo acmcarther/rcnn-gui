@@ -34,6 +34,10 @@ public class ForceGraphHandler implements GLEventListener {
 		Iterator<PhysicsNode> childIterator;
 		PhysicsNode childNode;
 		Vector parentPos, childPos;
+		int scaleSize = Math.max(width, height);
+		double widthFactor = width/((double)scaleSize);
+		double heightFactor = height/((double)scaleSize);
+		Vector offsetVector =new Vector(250*widthFactor,250*heightFactor);
 		
 		// Initialize OpenGL
 		graphGFX.initialize(gl2);
@@ -49,7 +53,7 @@ public class ForceGraphHandler implements GLEventListener {
 			
 			// Set the parent pos (offset toward the middle of the canvas)
 			parentPos = new Vector(nodeList[index].getPos());
-			parentPos.addVector(new Vector(250,250));
+			parentPos.addVector(offsetVector);
 			
 			// Draw all of the edges for the node data
 			while(childIterator.hasNext()){
@@ -59,19 +63,28 @@ public class ForceGraphHandler implements GLEventListener {
 
 				// Set the child pos (offset toward the middle of the canvas)
 				childPos = new Vector(childNode.getPos());
-				childPos.addVector(new Vector(250,250));
+				childPos.addVector(offsetVector);
 				
 				// Draw an arrow between the nodes
 				graphGFX.drawArrow(gl2, width, height, parentPos, childPos);
 			}
 			
+		}
+		
+		// Draw all of the edges
+		for(int index = 0; index < nodeList.length; index++){
+
+			// Set the parent pos (offset toward the middle of the canvas)
+			parentPos = new Vector(nodeList[index].getPos());
+			parentPos.addVector(offsetVector);
+
 			// Draw the node
-			graphGFX.drawNode(gl2, width, height, parentPos, nodeList[index].getName());
+			graphGFX.drawNode(gl2, width, height, parentPos, nodeList[index].getName(),nodeList[index].getAL());
 			
 		}
 		
 		// Scale the viewport
-		graphGFX.scaleViewport(gl2, width, height);
+		graphGFX.scaleViewport(gl2, scaleSize, scaleSize);
 		
 		// Flush the buffer
 		graphGFX.flush(gl2);

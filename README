@@ -5,10 +5,14 @@ RCNN - GUI
 
 	- Extract more interfaces. This half-commitment to interface use is terrible.
 	
-	- Work on the force graph
-	
 	- Formalize the subview interface. Enforce consistency.
 	
 	- Remove the activation level from the edge list in guiView.
 	
 	- Load and Save functionality. This is going to be the big one.
+	
+	- Handle all of the todos
+	
+	- Try not to use the GFX classes in a static way. Not good practice. 
+	
+	- Make nodes 3d, edges 3d & Indicate direction

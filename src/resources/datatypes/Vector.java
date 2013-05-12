@@ -34,6 +34,12 @@ public class Vector {
 		this.y /= magnitude;
 	}
 	
+	public Vector getNorm(){
+		Vector result = new Vector(this);
+		result.normalize();
+		return result;
+	}
+	
 	public String toString(){
 		return new String("(" + getX() + ", " + getY() + ")");
 	}
