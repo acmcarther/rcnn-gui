@@ -3,6 +3,7 @@ package controller;
 import controller.command.CloseController;
 import controller.command.DelNodeHandler;
 import controller.command.NetworkControlHandler;
+import controller.command.NewEdgeHandler;
 import controller.command.NewNodeHandler;
 import controller.networking.NetworkController;
 import view.RCNN_View;
@@ -26,6 +27,7 @@ public class RCNN_Controller {
 	private NetworkController network;
 	private CloseController windowCloseHandler;
 	private NewNodeHandler newNodeHandler;
+	private NewEdgeHandler newEdgeHandler;
 	private DelNodeHandler delNodeHandler;
 	private NetworkControlHandler netControlHandler;
 	private boolean running;
@@ -57,6 +59,9 @@ public class RCNN_Controller {
 		
 		delNodeHandler = new DelNodeHandler(this);
 		view.registerDelNodeHandler(delNodeHandler);
+		
+		newEdgeHandler = new NewEdgeHandler(this);
+		view.registerNewEdgeHandler(newEdgeHandler);
 		
 		windowCloseHandler = new CloseController(this);
 		view.registerCloseHandler(windowCloseHandler);
@@ -140,9 +145,6 @@ public class RCNN_Controller {
 	 */
 	public boolean addEdge(String parentName, String childName) {
 		// Verify that nodes exists
-		if(!model.hasNodeNamed(parentName) || !model.hasNodeNamed(childName)){
-			return false;
-		}
 		
 		// Tell the network to add the new edge
 		network.addEdge(parentName, childName);

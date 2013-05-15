@@ -42,7 +42,7 @@ public class RCNN_View  {
 		mapView.initialize();
 		forceView.initialize();
 		guiView.addSubView(oscilloView, "Oscilloscope");
-		guiView.addSubView(mapView, "Map (WIP)");
+		guiView.addSubView(mapView, "Map");
 		guiView.addSubView(forceView, "Force Graph");
 		
 		// Add them as observers of the model
@@ -74,6 +74,10 @@ public class RCNN_View  {
 	public void registerNewNodeHandler(ControlListenerInterface nodeInputHandler) {
 		guiView.registerNewNodeHandler(nodeInputHandler);
 		
+	}
+	
+	public void registerNewEdgeHandler(ControlListenerInterface nodeInputHandler) {
+		guiView.registerNewEdgeHandler(nodeInputHandler);
 	}
 	
 	public void registerDelNodeHandler(ControlListenerInterface nodeInputHandler) {

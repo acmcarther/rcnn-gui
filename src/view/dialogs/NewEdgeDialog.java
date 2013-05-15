@@ -11,7 +11,14 @@ import javax.swing.JSplitPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.Frame;
+
 import javax.swing.Box;
+
+import resources.datatypes.ControlData;
+
+import view.subviews.ViewGui;
 
 import controller.RCNN_Controller;
 
@@ -20,20 +27,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class NewEdgeDialog {
-	private RCNN_Controller controller;
+	//private RCNN_Controller controller;
 	private JDialog mainDialog;
 	private JTextField textField_1;
 	private JTextField textField;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private ViewGui parent;
 
-	public NewEdgeDialog(JFrame mainFrame, RCNN_Controller controller) {
-		this.controller = controller;
-		initialize(mainFrame);
+	public NewEdgeDialog(ViewGui parent) {
+		this.parent = parent;
+		initialize(parent.getContainer());
 	}
-	
-	public void initialize(JFrame mainFrame){
-		mainDialog = new JDialog(mainFrame,"Add New Node", true);
+
+	public void initialize(Container container){
+		mainDialog = new JDialog((Frame) container,"Add New Edge", true);
 		mainDialog.setType(Type.POPUP);
 		mainDialog.setAlwaysOnTop(true);
 		mainDialog.setResizable(false);
@@ -95,7 +103,7 @@ public class NewEdgeDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean isValid;
 				// TODO: Figure out which of these text fields is which. I really need to name this stuff right
-				isValid = controller.addEdge(textField.getText(), textField_1.getText());
+				isValid = parent.addEdge(new ControlData(textField_3.getText(), textField_2.getText()));
 				if(isValid){
 					mainDialog.dispose();
 				}

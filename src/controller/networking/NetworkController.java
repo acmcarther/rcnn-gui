@@ -107,7 +107,7 @@ public class NetworkController {
 		// Attempt to build a URL
     	try {
     		// Create URL object
-			URL url = new URL(serverAddress + ":" + port + "/graph/delNode\\?node=" + name);
+			URL url = new URL(serverAddress + ":" + port + "/graph/delNode?node=" + name);
 			
 			// Send message to that URL
 			sendPostMessage(url);
@@ -122,7 +122,7 @@ public class NetworkController {
 		// Attempt to build a URL
     	try {
     		// Create URL object
-			URL url = new URL(serverAddress + ":" + port + "/graph/addEdge\\?from=" + origin + "&to=" + destination);
+			URL url = new URL(serverAddress + ":" + port + "/graph/addEdge?from=" + origin + "&to=" + destination);
 			
 			// Send message to that URL
 			sendPostMessage(url);

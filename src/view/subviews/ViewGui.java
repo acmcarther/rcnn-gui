@@ -29,6 +29,7 @@ import net.miginfocom.swing.MigLayout;
 
 import resources.datatypes.ControlData;
 import resources.datatypes.Node;
+import view.dialogs.NewEdgeDialog;
 import view.dialogs.NewNodeDialog;
 
 public class ViewGui implements SubViewInterface, Observer {
@@ -41,6 +42,7 @@ public class ViewGui implements SubViewInterface, Observer {
 	ControlListenerInterface newNodeHandler;
 	ControlListenerInterface delNodeHandler;	
 	ControlListenerInterface netControlHandler;
+	ControlListenerInterface newEdgeHandler;
 	
 		// Main Frame
 	JFrame main = new JFrame();
@@ -223,7 +225,9 @@ public class ViewGui implements SubViewInterface, Observer {
 		}
 	}
 	public void promptNewEdge(){
-		//EventQueue.invokeLater((Runnable) new NewEdgeDialog(this, controller));
+		NewEdgeDialog dialog = new NewEdgeDialog(this);
+		dialog.setVisible(true);
+		
 	}
 	public void promptEditEdge(){
 		//EventQueue.invokeLater((Runnable) new EditEdgeDialog(this, controller, lstEdges.getSelectedValue()));
@@ -280,6 +284,10 @@ public class ViewGui implements SubViewInterface, Observer {
 		
 	}
 	
+	public void registerNewEdgeHandler(ControlListenerInterface nodeInputHandler){
+		newEdgeHandler = nodeInputHandler;
+	}
+	
 	public void registerDelNodeHandler(ControlListenerInterface nodeInputHandler) {
 		delNodeHandler = nodeInputHandler;
 		
@@ -306,6 +314,14 @@ public class ViewGui implements SubViewInterface, Observer {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean addEdge(ControlData controlData) {
+		
+		if(newEdgeHandler != null){
+			return newEdgeHandler.execute(controlData);
+		}
+		return true;
 	}
 
 
