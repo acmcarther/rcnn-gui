@@ -5,6 +5,7 @@ import controller.command.DelNodeHandler;
 import controller.command.NetworkControlHandler;
 import controller.command.NewEdgeHandler;
 import controller.command.NewNodeHandler;
+import controller.command.SettingsHandler;
 import controller.networking.NetworkController;
 import view.RCNN_View;
 import model.RCNN_Model;
@@ -30,6 +31,7 @@ public class RCNN_Controller {
 	private NewEdgeHandler newEdgeHandler;
 	private DelNodeHandler delNodeHandler;
 	private NetworkControlHandler netControlHandler;
+	private SettingsHandler settingsHandler;
 	private boolean running;
 
 	/**
@@ -65,6 +67,9 @@ public class RCNN_Controller {
 		
 		windowCloseHandler = new CloseController(this);
 		view.registerCloseHandler(windowCloseHandler);
+		
+		settingsHandler = new SettingsHandler(this);
+		view.registerSettingsHandler(settingsHandler);
 	}
 
 	/**
@@ -184,6 +189,12 @@ public class RCNN_Controller {
 	 */
 	public void setRunning(boolean state) {
 		running = state;
+	}
+
+	public boolean setAddress(String address) {
+		// TODO Auto-generated method stub
+		network.setAddress(address);
+		return true;
 	}
 	
 

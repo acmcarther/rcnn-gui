@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
 
 import controller.command.CloseController;
 import controller.command.ControlListenerInterface;
+import controller.command.SettingsHandler;
 import model.RCNN_Model;
 import net.miginfocom.swing.MigLayout;
 
@@ -31,6 +32,7 @@ import resources.datatypes.ControlData;
 import resources.datatypes.Node;
 import view.dialogs.NewEdgeDialog;
 import view.dialogs.NewNodeDialog;
+import view.dialogs.SettingsDialog;
 
 public class ViewGui implements SubViewInterface, Observer {
 	
@@ -43,6 +45,7 @@ public class ViewGui implements SubViewInterface, Observer {
 	ControlListenerInterface delNodeHandler;	
 	ControlListenerInterface netControlHandler;
 	ControlListenerInterface newEdgeHandler;
+	SettingsHandler settingsHandler;
 	
 		// Main Frame
 	JFrame main = new JFrame();
@@ -204,6 +207,17 @@ public class ViewGui implements SubViewInterface, Observer {
 				promptDeleteEdge();
 			}
 		});
+		btnSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				promptChangeIP();
+			}
+		});
+	}
+	
+	private void promptChangeIP() {
+		SettingsDialog dialog = new SettingsDialog(this);
+		dialog.setVisible(true);
+		
 	}
 
 	public void addSubView(SubViewInterface subView, String windowTitle) {
@@ -292,6 +306,10 @@ public class ViewGui implements SubViewInterface, Observer {
 		delNodeHandler = nodeInputHandler;
 		
 	}
+	
+	public void registerSettingsHandler(SettingsHandler settingsHandler){
+		this.settingsHandler = settingsHandler;
+	}
 
 
 	public void registerNetworkControlHandler(
@@ -320,6 +338,13 @@ public class ViewGui implements SubViewInterface, Observer {
 		
 		if(newEdgeHandler != null){
 			return newEdgeHandler.execute(controlData);
+		}
+		return true;
+	}
+
+	public boolean setAddress(String address) {
+		if(settingsHandler != null){
+			return settingsHandler.execute(address);
 		}
 		return true;
 	}

@@ -9,6 +9,7 @@ import view.subviews.ViewOscilloscope;
 import controller.command.CloseController;
 import controller.command.ControlListenerInterface;
 import controller.command.NetworkControlHandler;
+import controller.command.SettingsHandler;
 import model.RCNN_Model;
 
 
@@ -83,6 +84,10 @@ public class RCNN_View  {
 	public void registerDelNodeHandler(ControlListenerInterface nodeInputHandler) {
 		guiView.registerDelNodeHandler(nodeInputHandler);
 		
+	}
+	
+	public void registerSettingsHandler(SettingsHandler settingsHandler) {
+		guiView.registerSettingsHandler(settingsHandler);
 	}
 
 	public void registerNetworkControlHandler(
